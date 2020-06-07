@@ -7,7 +7,7 @@ Go start a watch on main at 9630 in localhost.
 Step 2: set up a remote nrepl server. I use cursive in intellij. The host is localhost, port is 9000, context module is fulcro app. 
 Also type (shadow/repl :main)
 
-Terminal 3:  -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't worke. E.G. "-J-Dghostwheel.enabled=true") 
+Terminal 3:  -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true") 
 
 Then, hopefully, it should show stuff if you go to 3000 localhost. 
 

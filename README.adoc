@@ -4,7 +4,8 @@ Terminal 1: npx shadow-cljs server
 
 Go start a watch on main at 9630 in localhost. 
 
-Step 2: set up a remote nrepl server. I use cursive in intellij. The host is localhost, port is 900, context module is fulcro app. 
+Step 2: set up a remote nrepl server. I use cursive in intellij. The host is localhost, port is 9000, context module is fulcro app. 
+Also type (shadow/repl :main)
 
 Terminal 3:  -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe remove the last part?) 
 

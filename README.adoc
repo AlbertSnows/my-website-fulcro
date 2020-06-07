@@ -1,8 +1,13 @@
 You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
+
 Terminal 1: npx shadow-cljs server
+
 Go start a watch on main at 9630 in localhost. 
+
 Step 2: set up a remote nrepl server. I use cursive in intellij. The host is localhost, port is 900, context module is fulcro app. 
+
 Terminal 3:  -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe remove the last part?) 
+
 Then, hopefully, it should show stuff if you go to 3000 localhost. 
 
 == The Project

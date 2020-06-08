@@ -1,5 +1,5 @@
 == OG Instructions
-# Step 2: docker setup:
+# Step 2 - docker setup:
 2.1: install and learn docker (good luck)
 2.2: acknowledge that images are not the same thing as containers 
 2.3: create a one .yml file and two docker files (e.g. Dockerfile.backend.development) or just don't since you could just clone this repo

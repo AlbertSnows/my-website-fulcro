@@ -1,13 +1,22 @@
 == OG Instructions
 # Step 2 - docker setup:
+
 2.1: install and learn docker (good luck)
+
 2.2: acknowledge that images are not the same thing as containers 
+
 2.3: create a one .yml file and two docker files (e.g. Dockerfile.backend.development) or just don't since you could just clone this repo
+
 2.4: open terminal at directory, docker-compose up (maybe add --build?) 
+
 2.5: wait for frontend and backend to finish and prompt you with the nrepl ports
+
 2.6: connect to the nrepl ports (i did it by creating to remote repls in intellij via cursive) 
+
 2.6.1: connect to the backend first, then start a watch on main at the 9630 localhost (http://localhost:9630/build/main)
+
 2.6.2: if that works, connect to the frontend nrepl
+
 2.7: go to the localhost containing your template's code. if fortune's favor smiles upon you, it'll load and you'll see stuff to interact with. Yay!
 
 # Step 1 (w/o docker): 

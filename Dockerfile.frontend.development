@@ -1,0 +1,15 @@
+FROM clojure:tools-deps
+
+WORKDIR /app
+
+RUN curl -sL https://deb.nodesource.com/setup_13.x | bash -
+
+RUN apt-get install -y nodejs
+
+COPY package.json ./package.json
+
+RUN npm i
+
+COPY . .
+
+CMD npx shadow-cljs server

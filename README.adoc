@@ -1,5 +1,8 @@
 == OG Instructions
+Step 2: docker setup:
 
+
+Step 1: 
 You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
 
 Terminal 1: npx shadow-cljs server

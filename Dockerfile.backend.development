@@ -1,0 +1,7 @@
+FROM clojure:tools-deps
+
+WORKDIR /app
+
+COPY . .
+
+CMD clojure -A:dev-server -J-Dtrace -J-Dghostwheel.enabled=true -J-Dguardrails.enabled=true

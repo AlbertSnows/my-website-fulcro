@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>core.rrb-vector</artifactId>
+  <version>0.0.14</version>
+  <name>core.rrb-vector</name>
+  <description>RRB-Trees for Clojure(Script) -- see Bagwell &amp; Rompf</description>
+
+  <licenses>
+    <license>
+      <name>Eclipse Public License 1.0</name>
+      <url>http://opensource.org/licenses/eclipse-1.0.php</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <parent>
+    <groupId>org.clojure</groupId>
+    <artifactId>pom.contrib</artifactId>
+    <version>0.2.2</version>
+  </parent>
+
+  <developers>
+    <developer>
+      <name>Michał Marczyk</name>
+      <url>https://github.com/michalmarczyk</url>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/clojure/core.rrb-vector.git</connection>
+    <developerConnection>scm:git:git://github.com/clojure/core.rrb-vector.git</developerConnection>
+    <url>https://github.com/clojure/core.rrb-vector</url>
+    <tag>core.rrb-vector-0.0.14</tag>
+  </scm>
+
+  <properties>
+    <!-- core.rrb-vector depends on implementation details of vectors
+         which were made public in Clojure 1.5.0 -->
+    <clojure.version>1.5.1</clojure.version>
+    <clojure.warnOnReflection>true</clojure.warnOnReflection>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions combine.children="append">
+          <execution>
+            <id>add-clojurescript-source-dirs</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-resource</goal>
+            </goals>
+            <configuration>
+              <resources>
+                <resource>
+                  <directory>src/main/cljs</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.codehaus.jsr166-mirror</groupId>
+      <artifactId>jsr166y</artifactId>
+      <version>1.7.0</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.clojure</groupId>
+      <artifactId>test.check</artifactId>
+      <version>0.7.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

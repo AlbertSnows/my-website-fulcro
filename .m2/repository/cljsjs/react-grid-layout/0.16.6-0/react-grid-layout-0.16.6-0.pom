@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>cljsjs</groupId>
+  <artifactId>react-grid-layout</artifactId>
+  <version>0.16.6-0</version>
+  <name>react-grid-layout</name>
+  <description>A draggable and resizable grid layout with responsive breakpoints, for React.</description>
+  <url>https://github.com/STRML/react-grid-layout/</url>
+  <licenses>
+    <license>
+      <url>http://opensource.org/licenses/MIT</url>
+      <name>MIT</name>
+      <comments/>
+    </license>
+  </licenses>
+  <packaging>jar</packaging>
+  <scm>
+    <url>https://github.com/cljsjs/packages</url>
+    <tag>c1502a3e3fc7e43f04c4944efac1f0ddd618d06d</tag>
+  </scm>
+  <dependencies>
+    <dependency>
+      <groupId>cljsjs</groupId>
+      <artifactId>boot-cljsjs</artifactId>
+      <version>0.9.0</version>
+      <scope>test</scope>
+      <exclusions/>
+    </dependency>
+    <dependency>
+      <groupId>cljsjs</groupId>
+      <artifactId>react</artifactId>
+      <version>16.0.0-0</version>
+      <scope>compile</scope>
+      <exclusions/>
+    </dependency>
+  </dependencies>
+</project>

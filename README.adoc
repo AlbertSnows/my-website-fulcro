@@ -34,7 +34,7 @@ Also type (shadow/repl :main)
 Terminal 3:  -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true") 
 then type (start) in the repl
 
-Then, hopefully, it should show stuff if you go to 3000 localhost. 
+Then, hopefully, it should show stuff if you go to 3000 localhost. You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser! 
 
 == The Project
 ifdef::env-github[]

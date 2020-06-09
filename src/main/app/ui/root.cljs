@@ -152,7 +152,7 @@
        (h3 "Settings")
        (div
         (p (b "Name: ") real-name)
-        (p (b "Time Zonessss: ") time-zone))))
+        (p (b "Time Zone;;;s: ") time-zone))))
 
 (dr/defrouter TopRouter [this props]
   {:router-targets [Main Signup SignupSuccess Settings]})

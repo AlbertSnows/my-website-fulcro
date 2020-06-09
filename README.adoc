@@ -19,6 +19,8 @@
 
 2.7: go to the localhost containing your template's code (e.g. http://localhost:3000/). if fortune's favor smiles upon you, it'll load and you'll see stuff to interact with. Yay!
 
+2.#̵̢̢̙̥͔̮̜̘̻͔̮̤̹̣̞͔̥̘͐͛̄̇̾̀͑͛͒̇̑́̒̈́̎̽͒̿͗̚͘̕͜͜͝͝͠#̷̨̢̡̛̜̜̭͈͇̟̦͉̘͙̗̜̱̳̞̳͎̹̭̻͓̞̪͖̞͇̫͓͉̟͆̓̽͆̈͑̈́̋̐͗̊͑̏̐̊̐̎̓̕̚̕͜#̴̨̨̛͍̜͈͙͖͈̈͆͊̇͜#̴̢̧̨̛̣͇͕̘̪̫̜̯̬̖͕̘̞̣͉͍͖̣̼́̽̔̅̍́̅̋̿͑̓͒̓͒͜͠͠ͅ ̸̨̧̣͍͙͔͎̼̫̯̺͍͕̱̜̮̦̗̬̘͖̖̯̲̯̻̳̝̟̜̝͆̌̔̆́́͜ͅψ̷͉̀̀̌͛̽̎͊́͂̉̒̒̕͝: currently doesn't hotload changes for some reason. hopefully I figure out how to get that working. 
+
 # Step 1 (w/o docker): 
 You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
 

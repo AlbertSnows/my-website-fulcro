@@ -14,15 +14,16 @@
     ;[com.fulcrologic.fulcro-css.css :as css]
     ;[com.fulcrologic.fulcro.algorithms.form-state :as fs]
     ;[taoensso.timbre :as log]
+
     ))
 
-(defn field [{:keys [label valid? error-message] :as props}]
-  (let [input-props (-> props (assoc :name label) (dissoc :label :valid? :error-message))]
-    (div :.ui.field
-      (dom/label {:htmlFor label} label)
-      (dom/input input-props)
-      (dom/div :.ui.error.message {:classes [(when valid? "hidden")]}
-        error-message))))
+;(defn field [{:keys [label valid? error-message] :as props}]
+;  (let [input-props (-> props (assoc :name label) (dissoc :label :valid? :error-message))]
+;    (div :.ui.field
+;      (dom/label {:htmlFor label} label)
+;      (dom/input input-props)
+;      (dom/div :.ui.error.message {:classes [(when valid? "hidden")]}
+;        error-message))))
 
 ;(defsc SignupSuccess [this props]
 ;  {:query         ['*]
@@ -136,76 +137,142 @@
 
 ;(def ui-login (comp/factory Login))
 
-(defsc Main [this props]
-  {:query         [:main/welcome-message]
-   :initial-state {:main/welcome-message "Hi!"}
-   :ident         (fn [] [:component/id :main])
-   :route-segment ["main"]}
-  (div :.ui.container.segment
-    (h3 "AYE WE IN THE MOTHAFUCKIN MAIN AREA BRO")))
-
-;(defsc Settings [this {:keys [:account/time-zone :account/real-name] :as props}]
-;  {:query         [:account/time-zone :account/real-name]
-;   :ident         (fn [] [:component/id :settings])
-;   :route-segment ["settings"]
-;   :initial-state {}}
+;(defsc Main [this props]
+;  {:query         [:main/welcome-message]
+;   :initial-state {:main/welcome-message "Hi!"}
+;   :ident         (fn [] [:component/id :main])
+;   :route-segment ["main"]}
 ;  (div :.ui.container.segment
-;       (h3 "Settings")
-;       (div
-;        (p (b "Name: ") real-name)
-;        (p (b "Time Zone;;;s: ") time-zone))))
+;    (h3 "AYE WE IN THE MOTHAFUCKIN MAIN AREA BRO")))
+;
+;;(defsc Settings [this {:keys [:account/time-zone :account/real-name] :as props}]
+;;  {:query         [:account/time-zone :account/real-name]
+;;   :ident         (fn [] [:component/id :settings])
+;;   :route-segment ["settings"]
+;;   :initial-state {}}
+;;  (div :.ui.container.segment
+;;       (h3 "Settings")
+;;       (div
+;;        (p (b "Name: ") real-name)
+;;        (p (b "Time Zone;;;s: ") time-zone))))
+;
+;(dr/defrouter TopRouter [this props]
+;  {:router-targets [Main
+;                    ;Signup
+;                    ;SignupSuccess
+;                    ;Settings
+;                    ]})
+;
+;(def ui-top-router (comp/factory TopRouter))
 
-(dr/defrouter TopRouter [this props]
-  {:router-targets [Main
-                    ;Signup
-                    ;SignupSuccess
-                    ;Settings
-                    ]})
+;(defsc Session
+;  "Session representation. Used primarily for server queries. On-screen representation happens in Login component."
+;  [this {:keys [:session/valid? :account/name] :as props}]
+;  {:query         [:session/valid? :account/name]
+;   :ident         (fn [] [:component/id :session])
+;   :pre-merge     (fn [{:keys [data-tree]}]
+;                    (merge {:session/valid? false :account/name ""}
+;                      data-tree))
+;   :initial-state {:session/valid? false :account/name ""}})
 
-(def ui-top-router (comp/factory TopRouter))
+;(def ui-session (comp/factory Session))
 
-(defsc Session
-  "Session representation. Used primarily for server queries. On-screen representation happens in Login component."
-  [this {:keys [:session/valid? :account/name] :as props}]
-  {:query         [:session/valid? :account/name]
-   :ident         (fn [] [:component/id :session])
-   :pre-merge     (fn [{:keys [data-tree]}]
-                    (merge {:session/valid? false :account/name ""}
-                      data-tree))
-   :initial-state {:session/valid? false :account/name ""}})
+;(defsc TopChrome [this
+;                  {:root/keys
+;                   [router
+;                    ;current-session
+;                    ;login
+;                    ]}]
+;  {:query         [{:root/router (comp/get-query TopRouter)}
+;                   ;{:root/current-session (comp/get-query Session)}
+;                   [::uism/asm-id ::TopRouter]
+;                   ;{:root/login (comp/get-query Login)}
+;                   ]
+;   :ident         (fn [] [:component/id :top-chrome])
+;   :initial-state {:root/router          {}
+;                   ;:root/login           {}
+;                   ;:root/current-session {}
+;                   }}
+;  (let [current-tab
+;        (some-> (dr/current-route this this) first keyword)]
+;    (div :.ui.container
+;      (div :.ui.secondary.pointing.menu
+;        (dom/div :.item
+;               ;{:classes [(when (= :main current-tab) "active")]
+;               ; :onClick (fn [] (dr/change-route this ["main"]))}
+;               "yo we up in the mothafuckin tabs up here yo")
+;        ;(dom/a :.item {:classes [(when (= :settings current-tab) "active")]
+;        ;               :onClick (fn [] (dr/change-route this ["settings"]))} "Settings")
+;        ;(div :.right.menu
+;        ;  ;(ui-login login)
+;        ;     )
+;           )
+;      (div :.ui.grid
+;        (div :.ui.row
+;          (ui-top-router router))
+;           )
+;         )
+;       ))
 
-(def ui-session (comp/factory Session))
+;(def ui-top-chrome (comp/factory TopChrome))
 
-(defsc TopChrome [this {:root/keys [router
-                                    ;current-session
-                                    ;login
-                                    ]}]
-  {:query         [{:root/router (comp/get-query TopRouter)}
-                   {:root/current-session (comp/get-query Session)}
-                   [::uism/asm-id ::TopRouter]
-                   ;{:root/login (comp/get-query Login)}
-                   ]
-   :ident         (fn [] [:component/id :top-chrome])
-   :initial-state {:root/router          {}
-                   ;:root/login           {}
-                   :root/current-session {}}}
-  (let [current-tab (some-> (dr/current-route this this) first keyword)]
-    (div :.ui.container
-      (div :.ui.secondary.pointing.menu
-        (dom/a :.item {:classes [(when (= :main current-tab) "active")]
-                       :onClick (fn [] (dr/change-route this ["main"]))} "yo we up in the mothafuckin tabs up here yo")
-        ;(dom/a :.item {:classes [(when (= :settings current-tab) "active")]
-        ;               :onClick (fn [] (dr/change-route this ["settings"]))} "Settings")
-        (div :.right.menu
-          ;(ui-login login)
-             ))
-      (div :.ui.grid
-        (div :.ui.row
-          (ui-top-router router))))))
+;(defsc Root [this {:root/keys [top-chrome]}]
+;  {:query         [{:root/top-chrome (comp/get-query TopChrome)}]
+;   :initial-state {:root/top-chrome {}}}
+;  (ui-top-chrome top-chrome))
 
-(def ui-top-chrome (comp/factory TopChrome))
+(defmutation delete-person
+             "Mutation: Delete the person with `name` from the list with `list-name`"
+             [{:keys [list-name name]}] ; (1)
+             (action [{:keys [state]}] ; (2)
+                     (let [path     (if (= "Friends" list-name)
+                                      [:friends :list/people]
+                                      [:enemies :list/people])
+                           old-list (get-in @state path)
+                           new-list (vec (filter #(not= (:person/name %) name) old-list))]
+                          (swap! state assoc-in path new-list))))
 
-(defsc Root [this {:root/keys [top-chrome]}]
-  {:query         [{:root/top-chrome (comp/get-query TopChrome)}]
-   :initial-state {:root/top-chrome {}}}
-  (ui-top-chrome top-chrome))
+(defsc Person [this {:person/keys [name age] :as props} {:keys [onDelete]}]
+       {:query         [:person/id :person/name :person/age] ; (2)
+        :ident         (fn [] [:person/id (:person/id props)]) ; (1)
+        :initial-state (fn [{:keys [id name age] :as params}]
+                           {:person/id id :person/name name :person/age age})} ; (3)
+       (dom/li
+         (dom/h5
+           (str name " (age: " age ")")
+           (dom/button {:onClick #(onDelete name)} "X")))) ; (4)
+
+(def ui-person (comp/factory Person {:keyfn :person/id}))
+
+(defsc PersonList [this {:list/keys [id label people] :as props}]
+       {:query [:list/id :list/label {:list/people (comp/get-query Person)}] ; (5)
+        :ident (fn [] [:list/id (:list/id props)])
+        :initial-state
+               (fn [{:keys [id label]}]
+                   {:list/id     id
+                    :list/label  label
+                    :list/people (if (= id :friends)
+                                   [(comp/get-initial-state Person {:id 1 :name "Sally" :age 32})
+                                    (comp/get-initial-state Person {:id 2 :name "Joe" :age 22})]
+                                   [(comp/get-initial-state Person {:id 3 :name "Fred" :age 11})
+                                    (comp/get-initial-state Person {:id 4 :name "Bobby" :age 55})])})}
+       (let [delete-person
+             (fn [item-id] (comp/transact! this [(delete-person {:list id :item item-id})]))] ; (4)
+            (dom/div
+              (dom/h4 label)
+              (dom/ul
+                (map #(ui-person (comp/computed % {:onDelete delete-person})) people)))))
+
+(def ui-person-list (comp/factory PersonList))
+
+(defsc Root [this {:root/keys [friends enemies]}]
+       {:query         [{:root/friends (comp/get-query PersonList)}
+                        {:root/enemies (comp/get-query PersonList)}]
+        :initial-state (fn [params]
+                           {:root/friends
+                            (comp/get-initial-state PersonList {:id :friends :label "Friends"})
+                            :root/enemies
+                            (comp/get-initial-state PersonList {:id :enemies :label "Enemies"})})}
+       (dom/div
+         (ui-person-list friends)
+         (ui-person-list enemies)))

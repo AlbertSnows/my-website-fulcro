@@ -1,40 +1,40 @@
 == OG Instructions
-# Step 2 - docker setup:
+= Step 2 - docker setup:
 
 2.1: install and learn docker (good luck)
 
-2.2: acknowledge that images are not the same thing as containers 
+2.2: acknowledge that images are not the same thing as containers
 
 2.3: create a one .yml file and two docker files (e.g. Dockerfile.backend.development) or just don't since you could just clone this repo
 
-2.4: open terminal at directory, docker-compose up (maybe add --build?) 
+2.4: open terminal at directory, docker-compose up (maybe add --build?)
 
 2.5: wait for frontend and backend to finish and prompt you with the nrepl ports
 
-2.6: connect to the nrepl ports (i did it by creating to remote repls in intellij via cursive) 
+2.6: connect to the nrepl ports (i did it by creating to remote repls in intellij via cursive)
 
 2.6.1: connect to the backend first, then start a watch on main at the 9630 localhost (http://localhost:9630/build/main)
 
 2.6.2: if that works, connect to the frontend nrepl
 
-2.7: go to the localhost containing your template's code (e.g. http://localhost:3000/). if fortune's favor smiles upon you, it'll load and you'll see stuff to interact with. Yay!
+2.7: go to the localhost containing your template's code (e.g. http://localhost:3000/). if fortune's favor smiles upon you, it'll load and you'll see stuff to interact with.Yay!
 
-2.#̵̢̢̙̥͔̮̜̘̻͔̮̤̹̣̞͔̥̘͐͛̄̇̾̀͑͛͒̇̑́̒̈́̎̽͒̿͗̚͘̕͜͜͝͝͠#̷̨̢̡̛̜̜̭͈͇̟̦͉̘͙̗̜̱̳̞̳͎̹̭̻͓̞̪͖̞͇̫͓͉̟͆̓̽͆̈͑̈́̋̐͗̊͑̏̐̊̐̎̓̕̚̕͜#̴̨̨̛͍̜͈͙͖͈̈͆͊̇͜#̴̢̧̨̛̣͇͕̘̪̫̜̯̬̖͕̘̞̣͉͍͖̣̼́̽̔̅̍́̅̋̿͑̓͒̓͒͜͠͠ͅ ̸̨̧̣͍͙͔͎̼̫̯̺͍͕̱̜̮̦̗̬̘͖̖̯̲̯̻̳̝̟̜̝͆̌̔̆́́͜ͅψ̷͉̀̀̌͛̽̎͊́͂̉̒̒̕͝: currently doesn't hotload changes for some reason. hopefully I figure out how to get that working. 
+2.#̵̢̢̙̥͔̮̜̘̻͔̮̤̹̣̞͔̥̘͐͛̄̇̾̀͑͛͒̇̑́̒̈́̎̽͒̿͗̚͘̕͜͜͝͝͠#̷̨̢̡̛̜̜̭͈͇̟̦͉̘͙̗̜̱̳̞̳͎̹̭̻͓̞̪͖̞͇̫͓͉̟͆̓̽͆̈͑̈́̋̐͗̊͑̏̐̊̐̎̓̕̚̕͜#̴̨̨̛͍̜͈͙͖͈̈͆͊̇͜#̴̢̧̨̛̣͇͕̘̪̫̜̯̬̖͕̘̞̣͉͍͖̣̼́̽̔̅̍́̅̋̿͑̓͒̓͒͜͠͠ͅ ̸̨̧̣͍͙͔͎̼̫̯̺͍͕̱̜̮̦̗̬̘͖̖̯̲̯̻̳̝̟̜̝͆̌̔̆́́͜ͅψ̷͉̀̀̌͛̽̎͊́͂̉̒̒̕͝: currently doesn't hotload changes for some reason. hopefully I figure out how to get that working.
 
-# Step 1 (w/o docker): 
+= Step 1 (w/o docker):
 You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
 
-Terminal 1: npx shadow-cljs server
+Terminal 1: npx shadow-cljs server (you gotta have npm installed and stuff)
 
-Go start a watch on main at 9630 in localhost. 
+Go start a watch on main at 9630 in localhost.
 
-Step 2: set up a remote nrepl server. I use cursive in intellij. The host is localhost, port is 9000, context module is fulcro app. 
+Step 2: set up a remote nrepl server.I use cursive in intellij.The host is localhost, port is 9000, context module is fulcro app.
 Also type (shadow/repl :main)
 
-Terminal 3:  -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true") 
+Terminal 3: clj -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true")
 then type (start) in the repl
 
-Then, hopefully, it should show stuff if you go to 3000 localhost. You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser! 
+Then, hopefully, it should show stuff if you go to 3000 localhost.You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser!
 
 == The Project
 ifdef::env-github[]
@@ -64,7 +64,8 @@ It comes with helper `npm run` scripts pre-loaded, you can find them in the pack
 
 Typically you want to start the server and the _main_ and/or _workspaces_ (if you decided to use Nubank Workspaces) client builds. See below. You can simply start everything from the command line
 
-```Shell
+[source,Shell]
+----
 git clone --depth 1 -o fulcro-template https://github.com/fulcrologic/fulcro-template.git fulcro-app
 cd fulcro-app
 
@@ -85,7 +86,7 @@ user=> (start)
 
 # (Optional): Visit the Workspaces UI at http://localhost:3000/wslive.html
 # (Optional): Run tests via `npm run client/test` and visit http://localhost:8022
-```
+----
 
 === The shadow-cljs compile server
 You can find the UI of the frontend compile server here:
@@ -98,7 +99,7 @@ There you can kick of the compilation of the other targets.
 
 === Backend Clojure nREPL:
 The instructions provided above do not start a REPL server for the backend, only a simple
-interactive REPL session. See the <<the-api-server,The API Server>> section below to learn
+interactive REPL session. See the [The API Server] section below to learn
 how to start the server from a nREPL REPL that you can connect your editor to.
 
 === Workspaces
@@ -120,15 +121,17 @@ it to your `package.json`.
 You also cannot compile this project until you install the ones it
 depends on already:
 
-```
+[source]
+----
 $ npm install
-```
+----
 
 or if you prefer `yarn`:
 
-```
+[source]
+----
 $ yarn install
-```
+----
 
 Adding NPM Javascript libraries is as simple as adding them to your
 `package.json` file and requiring them! See the
@@ -143,7 +146,8 @@ the client for hot code reload.
 
 In general it is easiest just to run the compiler in server mode:
 
-```
+[source]
+----
 $ npx shadow-cljs server
 INFO: XNIO version 3.3.8.Final
 Nov 10, 2018 8:08:23 PM org.xnio.nio.NioXnio <clinit>
@@ -155,7 +159,7 @@ shadow-cljs - server running at http://localhost:9630
 shadow-cljs - socket REPL running on port 51936
 shadow-cljs - nREPL server started on port 9000
 ...
-```
+----
 
 then *navigate to the server URL* (shown in this example as http://localhost:9630) and
 use the *Builds* menu to enable/disable whichever builds you want watched/running.
@@ -180,9 +184,10 @@ host `localhost` and port `9000`.
 
 then:
 
-```
+[source]
+----
 (shadow/repl :main)
-```
+----
 
 will connect you to the REPL for a specific build (NOTE: Make sure you have
 a browser running the result, or your REPL won't have anything to talk to!)
@@ -199,14 +204,15 @@ start your own server that can also serve your application's API.
 Start a https://cursive-ide.com/userguide/repl.html#local-repls[LOCAL clj nREPL in IntelliJ] (using IntelliJ's classpath with
 the `dev` https://cursive-ide.com/userguide/deps.html#working-with-aliases[alias selected in the Clojure Deps tab]), or from the command line:
 
-```bash
+[source,bash]
+----
 $ clj -A:dev -J-Dtrace -J-Dguardrails.enabled=true
 user=> (start)
 user=> (stop)
 ...
 user=> (restart) ; stop, reload server code, and go again
 user=> (tools-ns/refresh) ; retry code reload if hot server reload fails
-```
+----
 
 The `-J-Dtrace` adds a JVM argument that will enable performance tracing for Fulcro Inspect's network tab so you can
 see how your resolvers and mutations are performing.
@@ -240,11 +246,12 @@ developer tools pane.
 
 Tests are in `src/test`. Any test namespace ending in `-test` will be auto-detected.
 
-```
+[source]
+----
 src/test
 └── app
     └── sample_test.cljc          spec runnable by client and server.
-```
+----
 
 You can write plain `deftest` in here, and it is preconfigured to support the helper macros in `fulcro-spec` as well.
 
@@ -257,9 +264,10 @@ Typically you'll just run your tests using the editor of choice (e.g. Run tests 
 
 The tests are also set up to run with Kaocha at the command line for your convenience and CI tools:
 
-```
+[source]
+----
 $ clj -A:dev:clj-tests --watch
-```
+----
 
 See the https://github.com/lambdaisland/kaocha[Kaocha project] for more details.
 
@@ -272,24 +280,27 @@ CI support is done through the `ci-test` build in shadow, and via Karma.
 If you start the `ci-tests` build in Shadow-cljs, then you can also run cljs tests in a terminal "watch mode"
 with:
 
-```
+[source]
+----
 npx karma start
-```
+----
 
 Of course, this make CLJS CI easy:
 
-```
+[source]
+----
 npx shadow-cljs compile ci-tests
 npx karma start --single-run
-```
+----
 
 ==== Running all Tests Once
 
 There is a UNIX Makefile that includes all of the CI commands as the default target. Just run:
 
-```
+[source]
+----
 make
-```
+----
 
 == Workspaces
 

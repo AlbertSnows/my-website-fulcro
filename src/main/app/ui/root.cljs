@@ -14,6 +14,8 @@
     ;[com.fulcrologic.fulcro-css.css :as css]
     ;[com.fulcrologic.fulcro.algorithms.form-state :as fs]
     ;[taoensso.timbre :as log]
+    [com.fulcrologic.fulcro-css.css-injection :as inj]
+    [com.fulcrologic.fulcro-css.css :as css]
 
     ))
 
@@ -265,14 +267,61 @@
 
 (def ui-person-list (comp/factory PersonList))
 
-(defsc Root [this {:root/keys [friends enemies]}]
-       {:query         [{:root/friends (comp/get-query PersonList)}
-                        {:root/enemies (comp/get-query PersonList)}]
-        :initial-state (fn [params]
-                           {:root/friends
-                            (comp/get-initial-state PersonList {:id :friends :label "Friends"})
-                            :root/enemies
-                            (comp/get-initial-state PersonList {:id :enemies :label "Enemies"})})}
-       (dom/div
-         (ui-person-list friends)
-         (ui-person-list enemies)))
+;; OPTION 1: 4th arg destructing (requires adding props middleware)
+(defsc UIElement [this props computed {:keys [red blue]}]
+       {
+        :query [:text]
+        :initial-state (fn [{:keys [text] :as params}] {:text text})
+        :css   [[:.red {:color "red"}
+                 :.blue {:color "blue"}]]}
+
+       ;; OPTION 2: Destructure them explicitly
+       (let [{:keys [red blue]} (css/get-classnames UIElement)]
+    ;; OPTION 3: Use `localized-dom` keyword classes instead of `dom` for elements
+            (dom/div
+              (dom/ul {:classes [blue]}
+                (dom/li {:classes [red]}
+                  "boobaboo")
+                (dom/li "other")
+                (dom/li "Props: " (if (nil? props) "nil" props))
+                (dom/li "Computed: " (if (nil? computed) "nil" computed))
+                ))
+
+                )
+       )
+
+(def ui-test-element (comp/factory UIElement))
+
+;(defsc Root [this props]
+;       (dom/div {}
+;                ;; Auto-scan the query to find components with CSS and inject it
+;                (inj/style-element {:component Root})
+;                ))
+
+(defsc Root [this {:root/keys [test-element friends enemies]}]
+  {:query         [{:root/test-element (comp/get-query UIElement)}
+                   {:root/friends (comp/get-query PersonList)}
+                   {:root/enemies (comp/get-query PersonList)}]
+  :initial-state (fn [params]
+                     {:root/test-element
+                      (comp/get-initial-state UIElement)
+                      :root/friends
+                      (comp/get-initial-state PersonList
+                        {:id :friends :label "Friends"})
+                      :root/enemies
+                      (comp/get-initial-state PersonList
+                        {:id :enemies :label "Enemies"})})
+  :css   [[:.container
+           {:background-color "red"}]]}
+  (let [{:keys [item]}
+        (css/get-classnames Root)]
+    (dom/div :.container {:id "help-me-god" :className item}
+      (dom/li :.container #js {:className item} "listitem")
+      (inj/style-element {:component Root})
+      (dom/div :.red {:style {:color "teal"}} "hello!"
+        (dom/div :.red {:style {:color "teal"}} "howdy!"))
+      (ui-test-element test-element)
+      (ui-person-list friends)
+      (ui-person-list enemies))
+    )
+  )

@@ -19,7 +19,7 @@
    :ident         :sidebar/list-name
    :initial-state (fn [{:keys [list-name] :as params}] {:sidebar/list-name list-name})
    :css           [[:.green {:color "red"
-                            :background-color "blue"}]]}
+                             :margin "0px"}]]}
   (let [{:keys [inner-thing]} (css/get-classnames SidebarContainer)]
     (dom/div
       (dom/ul :.green {:className inner-thing}

@@ -14,33 +14,54 @@
   [{:keys [item]}]
   (action [{:keys [state]}] (str "wahhhh")))
 
-(defsc SidebarContainer [this {:sidebar/keys [list-name] :as props} {:keys [inner-thing]}]
-  {:query         [:sidebar/list-name]
-   :ident         :sidebar/list-name
-   :initial-state (fn [{:keys [list-name] :as params}] {:sidebar/list-name list-name})
+;(def sidebar-state (r/atom {:state "closed"}))
+;:class (@sidebar-state :state)
+;(menu-toggle sidebar-state)
+(defmutation toggle-value [ignored]
+  (action [{:keys [state]}]
+    ;(if (= state "on")
+    ;  (swap! state update :sidebar/num "off")
+    ;  (swap! state update :sidebar/num "on"))
+    (swap! state update :root/num inc)
+    ))
+
+;(defn toggle-value [atom key old-class new-class]
+;  (if (= (@atom key) old-class)
+;    (swap! atom assoc key new-class)
+;    (swap! atom assoc key old-class)))
+
+(defsc SidebarContainer [this {:sidebar/keys [num] :as props} {:keys [inner-thing]}]
+  {:query         [:sidebar/num]
+   :initial-state {:sidebar/num 0}
    :css           [[:.green {:color "red"
                              :margin "0px"}]]}
   (let [{:keys [inner-thing]} (css/get-classnames SidebarContainer)]
-    (dom/div
-      (dom/ul :.green {:className inner-thing}
-        (inj/style-element {:component SidebarContainer})
-        (dom/li list-name)))))
+    (dom/div :.green {:className inner-thing}
+      (dom/button
+        {:onClick #(comp/transact! this `[(toggle-value {})])}
+        "Times: " num))))
 
 (def ui-sidebar-container (comp/factory SidebarContainer))
 
 (defsc Root [this {:root/keys [;primary-container
-                                sidebar-container]}
+                                ;sidebar-container
+                               num
+                               ]}
              {:keys [background]}
              ]
   {:query [;{:root/primary-container (comp/get-query PersonList)}
-           {:root/sidebar-container (comp/get-query SidebarContainer)}]
+           ;{:root/sidebar-container (comp/get-query SidebarContainer)}
+           :root/num
+           ]
   :initial-state
           (fn [params]
             {;:root/friends
              ;(comp/get-initial-state PersonList
              ; {:id :friends :label "Friends"})
-             :root/sidebar-container
-             (comp/get-initial-state SidebarContainer {:list-name "Testing"})})
+             ;:root/sidebar-container
+             ;(comp/get-initial-state SidebarContainer)
+             :root/num 0
+             })
    :css   [[:.background
             {:width "100%"
              :height "100%"
@@ -55,4 +76,11 @@
     (dom/div :.background {:className [background]}
       (inj/style-element {:component Root})
       ;(ui-primary-container primary-container)
-      (ui-sidebar-container sidebar-container))))
+      ;(ui-sidebar-container sidebar-container)
+      (dom/div
+        (dom/h4 "This is an example.")
+        (dom/button {:onClick #(comp/transact! this `[(toggle-value {})])}
+          "you've clicked DISSSSS BUTOOOOOOOOOONNNNNNNNNNN about"
+                    "...ohh, I dunno, " num " times maybe."
+                    " Man this button text sure is unnecessarily long.")
+        ))))

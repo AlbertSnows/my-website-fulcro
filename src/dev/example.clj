@@ -10,6 +10,13 @@
      :refer [div label button span]]))
 
 
+;:root/sidebar-container
+;(comp/get-initial-state SidebarContainer {:list-name "on"})})
+;vvv
+;:initial-state (fn [{:keys [list-name] :as params}] {:sidebar/list-name list-name})
+
+
+
 ;;some person stuff
 (defmutation delete-person
   ;"Mutation: Delete the person with `name` from the list with `list-name`"

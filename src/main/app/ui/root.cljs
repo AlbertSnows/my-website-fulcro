@@ -148,10 +148,14 @@
 ;                 [:sidebar/id sidebar-id :sidebar/num]
 ;                 inc)))
 
+;(fn
+  ;                    [{:keys [id] :as params}]
+  ;                    {:sidebar/id {id
+  ;                      {:sidebar/num 0}}})
+
 (defmutation increase
   [{:button/keys [id]}]
-  (action
-    [{:keys [state]}]
+  (action [{:keys [state]}]
     (swap! state update-in
            [:button/id id :button/num] inc)))
 
@@ -159,7 +163,8 @@
   [this {:button/keys [id num] :as props}]
   {:query [:button/id :button/num]
    :ident :button/id
-   :initial-state {:button/id :param/id :button/num 0}}
+   :initial-state (fn [{:keys [id] :as params}]
+                      {:button/id id :button/num 0})}
   (dom/button
     {:onClick
      #(comp/transact! this
@@ -172,7 +177,10 @@
   [this {:page/keys [button]}]
   {:query [:page/button (comp/get-query Button)]
    :ident (fn [] [:page/id :page])
-   :initial-state {:page/button {:button/id 1}}}
+   :initial-state
+          (fn [_]
+              {:page/button
+               (comp/get-initial-state Button {:button/id 1})})}
   (dom/div
     (ui-button button)))
 
@@ -181,5 +189,7 @@
 (defsc Root
   [this {:root/keys [page] :as props}]
   {:query [{:root/page (comp/get-query Page)}]
-   :initial-state {:root/page {:root/button 0}}}
+   :initial-state
+          (fn [_] {:root/page
+                   (comp/get-initial-state Page)})}
    (ui-page page))

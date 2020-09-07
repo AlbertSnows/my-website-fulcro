@@ -19,6 +19,7 @@
         ;; To simulate Datomic on the back-end
         datascript                          {:mvn/version "0.18.4"}
         ring/ring-core                      {:mvn/version "1.7.1"}
+        org.clojure/core.match              {:mvn/version "0.3.0"}
         ring/ring-defaults                  {:mvn/version "0.3.2"}}
 
  :aliases

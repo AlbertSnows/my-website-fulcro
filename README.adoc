@@ -1,4 +1,4 @@
-== OG Instructions
+== OG Instructions ==
 = Step 2 - docker setup:
 
 2.1: install and learn docker (good luck)

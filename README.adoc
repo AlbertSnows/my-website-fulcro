@@ -1,5 +1,19 @@
-== OG Instructions ==
-= Step 2 - docker setup:
+= Step 1 (w/o docker):
+You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
+
+Terminal 1: npx shadow-cljs server (you gotta have npm installed and stuff)
+
+Go start a watch on main at 9630 in localhost.
+
+Step 2: set up a remote nrepl server.I use cursive in intellij.The host is localhost, port is 9000, context module is fulcro app.
+Also type (shadow/repl :main)
+
+Terminal 3: clj -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true")
+then type (start) in the repl
+
+Then, hopefully, it should show stuff if you go to 3000 localhost.You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser!
+
+= Step 2 (currently not fully functional) - docker setup:
 
 2.1: install and learn docker (good luck)
 
@@ -20,21 +34,6 @@
 2.7: go to the localhost containing your template's code (e.g. http://localhost:3000/). if fortune's favor smiles upon you, it'll load and you'll see stuff to interact with.Yay!
 
 2.#̵̢̢̙̥͔̮̜̘̻͔̮̤̹̣̞͔̥̘͐͛̄̇̾̀͑͛͒̇̑́̒̈́̎̽͒̿͗̚͘̕͜͜͝͝͠#̷̨̢̡̛̜̜̭͈͇̟̦͉̘͙̗̜̱̳̞̳͎̹̭̻͓̞̪͖̞͇̫͓͉̟͆̓̽͆̈͑̈́̋̐͗̊͑̏̐̊̐̎̓̕̚̕͜#̴̨̨̛͍̜͈͙͖͈̈͆͊̇͜#̴̢̧̨̛̣͇͕̘̪̫̜̯̬̖͕̘̞̣͉͍͖̣̼́̽̔̅̍́̅̋̿͑̓͒̓͒͜͠͠ͅ ̸̨̧̣͍͙͔͎̼̫̯̺͍͕̱̜̮̦̗̬̘͖̖̯̲̯̻̳̝̟̜̝͆̌̔̆́́͜ͅψ̷͉̀̀̌͛̽̎͊́͂̉̒̒̕͝: currently doesn't hotload changes for some reason. hopefully I figure out how to get that working.
-
-= Step 1 (w/o docker):
-You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
-
-Terminal 1: npx shadow-cljs server (you gotta have npm installed and stuff)
-
-Go start a watch on main at 9630 in localhost.
-
-Step 2: set up a remote nrepl server.I use cursive in intellij.The host is localhost, port is 9000, context module is fulcro app.
-Also type (shadow/repl :main)
-
-Terminal 3: clj -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true")
-then type (start) in the repl
-
-Then, hopefully, it should show stuff if you go to 3000 localhost.You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser!
 
 == The Project
 ifdef::env-github[]

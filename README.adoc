@@ -35,7 +35,7 @@ Then, hopefully, it should show stuff if you go to 3000 localhost.You will have 
 
 2.#̵̢̢̙̥͔̮̜̘̻͔̮̤̹̣̞͔̥̘͐͛̄̇̾̀͑͛͒̇̑́̒̈́̎̽͒̿͗̚͘̕͜͜͝͝͠#̷̨̢̡̛̜̜̭͈͇̟̦͉̘͙̗̜̱̳̞̳͎̹̭̻͓̞̪͖̞͇̫͓͉̟͆̓̽͆̈͑̈́̋̐͗̊͑̏̐̊̐̎̓̕̚̕͜#̴̨̨̛͍̜͈͙͖͈̈͆͊̇͜#̴̢̧̨̛̣͇͕̘̪̫̜̯̬̖͕̘̞̣͉͍͖̣̼́̽̔̅̍́̅̋̿͑̓͒̓͒͜͠͠ͅ ̸̨̧̣͍͙͔͎̼̫̯̺͍͕̱̜̮̦̗̬̘͖̖̯̲̯̻̳̝̟̜̝͆̌̔̆́́͜ͅψ̷͉̀̀̌͛̽̎͊́͂̉̒̒̕͝: currently doesn't hotload changes for some reason. hopefully I figure out how to get that working.
 
-== The Project
+== OG Instructions
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:

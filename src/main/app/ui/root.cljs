@@ -153,11 +153,12 @@
   ;                    {:sidebar/id {id
   ;                      {:sidebar/num 0}}})
 
-(defmutation increase
+(defmutation toggle
   [{:button/keys [id]}]
   (action [{:keys [state]}]
     (swap! state update-in
-           [:button/id id :button/num] inc)))
+           [:button/id id :button/num]
+           #(if (= %1 1) 0 1))))
 
 (defsc Button
   [this {:button/keys [id num] :as props}]
@@ -168,8 +169,7 @@
   (dom/button
     {:onClick
      #(comp/transact! this
-        [(increase {:button/id id})])}
-    "Times: " num))
+        [(toggle {:button/id id})])} num))
 
 (def ui-button (comp/factory Button))
 
@@ -187,9 +187,22 @@
 (def ui-page (comp/factory Page))
 
 (defsc Root
-  [this {:root/keys [page] :as props}]
+  [this {:root/keys [page] :as props} {:keys [background]}]
   {:query [{:root/page (comp/get-query Page)}]
    :initial-state
-          (fn [_] {:root/page
-                   (comp/get-initial-state Page)})}
-   (ui-page page))
+          (fn [_] {:root/page (comp/get-initial-state Page)})
+   :css   [[:.background
+            {:width "100%"
+             :height "100%"
+             :background-image "url('/images/background.png')"
+             :background-color "black"
+             :background-position "center"
+             :background-attachment "fixed"
+             :background-repeat "no-repeat"
+             :background-size "cover"}]]}
+
+       (let [{:keys [background]}
+             (css/get-classnames Root)]
+            (dom/div :.background {:className [background]}
+                     (inj/style-element {:component Root})
+                     (ui-page page))))

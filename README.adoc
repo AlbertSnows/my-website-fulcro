@@ -1,4 +1,5 @@
 = Step 1 (w/o docker):
+---
 You'll need 2 terminals and a repl
 Terminal 1: npx shadow-cljs server (you gotta have npm installed and stuff)
 

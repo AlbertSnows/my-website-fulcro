@@ -1,14 +1,13 @@
 = Step 1 (w/o docker):
-You'll need 3 terminals (techinically 2 + cursive nrepl in intellij) 
-
+You'll need 2 terminals and a repl 
 Terminal 1: npx shadow-cljs server (you gotta have npm installed and stuff)
 
-Go start a watch on main at 9630 in localhost.
+Step 1.5: Go start a watch on main at 9630 in localhost.
 
 Terminal 2: clj -A:dev -J-Dtrace -J-Dghostwheel.enabled=true (maybe quote the last part if it doesn't work. E.G. "-J-Dghostwheel.enabled=true")
 then type (start) in the repl
 
-Step 3?: set up a remote nrepl server.I use cursive in intellij.The host is localhost, port is 9000, context module is fulcro app.
+Step 2.5: set up a remote nrepl server.I use cursive in intellij.The host is localhost, port is 9000, context module is fulcro app.
 Also type (shadow/repl :main)
 
 Then, hopefully, it should show stuff if you go to 3000 localhost.You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser!

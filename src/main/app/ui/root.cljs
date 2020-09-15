@@ -9,7 +9,7 @@
     [com.fulcrologic.fulcro-css.css-injection :as inj]
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div label button span p]]))
+     :refer [div label button span p h4 ul]]))
 
 ;
 ;(defsc Home [this {:inner-box/keys [id] :as props}]
@@ -65,6 +65,25 @@
 ;        )
 ;)
 
+(defsc ImageContainer [this {:image-container/keys [id src alt] :as props}]
+  {:query [:image-container/id :image-container/src :image-container/alt]
+   :ident :image-container/id
+   :initial-state (fn [{:keys [id src alt] :as params}]
+                    {:image-container/id id
+                     :image-container/src src
+                     :image-container/alt alt})}
+  ;css/context
+  (dom/div
+    "ID: " id
+    "Src: " src
+    "Alt: " alt
+    )
+  ;(dom/img {:src src :alt alt}
+  ;  "Id: " id
+  ;  )
+  )
+(def ui-image-container (comp/factory ImageContainer))
+
 (defsc Container [this {:container/keys [id content] :as props}]
        {:query [:container/id :container/content]
         :ident :container/id
@@ -81,7 +100,8 @@
                            {:container-right/id id
                             :container-right/container
                               (comp/get-initial-state Container
-                                {:container/id id :container/content content})})}
+                                {:container/id id
+                                 :container/content content})})}
        (dom/div :.container-right "right-side" content))
 (def ui-container-right (comp/factory ContainerRight))
 
@@ -92,7 +112,8 @@
                            {:container-hoz-middle/id id
                             :container-hoz-middle/container
                               (comp/get-initial-state Container
-                                {:container/id id :container/content content})})}
+                                {:container/id id
+                                 :container/content content})})}
        (dom/div :.container-hoz-middle  "hoz-middle" content))
 (def ui-container-hoz-middle (comp/factory ContainerHorizontalMiddle))
 
@@ -103,7 +124,8 @@
                            {:container-left/id id
                             :container-left/container
                             (comp/get-initial-state Container
-                              {:container/id id :container/content content})})}
+                              {:container/id id
+                               :container/content content})})}
        (dom/div :.container-left  "left-side" content))
 (def ui-container-left (comp/factory ContainerLeft))
 
@@ -114,7 +136,8 @@
                            {:container-top/id id
                             :container-top/container
                               (comp/get-initial-state Container
-                                {:container/id id :container/content content})})}
+                                {:container/id id
+                                 :container/content content})})}
        (dom/div :.container-top  "top" content))
 (def ui-container-top (comp/factory ContainerTop))
 
@@ -125,7 +148,8 @@
                            {:container-vert-middle/id id
                             :container-vert-middle/container
                               (comp/get-initial-state Container
-                                {:container/id id :container/content content})})}
+                                {:container/id id
+                                 :container/content content})})}
        (dom/div :.container-vert-middle  "top" content))
 (def ui-container-vert-middle (comp/factory ContainerTop))
 
@@ -136,7 +160,8 @@
                            {:container-bottom/id id
                             :container-bottom/container
                               (comp/get-initial-state Container
-                                {:container/id id :container/content content})})
+                                {:container/id id
+                                 :container/content content})})
         }
        (dom/div :.container-bottom  "bottom" content))
 (def ui-container-bottom (comp/factory ContainerBottom))
@@ -174,74 +199,171 @@
        )
 (def ui-container-body (comp/factory ContainerBody))
 
-(defsc Home [this {:home/keys [id body] :as props}]
-       {:query [:home/id :home/body]
-        :ident :home/id
-        :initial-state (fn [{:keys [id] :as params}]
-                           {:home/id id
-                            :home/body
-                            (comp/get-initial-state
-                              ContainerBody
-                              {:container/id id
-                               :container/content
-                               {(comp/get-initial-state
-                                  ContainerLeft
-                                  ;{:container-left/id id
-                                  ; :container-left/content
-                                  ; {
-                                  ;  ;(comp/get-initial-state
-                                  ;  ;  ContainerTop
-                                  ;  ;{:container-top/id id
-                                  ;  ; :container-top/content
-                                  ;  ; {(dom/div ":class table-role-video left-top href-image-container"
-                                  ;  ;    (dom/a
-                                  ;  ;      ":href \"https://en.wikipedia.org/wiki/Gaming\"
-                                  ;  ;       :target \"__blank\" :rel \"noopener noreferrer\""
-                                  ;  ;           (dom/img
-                                  ;  ;             ":src \"../images/WITH_OUR_THREE_POWERS_COMBINED.png\"
-                                  ;  ;             :alt \"I play games I KNOW I'M SORRY\"
-                                  ;  ;             "))
-                                  ;  ;           )}})
-                                  ;  ;(comp/get-initial-state
-                                  ;  ;  ContainerBottom
-                                  ;  ;  {:container-bottom/id id
-                                  ;  ;   :container-bottom/body
-                                  ;  ;   {(dom/div ":class thonker left-bottom href-image-container"
-                                  ;  ;             (dom/a
-                                  ;  ;               ":href \"https://www.whatisitliketobeaphilosopher.com/\"
-                                  ;  ;                :target \"__blank\" :rel \"noopener noreferrer\""
-                                  ;  ;               (dom/img
-                                  ;  ;                 ":src \"../images/the-thinker.png\"
-                                  ;  ;                  :alt \"But really, what even IS a rock anyways???")))}})
-                                  ;  }}
-                                  )
-                                (comp/get-initial-state
-                                  ContainerHorizontalMiddle
-                                  {
-                                   ;(dom/div ":class middle-main-page padding-bottom"
-                                   ;         (dom/p ":class enlarge-text" "Mostly this stuff")
-                                   ;         (dom/p ":class small-text" "(check out my project for novel things"))
-                                   })
-                                (comp/get-initial-state
-                                  ContainerRight
-                                  {
-                                   ;(dom/div ":class right"
-                                   ;   (comp/get-initial-state
-                                   ;     ContainerTop
-                                   ;     {(dom/div ":class tuber right-top href-image-container"
-                                   ;         (dom/a ":href \"https://www.youtube.com/\" :target \"__blank\" :rel \"noopener noreferrer"
-                                   ;            (dom/img ":src \"../images/tubes.png\" :alt \"Youtube is my Netflix, sadly")))})
-                                   ;         (comp/get-initial-state
-                                   ;           ContainerMiddle
-                                   ;           {(dom/div ":class sudo-apt-get-gf right-bottom href-image-container"
-                                   ;                     (dom/a ":href \"https://en.wikipedia.org/wiki/Programmer\" :target \"__blank\" :rel \"noopener noreferrer\""
-                                   ;                            (dom/img ":src \"../images/meirl.png\" :alt \"g! 'How to print newline in cljs'" )))}))
-                                   })
-                                }}
-                              )})}
-       (ui-container-body
-         body
-        )
+;(defsc Test [this {:test/keys [name age]}]
+;  {:query [:test/name :test/age]
+;   :ident :test/name
+;   :initial-state (fn [{:keys [name age] :as params}]
+;                    {:test/name name :test/age age})}
+;  (dom/li
+;    (dom/h5 (str "Name: " name " | Age: " age))))
+;
+;(def ui-test (comp/factory Test {:keyfn :person/name}))
+
+;(defsc TestList [this {:list/keys [label content]}]
+;  {:query [:list/label :list/content]
+;   :ident  :list/label
+;   :initial-state (fn [{:keys [label]}]
+;                    {:list/label label
+;                     :list/people (if (= label "Hot")
+;                        [(comp/get-initial-state Test
+;                           {:name "tamali" :age "22"})
+;                         (comp/get-initial-state Test
+;                           {:name "Joe" :age 22})]
+;                        [(comp/get-initial-state Test
+;                           {:name "as ice" :age "99"})
+;                           (comp/get-initial-state Test
+;                             {:name "Bobby" :age 55})])})}
+;  (dom/div
+;    (dom/h4 label)
+;    (dom/ul (str ui-test content))))
+;(def ui-test-list (comp/factory TestList))
+
+
+
+
+
+
+
+
+(defsc Image [this {:keys [src alt]}]
+  {:initial-state (fn [{:keys [id src alt]}]
+                    {:src src :alt alt})
+   :query         [:id :src :alt]
+   :ident         (fn [] [:image/src src
+                          :image/alt alt])}
+  (dom/img {:src src :alt alt}))
+
+(def ui-image (comp/factory Image {:keyfn :id}))
+
+(defsc Test [this {:keys [image]}]
+  {:query [:type :id {:image (comp/get-query Image)}]
+   :initial-state (fn [{:keys [id src alt]}]
+                    {:id id :type :test
+                     :image (comp/get-initial-state
+                              Image {:id 1
+                                     :src src
+                                     :alt alt})})}
+  (dom/div
+    (dom/h2 "Test")
+    (ui-image image)))
+
+(def ui-test (comp/factory Test {:keyfn :id}))
+
+
+(defsc Home [this {:home/keys [test] :as props}]
+       {:query (fn [] {:test (comp/get-query Test)})
+        :ident (fn [] [type])
+        :initial-state (fn [_]
+                         [:test
+                          (comp/get-initial-state
+                            Test {:id 1
+                                  :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+                                  :alt "I play games I KNOW I'M SORRY"})
+                          :test
+                          (comp/get-initial-state
+                            Test {:id 2
+                                  :src "../images/the-thinker.png\\"
+                                  :alt "But really, what even IS a rock anyways???"})])}
+  (dom/div
+    (ui-test props)
+    (str "tbsp" test "props" props)
+    ;(ui-foo props)
+    ;(ui-bar props)
+    ;(ui-test type)
+    ;(dom/p "No item in renderer")
+    )
+                           ;{:home/id id
+                           ; :home/body
+                           ; (comp/get-initial-state
+                           ;   ContainerBody
+                           ;   {:container/id id
+                           ;    :container/content
+                           ;    ;{(comp/get-initial-state
+                           ;    ;   ContainerLeft
+                           ;    ;   ;{:container-left/id id
+                           ;    ;   ; :container-left/content
+                           ;    ;   ; {
+                           ;    ;   ;  ;(comp/get-initial-state
+                           ;    ;   ;  ;  ContainerTop
+                           ;    ;   ;  ;{:container-top/id id
+                           ;    ;   ;  ; :container-top/content
+                           ;    ;   ;  ; {(dom/div ":class table-role-video left-top href-image-container"
+                           ;    ;   ;  ;    (dom/a
+                           ;    ;   ;  ;      ":href \"https://en.wikipedia.org/wiki/Gaming\"
+                           ;    ;   ;  ;       :target \"__blank\" :rel \"noopener noreferrer\""
+                           ;    ;   ;  ;           (dom/img
+                           ;    ;   ;  ;             ":src \"../images/WITH_OUR_THREE_POWERS_COMBINED.png\"
+                           ;    ;   ;  ;             :alt "I play games I KNOW I'M SORRY"
+                           ;    ;   ;  ;             "))
+                           ;    ;   ;  ;           )}})
+                           ;    ;   ;  ;(comp/get-initial-state
+                           ;    ;   ;  ;  ContainerBottom
+                           ;    ;   ;  ;  {:container-bottom/id id
+                           ;    ;   ;  ;   :container-bottom/body
+                           ;    ;   ;  ;   {(dom/div ":class thonker left-bottom href-image-container"
+                           ;    ;   ;  ;             (dom/a
+                           ;    ;   ;  ;               ":href \"https://www.whatisitliketobeaphilosopher.com/\"
+                           ;    ;   ;  ;                :target \"__blank\" :rel \"noopener noreferrer\""
+                           ;    ;   ;  ;               (dom/img
+                           ;    ;   ;  ;                 ":src \"../images/the-thinker.png\"
+                           ;    ;   ;  ;                  :alt \"But really, what even IS a rock anyways???")))}})
+                           ;    ;   ;  }}
+                           ;    ;   )
+                           ;    ; (comp/get-initial-state
+                           ;    ;   ContainerHorizontalMiddle
+                           ;    ;   {
+                           ;    ;    ;(dom/div ":class middle-main-page padding-bottom"
+                           ;    ;    ;         (dom/p ":class enlarge-text" "Mostly this stuff")
+                           ;    ;    ;         (dom/p ":class small-text" "(check out my project for novel things"))
+                           ;    ;    })
+                           ;    ; (comp/get-initial-state
+                           ;    ;   ContainerRight
+                           ;    ;   {
+                           ;    ;    ;(dom/div ":class right"
+                           ;    ;    ;   (comp/get-initial-state
+                           ;    ;    ;     ContainerTop
+                           ;    ;    ;     {(dom/div ":class tuber right-top href-image-container"
+                           ;    ;    ;         (dom/a ":href \"https://www.youtube.com/\" :target \"__blank\" :rel \"noopener noreferrer"
+                           ;    ;    ;            (dom/img ":src \"../images/tubes.png\" :alt \"Youtube is my Netflix, sadly")))})
+                           ;    ;    ;         (comp/get-initial-state
+                           ;    ;    ;           ContainerMiddle
+                           ;    ;    ;           {(dom/div ":class sudo-apt-get-gf right-bottom href-image-container"
+                           ;    ;    ;                     (dom/a ":href \"https://en.wikipedia.org/wiki/Programmer\" :target \"__blank\" :rel \"noopener noreferrer\""
+                           ;    ;    ;                            (dom/img ":src \"../images/meirl.png\" :alt \"g! 'How to print newline in cljs'" )))}))
+                           ;    ;    })
+                           ;    ; }
+                           ; }
+                           ;   )}
+                         ;)}
+
+  ;(dom/div
+  ;  "id: " id
+  ;  (ui-image-container img1 {:image-container/id 1
+  ;                            :image-container/src "example"
+  ;                            :image-container/alt "test"}))
+       ;(ui-container-body
+       ;  (ui-container-left
+       ;    (ui-container-top ...)
+       ;    (ui-container-bottom ...)
+       ;    )
+       ;  (ui-container-hoz-middle
+       ;    ...)
+       ;  (ui-container-right
+       ;   (ui-container-top ...)
+       ;   (ui-container-bottom ...)
+       ;    ...)
+       ;  body
+        ;)
        )
 
 (def ui-home (comp/factory Home))
@@ -265,6 +387,9 @@
        (dom/p "header")
        )
 (def ui-container-header (comp/factory ContainerHeader))
+
+(dr/defrouter PageOptions [this props]
+  {:router-targets [Home]})
 
 (defsc OuterBox [this {:outer-box/keys [id route header body] :as props}
                  {:keys [outer]}]
@@ -295,21 +420,24 @@
        (let [{:keys [outer]} (css/get-classnames OuterBox)]
             (dom/div :.outer {:className [outer]}
                      (inj/style-element {:component OuterBox})
-
                      ;(seq [:nonsense
                      ; "HEY WHAT DO YOU THINK YOU'RE DOING LOOKING IN HERE. "])
+              ;"id: " id " | "
+              ;"route: " route " | "
+              ;"header: " (str header) " | "
+              ;"body: " body
 
                      (ui-container-header header)
-                     (ui-home body)
+
+                     (dom/ul (mapv ui-home body))
                      ;(ui-container-body body)
                      )))
 (def ui-outer-box (comp/factory OuterBox))
 
-(defsc Button
-  [this {:button/keys [id num] :as props}]
+(defsc Button [this {:button/keys [id num] :as props}]
   {:query [:button/id :button/num]
    :ident :button/id
-   :initial-state (fn [{:keys [id _] :as params}]
+   :initial-state (fn [{:keys [id num] :as params}]
                       {:button/id id :button/num 0})}
   (dom/button
     {:onClick #(comp/transact! this

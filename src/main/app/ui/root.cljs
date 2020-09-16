@@ -65,139 +65,139 @@
 ;        )
 ;)
 
-(defsc ImageContainer [this {:image-container/keys [id src alt] :as props}]
-  {:query [:image-container/id :image-container/src :image-container/alt]
-   :ident :image-container/id
-   :initial-state (fn [{:keys [id src alt] :as params}]
-                    {:image-container/id id
-                     :image-container/src src
-                     :image-container/alt alt})}
-  ;css/context
-  (dom/div
-    "ID: " id
-    "Src: " src
-    "Alt: " alt
-    )
-  ;(dom/img {:src src :alt alt}
-  ;  "Id: " id
-  ;  )
-  )
-(def ui-image-container (comp/factory ImageContainer))
+;(defsc ImageContainer [this {:image-container/keys [id src alt] :as props}]
+;  {:query [:image-container/id :image-container/src :image-container/alt]
+;   :ident :image-container/id
+;   :initial-state (fn [{:keys [id src alt] :as params}]
+;                    {:image-container/id id
+;                     :image-container/src src
+;                     :image-container/alt alt})}
+;  ;css/context
+;  (dom/div
+;    "ID: " id
+;    "Src: " src
+;    "Alt: " alt
+;    )
+;  ;(dom/img {:src src :alt alt}
+;  ;  "Id: " id
+;  ;  )
+;  )
+;(def ui-image-container (comp/factory ImageContainer))
 
-(defsc Container [this {:container/keys [id content] :as props}]
-       {:query [:container/id :container/content]
-        :ident :container/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container/id id
-                            :container/content content})}
-        )
-(def ui-container (comp/factory Container))
-
-(defsc ContainerRight [this {:container-right/keys [id content] :as props}]
-       {:query [:container-right/id :container-right/content]
-        :ident :container-right/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container-right/id id
-                            :container-right/container
-                              (comp/get-initial-state Container
-                                {:container/id id
-                                 :container/content content})})}
-       (dom/div :.container-right "right-side" content))
-(def ui-container-right (comp/factory ContainerRight))
-
-(defsc ContainerHorizontalMiddle [this {:container-hoz-middle/keys [id content] :as props}]
-       {:query [:container-hoz-middle/id :container-hoz-middle/content]
-        :ident :container-hoz-middle/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container-hoz-middle/id id
-                            :container-hoz-middle/container
-                              (comp/get-initial-state Container
-                                {:container/id id
-                                 :container/content content})})}
-       (dom/div :.container-hoz-middle  "hoz-middle" content))
-(def ui-container-hoz-middle (comp/factory ContainerHorizontalMiddle))
-
-(defsc ContainerLeft [this {:container-left/keys [id content] :as props}]
-       {:query [:container-left/id :container-left/content]
-        :ident :container-left/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container-left/id id
-                            :container-left/container
-                            (comp/get-initial-state Container
-                              {:container/id id
-                               :container/content content})})}
-       (dom/div :.container-left  "left-side" content))
-(def ui-container-left (comp/factory ContainerLeft))
-
-(defsc ContainerTop [this {:container-top/keys [id content] :as props}]
-       {:query [:container-top/id :container-top/content]
-        :ident :container-top/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container-top/id id
-                            :container-top/container
-                              (comp/get-initial-state Container
-                                {:container/id id
-                                 :container/content content})})}
-       (dom/div :.container-top  "top" content))
-(def ui-container-top (comp/factory ContainerTop))
-
-(defsc ContainerVerticalMiddle [this {:container-vert-middle/keys [id content] :as props}]
-       {:query [:container-vert-middle/id :container-vert-middle/content]
-        :ident :container-vert-middle/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container-vert-middle/id id
-                            :container-vert-middle/container
-                              (comp/get-initial-state Container
-                                {:container/id id
-                                 :container/content content})})}
-       (dom/div :.container-vert-middle  "top" content))
-(def ui-container-vert-middle (comp/factory ContainerTop))
-
-(defsc ContainerBottom [this {:container-bottom/keys [id content] :as props}]
-       {:query [:container-bottom/id :container-bottom/content]
-        :ident :container-bottom/id
-        :initial-state (fn [{:keys [id content] :as params}]
-                           {:container-bottom/id id
-                            :container-bottom/container
-                              (comp/get-initial-state Container
-                                {:container/id id
-                                 :container/content content})})
-        }
-       (dom/div :.container-bottom  "bottom" content))
-(def ui-container-bottom (comp/factory ContainerBottom))
-
-(defsc ContainerBody [this {:container-body/keys [id body] :as props}]
-       {:query [:container-body/id :container-body/body]
-        :ident :container-body/id
-        :initial-state (fn [{:keys [id body] :as params}]
-                           {:container-body/id id
-                            :container-body/body body})
-        :css [[:.outer-text
-               {:font-size "2em"
-                :color "white"
-                :text-align "center"
-                :font-family "MINIMAL"
-                :margin "0 auto"
-                :padding "0 auto"
-                :vertical-align "top"}]
-              [:.home
-               {:border "1px"
-                :border-color "white"
-                :border-style "solid"
-                :border-radius "1%"
-                :position "relative"
-                :width "inherit"
-                :overflow-wrap "anywhere"
-                :word-wrap "anywhere"
-                :hyphens "auto"
-                :display "flex"
-                :flex-direction "row"
-                :justify-content "center"
-                :align-items "center"}]]}
-(dom/div ":class \"box general-container\""
-         "hey look it's content + " body)
-       )
-(def ui-container-body (comp/factory ContainerBody))
+;(defsc Container [this {:container/keys [id content] :as props}]
+;       {:query [:container/id :container/content]
+;        :ident :container/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container/id id
+;                            :container/content content})}
+;        )
+;(def ui-container (comp/factory Container))
+;
+;(defsc ContainerRight [this {:container-right/keys [id content] :as props}]
+;       {:query [:container-right/id :container-right/content]
+;        :ident :container-right/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container-right/id id
+;                            :container-right/container
+;                              (comp/get-initial-state Container
+;                                {:container/id id
+;                                 :container/content content})})}
+;       (dom/div :.container-right "right-side" content))
+;(def ui-container-right (comp/factory ContainerRight))
+;
+;(defsc ContainerHorizontalMiddle [this {:container-hoz-middle/keys [id content] :as props}]
+;       {:query [:container-hoz-middle/id :container-hoz-middle/content]
+;        :ident :container-hoz-middle/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container-hoz-middle/id id
+;                            :container-hoz-middle/container
+;                              (comp/get-initial-state Container
+;                                {:container/id id
+;                                 :container/content content})})}
+;       (dom/div :.container-hoz-middle  "hoz-middle" content))
+;(def ui-container-hoz-middle (comp/factory ContainerHorizontalMiddle))
+;
+;(defsc ContainerLeft [this {:container-left/keys [id content] :as props}]
+;       {:query [:container-left/id :container-left/content]
+;        :ident :container-left/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container-left/id id
+;                            :container-left/container
+;                            (comp/get-initial-state Container
+;                              {:container/id id
+;                               :container/content content})})}
+;       (dom/div :.container-left  "left-side" content))
+;(def ui-container-left (comp/factory ContainerLeft))
+;
+;(defsc ContainerTop [this {:container-top/keys [id content] :as props}]
+;       {:query [:container-top/id :container-top/content]
+;        :ident :container-top/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container-top/id id
+;                            :container-top/container
+;                              (comp/get-initial-state Container
+;                                {:container/id id
+;                                 :container/content content})})}
+;       (dom/div :.container-top  "top" content))
+;(def ui-container-top (comp/factory ContainerTop))
+;
+;(defsc ContainerVerticalMiddle [this {:container-vert-middle/keys [id content] :as props}]
+;       {:query [:container-vert-middle/id :container-vert-middle/content]
+;        :ident :container-vert-middle/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container-vert-middle/id id
+;                            :container-vert-middle/container
+;                              (comp/get-initial-state Container
+;                                {:container/id id
+;                                 :container/content content})})}
+;       (dom/div :.container-vert-middle  "top" content))
+;(def ui-container-vert-middle (comp/factory ContainerTop))
+;
+;(defsc ContainerBottom [this {:container-bottom/keys [id content] :as props}]
+;       {:query [:container-bottom/id :container-bottom/content]
+;        :ident :container-bottom/id
+;        :initial-state (fn [{:keys [id content] :as params}]
+;                           {:container-bottom/id id
+;                            :container-bottom/container
+;                              (comp/get-initial-state Container
+;                                {:container/id id
+;                                 :container/content content})})
+;        }
+;       (dom/div :.container-bottom  "bottom" content))
+;(def ui-container-bottom (comp/factory ContainerBottom))
+;
+;(defsc ContainerBody [this {:container-body/keys [id body] :as props}]
+;       {:query [:container-body/id :container-body/body]
+;        :ident :container-body/id
+;        :initial-state (fn [{:keys [id body] :as params}]
+;                           {:container-body/id id
+;                            :container-body/body body})
+;        :css [[:.outer-text
+;               {:font-size "2em"
+;                :color "white"
+;                :text-align "center"
+;                :font-family "MINIMAL"
+;                :margin "0 auto"
+;                :padding "0 auto"
+;                :vertical-align "top"}]
+;              [:.home
+;               {:border "1px"
+;                :border-color "white"
+;                :border-style "solid"
+;                :border-radius "1%"
+;                :position "relative"
+;                :width "inherit"
+;                :overflow-wrap "anywhere"
+;                :word-wrap "anywhere"
+;                :hyphens "auto"
+;                :display "flex"
+;                :flex-direction "row"
+;                :justify-content "center"
+;                :align-items "center"}]]}
+;(dom/div ":class \"box general-container\""
+;         "hey look it's content + " body)
+;       )
+;(def ui-container-body (comp/factory ContainerBody))
 
 ;(defsc Test [this {:test/keys [name age]}]
 ;  {:query [:test/name :test/age]
@@ -254,29 +254,32 @@
                                      :src src
                                      :alt alt})})}
   (dom/div
-    (dom/h2 "Test")
     (ui-image image)))
 
 (def ui-test (comp/factory Test {:keyfn :id}))
 
 
-(defsc Home [this {:home/keys [test] :as props}]
-       {:query (fn [] {:test (comp/get-query Test)})
-        :ident (fn [] [type])
+(defsc Home [this {:home/keys [name image] :as props}]
+       {:query [:home/name {:home/image (comp/get-query Test)}]
         :initial-state (fn [_]
-                         [:test
-                          (comp/get-initial-state
+                         ;[
+                          :home/name "home"
+                          :home/image
+                           (comp/get-initial-state
                             Test {:id 1
                                   :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
                                   :alt "I play games I KNOW I'M SORRY"})
-                          :test
-                          (comp/get-initial-state
-                            Test {:id 2
-                                  :src "../images/the-thinker.png\\"
-                                  :alt "But really, what even IS a rock anyways???"})])}
+                          ;(comp/get-initial-state
+                          ;  Test {:id 2
+                          ;        :src "../images/the-thinker.png\\"
+                          ;        :alt "But really, what even IS a rock anyways???"})
+                          ;]
+)}
   (dom/div
     (ui-test props)
-    (str "tbsp" test "props" props)
+    (println "test name: " name)
+    (println "test image: " image)
+    (println "props: " props)
     ;(ui-foo props)
     ;(ui-bar props)
     ;(ui-test type)
@@ -445,8 +448,8 @@
 (def ui-button (comp/factory Button))
 
 (defsc Page [this {:page/keys [button outer-box]}]
-  {:query [:page/button (comp/get-query Button)
-           :page/outer-box (comp/get-query OuterBox)]
+  {:query [:page/button {:button (comp/get-query Button)}
+           :page/outer-box {:outer-box (comp/get-query OuterBox)}]
    :ident (fn [] [:page/id :page])
    :initial-state
           (fn [_] {:page/button

@@ -7,7 +7,7 @@
     ;[com.fulcrologic.fulcro.networking.http-remote :as net]
     ;[com.fulcrologic.fulcro.data-fetch :as df]
     ;[com.fulcrologic.fulcro.ui-state-machines :as uism]
-    ;[com.fulcrologic.fulcro.components :as comp]
+    [com.fulcrologic.fulcro.components :as comp]
     ;[com.fulcrologic.fulcro-css.css-injection :as cssi]
     ;[app.model.session :as session]
     [taoensso.timbre :as log]
@@ -20,6 +20,7 @@
 (defn ^:export refresh []
   ;(log/info "Hot code Remount")
   ;(cssi/upsert-css "componentcss" {:component root/Root})
+  ;(comp/refresh-dynamic-queries! root/Root)
   (app/mount! SPA root/Root "app"))
 
 (defn ^:export init []

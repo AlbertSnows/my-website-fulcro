@@ -44,8 +44,15 @@
               :rel  "stylesheet"}]
       [:link {:rel "shortcut icon" :href "data:image/x-icon;," :type "image/x-icon"}]
       [:script (str "var fulcro_network_csrf_token = '" csrf-token "';")]]
-     [:body
-      [:div#app {:style "height: 100%; width: 100%; "}]
+     [:body {:style "height: 100%;
+                     width: 100%;
+                     background-image: url(/images/background.png);
+                     background-color: black;
+                     background-position: center;
+                     background-attachment: fixed;
+                     background-repeat: no-repeat;
+                     background-size: cover;"}
+      [:div#app {:style "height: 100%; width: 100%;"}]
       [:script {:src "js/main/main.js"}]]]))
 
 ;; ================================================================================

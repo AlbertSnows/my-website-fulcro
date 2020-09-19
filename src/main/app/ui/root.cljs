@@ -152,13 +152,7 @@
               ;"body: " body
 
                      (ui-container-header header)
-
-                     (dom/div
-                       ;(println "id" id)
-                       ;(println "route" route)
-                       ;(println "header" header)
-                       ;(println "body" body)
-                       (ui-home body))
+                     (dom/div (ui-home body))
                      ;(dom/ul (mapv ui-home body))
                      ;(ui-container-body body)
                      )))
@@ -197,15 +191,7 @@
           (fn [_] {:root/page (comp/get-initial-state Page)})
    :css   [[:.background
             {:width "100%"
-             :height "100%"
-             ;:background-image "url('/images/background.png')"
-             ;:background-color "black"
-             ;:background-position "center"
-             ;:background-attachment "fixed"
-             ;:background-repeat "no-repeat"
-             ;:background-size "cover"
-             }]]}
-
+             :height "100%"}]]}
        (let [{:keys [background]} (css/get-classnames Root)]
             (dom/div :.background {:className [background]}
                      (inj/style-element {:component Root})

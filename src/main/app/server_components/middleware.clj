@@ -3,9 +3,8 @@
     [app.server-components.config :refer [config]]
     [app.server-components.pathom :refer [parser]]
     [mount.core :refer [defstate]]
-    [com.fulcrologic.fulcro.server.api-middleware :refer [handle-api-request
-                                                          wrap-transit-params
-                                                          wrap-transit-response]]
+    [com.fulcrologic.fulcro.server.api-middleware
+     :refer [handle-api-request wrap-transit-params wrap-transit-response]]
     [ring.middleware.defaults :refer [wrap-defaults]]
     [ring.middleware.gzip :refer [wrap-gzip]]
     [ring.util.response :refer [response file-response resource-response]]

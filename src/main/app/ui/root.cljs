@@ -242,41 +242,39 @@
    :ident         (fn [] [:image/src src
                           :image/alt alt])}
   (dom/img {:src src :alt alt}))
-
 (def ui-image (comp/factory Image {:keyfn :id}))
 
 (defsc Test [this {:keys [image]}]
   {:query [:type :id {:image (comp/get-query Image)}]
-   :initial-state (fn [{:keys [id src alt]}]
-                    {:id id :type :test
-                     :image (comp/get-initial-state
-                              Image {:id 1
-                                     :src src
-                                     :alt alt})})}
+   :initial-state
+          (fn [{:keys [id src alt]}]
+              {:id id :type :test
+               :image (comp/get-initial-state
+                        Image {:id 1 :src src :alt alt})})}
   (dom/div
     (ui-image image)))
-
 (def ui-test (comp/factory Test {:keyfn :id}))
 
-
 (defsc Home [this {:home/keys [name image] :as props}]
-       {:query [:home/name {:home/image (comp/get-query Test)}]
-        :initial-state (fn [_]
-                         ;[
-                          :home/name "home"
+       {:query [:home/name :home/image]
+        :initial-state (fn [{:keys [_] :as params}]
+                          {:home/name "home"
                           :home/image
-                           (comp/get-initial-state
-                            Test {:id 1
-                                  :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-                                  :alt "I play games I KNOW I'M SORRY"})
-                          ;(comp/get-initial-state
-                          ;  Test {:id 2
-                          ;        :src "../images/the-thinker.png\\"
-                          ;        :alt "But really, what even IS a rock anyways???"})
-                          ;]
-)}
+                           [
+                            (comp/get-initial-state Test
+                              {:id 1
+                               :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+                               :alt "I play games I KNOW I'M SORRY"})
+                            (comp/get-initial-state Test
+                              {:id 2
+                               :src "../images/the-thinker.png\\"
+                               :alt "But really, what even IS a rock anyways???"})
+                            ]
+                           })}
   (dom/div
-    (ui-test props)
+    ;(ui-test props)
+    ;(dom/div "WORDSWORDSWORDSWORDSWORDS")
+    (mapv ui-test image)
     (println "test name: " name)
     (println "test image: " image)
     (println "props: " props)
@@ -368,7 +366,6 @@
        ;  body
         ;)
        )
-
 (def ui-home (comp/factory Home))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}
@@ -403,8 +400,9 @@
                             :outer-box/route "home"
                             :outer-box/header
                             (comp/get-initial-state
-                              ContainerHeader {:container-header/id id
-                                               :container-header/route "home"})
+                              ContainerHeader
+                              {:container-header/id id
+                               :container-header/route "home"})
                             :outer-box/body
                             (comp/get-initial-state Home)})
         :css   [[:.outer
@@ -432,7 +430,13 @@
 
                      (ui-container-header header)
 
-                     (dom/ul (mapv ui-home body))
+                     (dom/div
+                       (println "id" id)
+                       (println "route" route)
+                       (println "header" header)
+                       (println "body" body)
+                       (ui-home body))
+                     ;(dom/ul (mapv ui-home body))
                      ;(ui-container-body body)
                      )))
 (def ui-outer-box (comp/factory OuterBox))

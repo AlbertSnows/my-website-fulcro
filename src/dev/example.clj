@@ -10,6 +10,57 @@
      :refer [div label button span]]))
 
 
+; VERY HELPFUL
+(defsc LeftSide [this {:left-side/keys [
+                                        ;top
+                                        contents
+                                        ] :as props}]
+       {:query [
+                {:left-side/contents (comp/get-query TopLeft)}
+                ;{:left-side/bottom (comp/get-query BottomLeft)}
+                ]
+        :initial-state
+               (fn [{:keys [top
+                            ;bottom
+                            ] :as params}]
+                 (let [link (:link top)
+                       id (:id top)
+                       src (:src top)
+                       alt (:alt top)
+                       ]
+                   {:left-side/contents
+                    (comp/get-initial-state TopLeft
+                                            {:link link :id id :src src :alt alt}
+
+
+                                            )
+                    }
+                   )
+
+
+                 ;(comp/get-initial-state BottomLeft bottom)
+                 )}
+       (dom/div
+         (println "contents" contents)
+         (ui-top-left contents)
+         ;(ui-bottom-left bottom)
+         ))
+(def ui-left-side (comp/factory LeftSide))
+
+
+;(defsc Test [this {:keys [image]}]
+;       {:query [:type :id {:image (comp/get-query Image)}]
+;        :initial-state
+;               (fn [{:keys [id src alt]}]
+;                 {:id id :type :test
+;                  :image (comp/get-initial-state
+;                           Image {:id 1 :src src :alt alt})})}
+;       (dom/div
+;         (ui-image image)))
+;(def ui-test (comp/factory Test {:keyfn :id}))
+
+
+
 ;;; ENTRANCE CODE ;;;
 
 ;(comment

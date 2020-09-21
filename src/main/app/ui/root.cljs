@@ -17,10 +17,11 @@
    :query         [:id :src :alt]
    :ident         (fn [] [:image/src src
                           :image/alt alt])}
-       (dom/img :.image-container {:className [image] :src src}))
+       (dom/img {:src src :alt alt}))
 (def ui-image (comp/factory Image {:keyfn :id}))
 
-(defsc Href [this {:href/keys [link image] :as props} {:keys [href]}]
+(defsc Href [this {:href/keys [link image] :as props}
+             {:keys [href-container]}]
        {:query [:href/link {:href/image (comp/get-query Image)}]
         :initial-state
           (fn [{:keys [link id src alt]}]
@@ -34,12 +35,12 @@
               [:.href-container>img
                {:width "50%"
                 :height "100%"}]]}
-       (let [{:keys [href]} (css/get-classnames Href)]
+       (let [{:keys [href-container]} (css/get-classnames Href)]
             (dom/a :.href-container
-              {:href link
-               :target "__blank"
-               :rel "noopener noreferrer"
-               :className [href]}
+                   {:href link
+                    :target "__blank"
+                    :rel "noopener noreferrer"
+                    :className [href-container]}            ;IT HAS TO MATCH THE CSS CLASS NAME
                    (inj/style-element {:component Href})
                    (ui-image image))))
 (def ui-href (comp/factory Href))
@@ -96,8 +97,7 @@
              {:top-right/contents
               (comp/get-initial-state Href
                 {:link link :id id :src src :alt alt})})
-        :css [:.right-top
-              []]}
+        :css [:.right-top []]}
        (dom/div
          (ui-href contents)))
 (def ui-top-right (comp/factory TopRight))
@@ -112,7 +112,8 @@
        (dom/div (ui-href contents)))
 (def ui-bottom-right (comp/factory BottomRight))
 
-(defsc RightSide [this {:right-side/keys [top bottom] :as props}]
+(defsc RightSide [this {:right-side/keys [top bottom] :as props}
+                  {:keys [right-side]}]
        {:query [{:right-side/top (comp/get-query TopLeft)}
                 {:right-side/bottom (comp/get-query BottomLeft)}]
         :initial-state
@@ -129,19 +130,19 @@
                   :id (:id bottom)
                   :src (:src bottom)
                   :alt (:alt bottom)})})
-        ;:css [right-side {
-        ;                  width: 30%;
-        ;                         display: flex;
-        ;                         height: 30%;
-        ;                  overflow: visible;
-        ;                  flex-direction: column;
-        ;                  margin-top: 2em;
-        ;                  margin-bottom: 2em;
-        ;                  }]
-        }
-       (dom/div
-         (ui-top-left top)
-         (ui-bottom-left bottom)))
+        :css [[:.right-side
+               {:width "30%"
+                :display "flex"
+                :height "30%"
+                :overflow "visible"
+                :flex-direction "column"
+                :margin-top "2em"
+                :margin-bottom "2em"}]]}
+       (let [{:keys [right-side]} (css/get-classnames RightSide)]
+         (dom/div :.right-side {:className [right-side]}
+           (inj/style-element {:component Href})
+           (ui-top-left top)
+           (ui-bottom-left bottom))))
 (def ui-right-side (comp/factory RightSide))
 
 (defsc Home [this {:home/keys [left-side right-side] :as props}]
@@ -173,20 +174,20 @@
                     :id "sudo-apt-get-gf"
                     :src "../images/meirl.png"
                     :alt "g! 'How to print newline in cljs'"}})})}
-       ;:css [.general-container {
-       ;                          display: flex;
-       ;                          flex-direction: row;
-       ;                          justify-content: center;
-       ;                          align-items: center;
-       ;                          }
-       ;
-       ;      .general-container>div>.href-image-container {
-       ;                                                    width: 50%;
-       ;                                                           height: 50%;
-       ;                                                    }]
-  (dom/div
-    (ui-left-side left-side)
-    (ui-right-side right-side)))
+       :css [[:.general-container
+              {:display "flex"
+               :flex-direction "row"
+               :justify-content "center"
+               :align-items "center"}]
+             [:.general-container>div>.href-image-container
+              {:width "50%"
+               :height "50%"}]]
+       (let [{:keys [general-container]} (css/get-classnames Home)]
+            (dom/div :.general-container {:className [general-container]}
+               (inj/style-element {:component Home})
+              (ui-left-side left-side)
+              (ui-right-side right-side))))
+
 (def ui-home (comp/factory Home))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}

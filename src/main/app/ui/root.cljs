@@ -67,7 +67,8 @@
          (ui-href contents)))
 (def ui-bottom-left (comp/factory BottomLeft))
 
-(defsc LeftSide [this {:left-side/keys [top bottom] :as props}]
+(defsc LeftSide [this {:left-side/keys [top bottom] :as props}
+                 {:keys [left-side]}]
        {:query [{:left-side/top (comp/get-query TopLeft)}
                 {:left-side/bottom (comp/get-query BottomLeft)}]
         :initial-state
@@ -84,10 +85,20 @@
                   {:link (:link bottom)
                    :id (:id bottom)
                    :src (:src bottom)
-                   :alt (:alt bottom)})})}
-       (dom/div
-         (ui-top-left top)
-         (ui-bottom-left bottom)))
+                   :alt (:alt bottom)})})
+        :css [[:.left-side
+               {:display "flex"
+                :flex-direction "column"
+                :align-items "center"
+                :padding-left "0.5em"}]
+              [:.left-side>div
+               {:padding-top "1em"
+                :padding-bottom "1em"}]]}
+       (let [{:keys [left-side]} (css/get-classnames LeftSide)]
+            (dom/div :.left-side {:className [left-side]}
+                     (inj/style-element {:component LeftSide})
+                     (ui-top-left top)
+                     (ui-bottom-left bottom))))
 (def ui-left-side (comp/factory LeftSide))
 
 (defsc TopRight [this {:top-right/keys [contents] :as props}]
@@ -140,14 +151,53 @@
                 :margin-bottom "2em"}]]}
        (let [{:keys [right-side]} (css/get-classnames RightSide)]
          (dom/div :.right-side {:className [right-side]}
-           (inj/style-element {:component Href})
+           (inj/style-element {:component RightSide})
            (ui-top-left top)
            (ui-bottom-left bottom))))
 (def ui-right-side (comp/factory RightSide))
 
-(defsc Home [this {:home/keys [left-side right-side] :as props}
+(defsc Middle [this {:middle/keys [content] :as props}
+               {:keys [middle-main-page]}]
+       {:query [{:middle/content (comp/get-query Href)}]
+        :initial-state
+         (fn [{:keys [content]}]
+             {:middle/content content})
+        :css [[:.middle-main-page
+               {:display "flex"
+                :flex-direction "column"
+                :font-size "4vw"
+                :margin "0 auto"
+                :justify-content "center"
+                :min-width "7.3em"}]
+              [:.padding-bottom
+               {:padding-bottom "1em"}]
+              [:.enlarge-text
+               {:font-size "1.1em"
+                :overflow "hidden"}]
+              [:.small-text
+               {:font-size "0.5em"
+                :margin "0 auto"
+                :text-align "center"}]]}
+       (let [{:keys [middle-main-page]} (css/get-classnames Middle)]
+            :.general-container {:className [middle-main-page]}
+                     (inj/style-element {:component Middle})
+       (dom/div {:className middle-main-page
+                 ;"padding-bottom"
+                 }
+                content
+         ;(dom/p
+         ;  ;{:className "enlarge-text"}
+         ;  "Mostly this stuff")
+         ;(dom/p
+         ;  ;{:className "small-text"}
+         ;  "(check out my projects for novel things)")
+                )))
+(def ui-middle (comp/factory Middle))
+
+(defsc Home [this {:home/keys [left-side middle right-side] :as props}
              {:keys [general-container]}]
        {:query [{:home/left-side (comp/get-query LeftSide)}
+                {:home/middle (comp/get-query Middle)}
                 {:home/right-side (comp/get-query RightSide)}]
         :initial-state
            (fn [{:keys [_] :as params}]
@@ -163,6 +213,9 @@
                      :id "doin-pho"
                      :src "../images/the-thinker.png\\"
                      :alt "But really, what even IS a rock anyways???"}})
+                :home/middle
+                 (comp/get-initial-state Middle
+                   {:content "here is some test stuff"})
                 :home/right-side
                 (comp/get-initial-state RightSide
                   {:top
@@ -185,10 +238,10 @@
                 :height "50%"}]]}
        (let [{:keys [general-container]} (css/get-classnames Home)]
             (dom/div :.general-container {:className [general-container]}
-               (inj/style-element {:component Home})
+              (inj/style-element {:component Home})
               (ui-left-side left-side)
+              (ui-middle middle)
               (ui-right-side right-side))))
-
 (def ui-home (comp/factory Home))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}
@@ -206,9 +259,7 @@
                   :margin "0 auto"
                   :padding "0 auto"
                   :vertical-align "top"}]]}
-         ;(get-header route)
-       (dom/p "header")
-       )
+       (dom/p "header"))
 (def ui-container-header (comp/factory ContainerHeader))
 
 (dr/defrouter PageOptions [this props]

@@ -145,7 +145,8 @@
            (ui-bottom-left bottom))))
 (def ui-right-side (comp/factory RightSide))
 
-(defsc Home [this {:home/keys [left-side right-side] :as props}]
+(defsc Home [this {:home/keys [left-side right-side] :as props}
+             {:keys [general-container]}]
        {:query [{:home/left-side (comp/get-query LeftSide)}
                 {:home/right-side (comp/get-query RightSide)}]
         :initial-state
@@ -173,15 +174,15 @@
                    {:link "https://en.wikipedia.org/wiki/Programmer"
                     :id "sudo-apt-get-gf"
                     :src "../images/meirl.png"
-                    :alt "g! 'How to print newline in cljs'"}})})}
-       :css [[:.general-container
-              {:display "flex"
-               :flex-direction "row"
-               :justify-content "center"
-               :align-items "center"}]
-             [:.general-container>div>.href-image-container
-              {:width "50%"
-               :height "50%"}]]
+                    :alt "g! 'How to print newline in cljs'"}})})
+        :css [[:.general-container
+               {:display "flex"
+                :flex-direction "row"
+                :justify-content "center"
+                :align-items "center"}]
+              [:.general-container>div>.href-image-container
+               {:width "50%"
+                :height "50%"}]]}
        (let [{:keys [general-container]} (css/get-classnames Home)]
             (dom/div :.general-container {:className [general-container]}
                (inj/style-element {:component Home})

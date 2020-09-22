@@ -41,16 +41,10 @@
       [:meta {:name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"}]
       [:link {:href "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
               :rel  "stylesheet"}]
+      [:link {:href "css/style.css" :rel "stylesheet" :type "text/css"}]
       [:link {:rel "shortcut icon" :href "data:image/x-icon;," :type "image/x-icon"}]
       [:script (str "var fulcro_network_csrf_token = '" csrf-token "';")]]
-     [:body {:style "height: 100%;
-                     width: 100%;
-                     background-image: url(/images/background.png);
-                     background-color: black;
-                     background-position: center;
-                     background-attachment: fixed;
-                     background-repeat: no-repeat;
-                     background-size: cover;"}
+     [:body
       [:div#app {:style "height: 100%; width: 100%;"}]
       [:script {:src "js/main/main.js"}]]]))
 

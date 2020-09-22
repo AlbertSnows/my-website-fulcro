@@ -215,7 +215,9 @@
                      :alt "But really, what even IS a rock anyways???"}})
                 :home/middle
                  (comp/get-initial-state Middle
-                   {:content "here is some test stuff"})
+                   {:content (doall
+                               [(dom/p "Mostly this stuff")
+                                (dom/p "(check out my projects for novel things)")])})
                 :home/right-side
                 (comp/get-initial-state RightSide
                   {:top
@@ -259,7 +261,19 @@
                   :margin "0 auto"
                   :padding "0 auto"
                   :vertical-align "top"}]]}
-       (dom/p "header"))
+       (let [{:keys [outer-text]} (css/get-classnames ContainerHeader)]
+
+            (case route
+             "" (dom/p "empty")
+             nil (dom/p "nil")
+             :nil (dom/p "nil key")
+             :home (dom/p "home key")
+             "home" (dom/p :.outer-text
+                           {:className [outer-text]}
+                           (inj/style-element {:component ContainerHeader})
+                           "What Am I Up To?")
+             (dom/p
+               "nothing matched"))))
 (def ui-container-header (comp/factory ContainerHeader))
 
 (dr/defrouter PageOptions [this props]
@@ -293,20 +307,11 @@
                   :margin-bottom "10%"
                   :padding-bottom "1em"}]]}
        (let [{:keys [outer]} (css/get-classnames OuterBox)]
-            (dom/div :.outer {:className [outer]}
+            (dom/div :.outer {:nonsense "HEY WHAT DO YOU THINK YOU'RE DOING LOOKING IN HERE. "
+                              :className [outer]}
                      (inj/style-element {:component OuterBox})
-                     ;(seq [:nonsense
-                     ; "HEY WHAT DO YOU THINK YOU'RE DOING LOOKING IN HERE. "])
-              ;"id: " id " | "
-              ;"route: " route " | "
-              ;"header: " (str header) " | "
-              ;"body: " body
-
                      (ui-container-header header)
-                     (dom/div (ui-home body))
-                     ;(dom/ul (mapv ui-home body))
-                     ;(ui-container-body body)
-                     )))
+                     (ui-home body))))
 (def ui-outer-box (comp/factory OuterBox))
 
 (defsc Button [this {:button/keys [id num] :as props}]
@@ -330,7 +335,22 @@
                    :page/outer-box
                    (comp/get-initial-state
                      OuterBox {:outer-box/id 1
-                               :outer-box/route "home"})})}
+                               :outer-box/route "home"})})
+   ;:css [:* [padding: 0
+   ;          margin: 0]
+   ;
+   ;      :app [width: 100% height: 100%]
+   ;      :page [width: 100%
+   ;             height: 100%
+   ;             display: flex;
+   ;             flex-direction: row;
+   ;             ]
+   ;      :f                                                 ;@font-face
+   ;          [
+   ;           font-family: MINIMAL;
+   ;           src: url(../fonts/minimal/Minimal.ttf);
+   ;           ]]
+   }
   (dom/div (ui-button button)
            (ui-outer-box outer-box)))
 (def ui-page (comp/factory Page))

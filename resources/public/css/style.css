@@ -41,7 +41,7 @@ body > * {
   src: url(../fonts/minimal/Minimal.ttf);
 }
 
-#outer-text {
+.outer-text {
   font-size: 2em;
   color: white;
   text-align: center;

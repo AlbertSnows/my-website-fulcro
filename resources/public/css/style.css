@@ -145,8 +145,9 @@ sidebar-entries {
     max-width: 3em;
     min-width: 3em;
 }
-.p {
+p {
     margin: 0;
+    color: white;
 }
 
 #sidebar-toggle-button {
@@ -542,8 +543,9 @@ table-role-video>a>img {
 }
 
 .small-text {
-    font-size: 0.5em;
-    margin: 0 auto;
+    font-size: 0.3em;
+    font-family: MINIMAL;
+    margin: 0 0 0.2;
     text-align: center;
 }
 
@@ -554,8 +556,11 @@ table-role-video>a>img {
 }
 
 .enlarge-text {
-    font-size: 1.1em;
+    font-size: 0.7em;
+    font-family: MINIMAL;
     overflow: hidden;
+    text-align: center;
+    margin: 0 0 0.2em;
 }
 
 .image-container>a {

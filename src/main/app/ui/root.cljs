@@ -324,32 +324,22 @@
                      )))
 (def ui-outer-box (comp/factory OuterBox))
 
+(defmutation bump-number [{:keys [id]}]
+  (action [{:keys [state]}]
+          (swap! state update-in [:ui/button id :ui/number] inc)))
+
 (defsc Button [this {:button/keys [id num] :as props}]
   {:query [:button/id :button/num]
    :ident :button/id
    :initial-state (fn [{:keys [id] :as params}]
                       {:button/id id :button/num 0})}
        (dom/div
-         (println "button" num)
          (dom/button
            {:onClick
             #(comp/transact! this
-               `[(uim/toggle {:button/id id})])}
+               `[(uim/toggle ~{:button/id id})])}
            num)))
 (def ui-button (comp/factory Button))
-
-(defmutation bump-number [ignored]
-             (action [{:keys [state]}]
-                     (swap! state update :ui/number inc)))
-
-(defsc Boot [this {:ui/keys [number]}]
-       {:query         [:ui/number]
-        :initial-state {:ui/number 0}}
-       (dom/div
-         (dom/h4 "This is an example.")
-         (dom/button {:onClick #(comp/transact! this `[(bump-number {})])}
-                     "You've clicked this button " number " times.")))
-(def ui-number (comp/factory Boot))
 
 (defsc Page [this {:page/keys [button outer-box]}]
   {:query [{:page/button (comp/get-query Button)}
@@ -368,7 +358,6 @@
            :justify-content "center"}]]}
        (let [{:keys [page]} (css/get-classnames Page)]
             (dom/div {:classes [page]}
-                     (println "-------------")
               (ui-outer-box outer-box)
               (ui-button button))))
 (def ui-page (comp/factory Page))

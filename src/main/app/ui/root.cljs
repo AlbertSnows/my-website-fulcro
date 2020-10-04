@@ -9,7 +9,8 @@
     [com.fulcrologic.fulcro-css.css-injection :as inj]
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div label button span p h4 ul]]))
+     :refer [div label button span p h4 ul]]
+    [com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]))
 
 (defsc Image [this {:keys [src alt]} {:keys [image]}]
   {:initial-state (fn [{:keys [id src alt]}]
@@ -326,17 +327,33 @@
 (defsc Button [this {:button/keys [id num] :as props}]
   {:query [:button/id :button/num]
    :ident :button/id
-   :initial-state (fn [{:keys [id num] :as params}]
+   :initial-state (fn [{:keys [id] :as params}]
                       {:button/id id :button/num 0})}
-  (dom/button
-    {:onClick #(comp/transact! this
-                 [(uim/toggle {:button/id id})])} num))
+       (dom/div
+         (println "button" num)
+         (dom/button
+           {:onClick
+            #(comp/transact! this
+               `[(uim/toggle {:button/id id})])}
+           num)))
 (def ui-button (comp/factory Button))
 
+(defmutation bump-number [ignored]
+             (action [{:keys [state]}]
+                     (swap! state update :ui/number inc)))
+
+(defsc Boot [this {:ui/keys [number]}]
+       {:query         [:ui/number]
+        :initial-state {:ui/number 0}}
+       (dom/div
+         (dom/h4 "This is an example.")
+         (dom/button {:onClick #(comp/transact! this `[(bump-number {})])}
+                     "You've clicked this button " number " times.")))
+(def ui-number (comp/factory Boot))
+
 (defsc Page [this {:page/keys [button outer-box]}]
-  {:query [:page/button {:button (comp/get-query Button)}
-           :page/outer-box {:outer-box (comp/get-query OuterBox)}]
-   :ident (fn [] [:page/id :page])
+  {:query [{:page/button (comp/get-query Button)}
+           {:page/outer-box (comp/get-query OuterBox)}]
    :initial-state
           (fn [_] {:page/button
                    (comp/get-initial-state
@@ -345,27 +362,15 @@
                    (comp/get-initial-state
                      OuterBox {:outer-box/id 1
                                :outer-box/route "home"})})
-   ;:css [:* [padding: 0
-   ;          margin: 0]
-   ;
-   ;      :app [width: 100% height: 100%]
-   ;      :page [width: 100%
-   ;             height: 100%
-   ;             display: flex;
-   ;             flex-direction: row;
-   ;             ]
-   ;      :f                                                 ;@font-face
-   ;          [
-   ;           font-family: MINIMAL;
-   ;           src: url(../fonts/minimal/Minimal.ttf);
-   ;           ]]
-   }
-  ;(dom/div
-    (ui-button button)
-    (ui-outer-box outer-box)
-    ;)
-       )
-
+   :css [[:.page
+          {:display "flex"
+           :align-items "center"
+           :justify-content "center"}]]}
+       (let [{:keys [page]} (css/get-classnames Page)]
+            (dom/div {:classes [page]}
+                     (println "-------------")
+              (ui-outer-box outer-box)
+              (ui-button button))))
 (def ui-page (comp/factory Page))
 
 (defsc Root [this {:root/keys [page] :as props}]

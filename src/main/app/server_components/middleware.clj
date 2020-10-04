@@ -3,8 +3,9 @@
     [app.server-components.config :refer [config]]
     [app.server-components.pathom :refer [parser]]
     [mount.core :refer [defstate]]
-    [com.fulcrologic.fulcro.server.api-middleware
-     :refer [handle-api-request wrap-transit-params wrap-transit-response]]
+    [com.fulcrologic.fulcro.server.api-middleware :refer [handle-api-request
+                                                          wrap-transit-params
+                                                          wrap-transit-response]]
     [ring.middleware.defaults :refer [wrap-defaults]]
     [ring.middleware.gzip :refer [wrap-gzip]]
     [ring.util.response :refer [response file-response resource-response]]
@@ -41,11 +42,10 @@
       [:meta {:name "viewport" :content "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"}]
       [:link {:href "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css"
               :rel  "stylesheet"}]
-      [:link {:href "css/style.css" :rel "stylesheet" :type "text/css"}]
       [:link {:rel "shortcut icon" :href "data:image/x-icon;," :type "image/x-icon"}]
       [:script (str "var fulcro_network_csrf_token = '" csrf-token "';")]]
      [:body
-      [:div#app {:style "height: 100%; width: 100%;"}]
+      [:div#app]
       [:script {:src "js/main/main.js"}]]]))
 
 ;; ================================================================================
@@ -89,10 +89,10 @@
   (let [defaults-config (:ring.middleware/defaults-config config)
         legal-origins   (get config :legal-origins #{"localhost"})]
     (-> not-found-handler
-      (wrap-api "/api")
+      (wrap-api #() "/api")
       wrap-transit-params
       wrap-transit-response
-      (wrap-html-routes)
+      (wrap-html-routes "/")
       ;; If you want to set something like session store, you'd do it against
       ;; the defaults-config here (which comes from an EDN file, so it can't have
       ;; code initialized).

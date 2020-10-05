@@ -29,11 +29,9 @@
                 (comp/get-initial-state
                   Image {:id id :src src :alt alt})})
         :css [[:.href-container
-               {:max-width "50%"
-                :height "auto"
-                :display "flex"
+               {:display "flex"
                 :justify-content "center"
-                :margin "3em 0em"}]
+                :margin "1em 0em"}]
               [:.href-container>img
                {:height "auto"
                 :max-width "100%"
@@ -89,7 +87,7 @@
                {:display "flex"
                 :flex-direction "column"
                 :align-items "center"
-                :padding-left "0.5em"
+                :padding-left "1.5em"
                 :width "100%"}]
               [:.left-side>div
                {:padding-top "1em"
@@ -146,8 +144,8 @@
                {:display "flex";
                 :flex-direction "column"
                 :align-items "center"
-                :padding-right "0.5em"
-                :width "99%"}]
+                :padding-right "1.5em"
+                :width "100%"}]
               [:.right-side>a+a
                {:padding-top "6em"}]]}
        (let [{:keys [right-side]} (css/get-classnames RightSide)]
@@ -167,7 +165,7 @@
                 :font-size "4vw"
                 :margin "0 auto"
                 :justify-content "center"
-                :min-width "30%"
+                :min-width "6em"
                 :height "auto"}]
               [:.padding-bottom
                {:padding-bottom "1em"}]
@@ -294,12 +292,12 @@
                             (comp/get-initial-state Home)})
         :css   [[:.outer
                  {:background-color "black"
-                  :width "75%"
+                  :width "50%"
                   :display "flex"
                   :flex-direction "column"
                   :justify-content "center"
                   :align-items "center"
-                  :padding-bottom "1em"
+                  :padding "0em 0.5em 1em 0.5em"
                   :margin "10% 1% 1% 1%"
                   :border-radius "2.5%"
                   }]
@@ -312,7 +310,6 @@
                   :width "98%"
                   :overflow-wrap "anywhere"
                   :word-wrap "anywhere"
-                  :hyphens "auto"
                   :border-width "0.2em"
                        }]]}
        (let [{:keys [outer box]} (css/get-classnames OuterBox)]
@@ -324,34 +321,74 @@
                      )))
 (def ui-outer-box (comp/factory OuterBox))
 
-(defmutation bump-number [{:keys [id]}]
-  (action [{:keys [state]}]
-          (swap! state update-in [:ui/button id :ui/number] inc)))
+(defsc SidebarContents [this _]
+  {:query []
+   :initial-state (fn [_])}
+   (dom/ul {:className "sidebar-entries sidebar-nav"}
+    (dom/li {:className "sidebar-brand"} (dom/a )
+      ;{:on-click
+      ; #(reset! c/current-page (c/outer-box "home"))
+      ; :href
+      ; "#"}
+      "Home")
+    (dom/li (dom/a)
+      ;{:on-click
+      ; #(reset! c/current-page (c/outer-box "about"))
+      ; :href
+      ; "#"}
+      "About")
+    (dom/li (dom/a)
+      ;{:on-click
+      ; #(reset! c/current-page (c/outer-box "contact"))
+      ; :href
+      ; "#"}
+      "Contact")
+    (dom/li (dom/a)
+      ;{:on-click
+      ; #(reset! c/current-page (c/outer-box "projects"))
+      ; :href
+      ; "#"}
+      "Projects")))
+(def ui-sidebar-contents (comp/factory SidebarContents))
 
-(defsc Button [this {:button/keys [id num] :as props}]
+(defsc SidebarButton [this {:button/keys [id num] :as props}]
   {:query [:button/id :button/num]
    :ident :button/id
-   :initial-state (fn [{:keys [id] :as params}]
-                      {:button/id id :button/num 0})}
-       (dom/div
-         (dom/button
-           {:onClick
-            #(comp/transact! this
-               `[(uim/toggle ~{:button/id id})])}
-           num)))
-(def ui-button (comp/factory Button))
-
-(defsc Page [this {:page/keys [button outer-box]}]
-  {:query [{:page/button (comp/get-query Button)}
-           {:page/outer-box (comp/get-query OuterBox)}]
    :initial-state
-          (fn [_] {:page/button
-                   (comp/get-initial-state
-                     Button {:button/id 1 :button/num 0})
-                   :page/outer-box
+          (fn [{:keys [id] :as params}]
+            {:button/id id :button/num 0})}
+  (dom/div {:className (if (= num 1) "Open" "Closed")
+            :id "sidebar-toggle-button"
+            :onClick #(comp/transact! this
+                        `[(uim/toggle ~{:button/id id})])}
+           "["))
+(def ui-button (comp/factory SidebarButton))
+
+(defsc Sidebar [this {:sidebar/keys [button contents] :as props}]
+  {:query [{:sidebar/button (comp/get-query SidebarButton)}
+           {:sidebar/contents (comp/get-query SidebarContents)}]
+   :initial-state (fn [_]
+                    {:sidebar/button
+                      (comp/get-initial-state SidebarButton
+                        {:button/id 1 :button/num 0})
+                     :sidebar/contents
+                      (comp/get-initial-state SidebarContents)})}
+  (dom/div {:className "sidebar-wrapper"}
+    (ui-button button)
+    (ui-sidebar-contents contents)))
+(def ui-sidebar (comp/factory Sidebar))
+
+
+(defsc Page [this {:page/keys [outer-box sidebar]}]
+  {:query [{:page/outer-box (comp/get-query OuterBox)}
+           {:page/sidebar (comp/get-query Sidebar)}]
+   :initial-state
+          (fn [_] {:page/outer-box
                    (comp/get-initial-state
                      OuterBox {:outer-box/id 1
-                               :outer-box/route "home"})})
+                               :outer-box/route "home"})
+                   :page/sidebar
+                   (comp/get-initial-state Sidebar)})
    :css [[:.page
           {:display "flex"
            :align-items "center"
@@ -359,7 +396,7 @@
        (let [{:keys [page]} (css/get-classnames Page)]
             (dom/div {:classes [page]}
               (ui-outer-box outer-box)
-              (ui-button button))))
+              (ui-sidebar sidebar))))
 (def ui-page (comp/factory Page))
 
 (defsc Root [this {:root/keys [page] :as props}]

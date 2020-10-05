@@ -48,7 +48,6 @@ body > * {
   font-family: MINIMAL;
   margin: 0 auto;
   padding: 0 auto;
-  vertical-align: top;
 }
 
 #outer-box {
@@ -71,7 +70,6 @@ body > * {
   font-family: MINIMAL;
   margin: 0 auto;
   padding: 0 auto;
-  vertical-align: top;
 }
 
 #example {
@@ -155,15 +153,13 @@ p {
     color: #111;
     width: inherit;
     height: inherit;
-
     transform: scale(5, 2.6);
-    vertical-align: center;
     text-align: center;
+    margin: 0;
 }
 
 #sidebar-toggle-button>p {
-    margin: 0;
-    color: #111;
+
 
 }
 
@@ -171,25 +167,50 @@ p {
     margin-right: 8.4em;
 }
 
-#sidebar-wrapper {
+temp {
+width: 1em;
+  position: fixed;
+
+}
+.sidebar-brand {
+    color: white;
+}
+.temp-sidebar-wrapper {
+  color: white;
   height: 100%;
-  width: 0em;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  transition: 0.5s;
+  display: flex;
+  width: 6%;
   position: fixed;
   z-index: 1;
   top: 0;
-  background-color: #111;
+  right: 0;
   overflow-x: hidden;
-  transition: 0.5s;
+}
+.sidebar-wrapper {
+    display: flex;
+    height: 100%;
+    width: 6%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    overflow-x: hidden;
 }
 
 .toggled>#sidebar-wrapper {
     width: 8.5em;
 }
 
-#sidebar-entries {
+.sidebar-entries {
   color: #818181;
   display: block;
   transition: 0.3s;
+  background-color: #111;
+
 }
 
 #sidebar-entries>li>a {

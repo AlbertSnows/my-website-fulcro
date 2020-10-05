@@ -4,8 +4,8 @@
     [cljs.core.match :refer-macros [match]]
     [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr]
-    [com.fulcrologic.fulcro.ui-state-machines :as uism
-     :refer [defstatemachine]]
+    ;[com.fulcrologic.fulcro.ui-state-machines :as uism
+     ;:refer [defstatemachine]]
     [com.fulcrologic.fulcro-css.css-injection :as inj]
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
@@ -298,7 +298,7 @@
                   :justify-content "center"
                   :align-items "center"
                   :padding "0em 0.5em 1em 0.5em"
-                  :margin "10% 1% 1% 1%"
+                  :margin "7% 1% 1% 1%"
                   :border-radius "2.5%"
                   }]
                 [:.box
@@ -325,30 +325,40 @@
   {:query []
    :initial-state (fn [_])}
    (dom/ul {:className "sidebar-entries sidebar-nav"}
-    (dom/li {:className "sidebar-brand"} (dom/a )
+    (dom/li {:className "sidebar-brand"}
+            (dom/a
+                                           "Home")
+
+                                           )
       ;{:on-click
       ; #(reset! c/current-page (c/outer-box "home"))
       ; :href
       ; "#"}
-      "Home")
-    (dom/li (dom/a)
+    (dom/li (dom/a
+              "About"
+              )
       ;{:on-click
       ; #(reset! c/current-page (c/outer-box "about"))
       ; :href
       ; "#"}
-      "About")
-    (dom/li (dom/a)
+)
+    (dom/li (dom/a
+              "Contact"
+              )
       ;{:on-click
       ; #(reset! c/current-page (c/outer-box "contact"))
       ; :href
       ; "#"}
-      "Contact")
-    (dom/li (dom/a)
+)
+    (dom/li (dom/a
+
+              "Projects"
+              )
       ;{:on-click
       ; #(reset! c/current-page (c/outer-box "projects"))
       ; :href
       ; "#"}
-      "Projects")))
+       )))
 (def ui-sidebar-contents (comp/factory SidebarContents))
 
 (defsc SidebarButton [this {:button/keys [id num] :as props}]
@@ -361,7 +371,7 @@
             :id "sidebar-toggle-button"
             :onClick #(comp/transact! this
                         `[(uim/toggle ~{:button/id id})])}
-           "["))
+           (dom/p "[")))
 (def ui-button (comp/factory SidebarButton))
 
 (defsc Sidebar [this {:sidebar/keys [button contents] :as props}]

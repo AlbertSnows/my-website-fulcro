@@ -86,12 +86,6 @@ body > * {
 
 /* sidebar */
 
-sidebar-wrapper {
-    height: 100%;
-    position: fixed;
-    padding-left: 10em;
-}
-
 sidebar-entries {
     height: 100%;
     z-index: 1;
@@ -149,13 +143,13 @@ p {
 }
 
 #sidebar-toggle-button {
-    font-size: 2em;
+    font-size: 5em;
     color: #111;
-    width: inherit;
-    height: inherit;
-    transform: scale(5, 2.6);
+    padding-top: 1em;
+    transform: scale(3, 1);
     text-align: center;
     margin: 0;
+    padding-right: 0.2em;
 }
 
 #sidebar-toggle-button>p {
@@ -189,16 +183,15 @@ width: 1em;
   top: 0;
   right: 0;
   overflow-x: hidden;
+      z-index: 1;
 }
 .sidebar-wrapper {
     display: flex;
     height: 100%;
-    width: 6%;
-    position: fixed;
-    z-index: 1;
     top: 0;
     right: 0;
-    overflow-x: hidden;
+    position: fixed;
+    justify-content: flex-end;
 }
 
 .toggled>#sidebar-wrapper {
@@ -207,10 +200,18 @@ width: 1em;
 
 .sidebar-entries {
   color: #818181;
-  display: block;
+  display: flex;
+  flex-direction: column;
   transition: 0.3s;
   background-color: #111;
+  overflow: hidden;
+  width: 8em;
+  align-items: center;
 
+}
+
+.sidebar-entries>li {
+    overflow: hidden;
 }
 
 #sidebar-entries>li>a {

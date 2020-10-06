@@ -86,7 +86,7 @@ body > * {
 
 /* sidebar */
 
-sidebar-entries {
+.sidebar-entries {
     height: 100%;
     z-index: 1;
     position: relative;
@@ -96,11 +96,57 @@ sidebar-entries {
     overflow-x: hidden;
     padding-top: 2%;
     font-family: MINIMAL;
-    color: white;
     text-decoration: none;
     list-style-type: none;
+    padding-top: 2em;
+    color: #818181;
+    display: flex;
+    flex-direction: column;
+    transition: 0.3s;
+    overflow: hidden;
+    width: 10em;
+    align-items: center;
 }
 
+.sidebar-entries>li>a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 2em;
+  color: #818181;
+  display: block;
+  transform: scale(1.3);
+}
+
+.sidebar-entries>li+li {
+    padding-top: 2em;
+}
+
+.sidebar-entries>li>a:hover {
+  color: #f1f1f1;
+  transition: 0.3s;
+
+}
+
+
+.sidebar-entries>li {
+    list-style-type: none;
+    padding: 0 0.5em 0 0;
+}
+
+#sidebar-entries>li>a {
+  padding: 1em 1em 0.1em 1em;
+  text-decoration: none;
+  font-size: 2em;
+  color: white;
+  display: block;
+  font-family: MINIMAL;
+  text-align: center;
+}
+
+.sidebar-entries>.sidebar-brand>a {
+    color: white;
+    transition: 1s;
+}
 
 
 
@@ -142,7 +188,7 @@ p {
     color: white;
 }
 
-#sidebar-toggle-button {
+#sidebar-toggle-button>p {
     font-size: 5em;
     color: #111;
     padding-top: 1em;
@@ -166,9 +212,12 @@ width: 1em;
   position: fixed;
 
 }
-.sidebar-brand {
-    color: white;
+
+
+Xsidebar-entries>li:not(sidebar-entries)>a {
+    opacity: 0.7;
 }
+
 .temp-sidebar-wrapper {
   color: white;
   height: 100%;
@@ -198,31 +247,7 @@ width: 1em;
     width: 8.5em;
 }
 
-.sidebar-entries {
-  color: #818181;
-  display: flex;
-  flex-direction: column;
-  transition: 0.3s;
-  background-color: #111;
-  overflow: hidden;
-  width: 8em;
-  align-items: center;
 
-}
-
-.sidebar-entries>li {
-    overflow: hidden;
-}
-
-#sidebar-entries>li>a {
-  padding: 1em 1em 0.1em 1em;
-  text-decoration: none;
-  font-size: 2em;
-  color: white;
-  display: block;
-  font-family: MINIMAL;
-  text-align: center;
-}
 
 #email {
     width: 85%;

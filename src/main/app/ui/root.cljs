@@ -346,7 +346,7 @@
    :ident :sidebar-contents/id
    :initial-state
     (fn [_]
-      {:sidebar-contents/id 1
+      {:sidebar-contents/id 2
        :sidebar-contents/state 1
        :sidebar-contents/home
        (comp/get-initial-state ListItem

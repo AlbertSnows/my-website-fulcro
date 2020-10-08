@@ -6,6 +6,7 @@
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr]
     ;[com.fulcrologic.fulcro.ui-state-machines :as uism
      ;:refer [defstatemachine]]
+    [com.fulcrologic.fulcro.algorithms.normalized-state :refer [swap!->]]
     [com.fulcrologic.fulcro-css.css-injection :as inj]
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
@@ -321,44 +322,52 @@
                      )))
 (def ui-outer-box (comp/factory OuterBox))
 
-(defsc SidebarContents [this _]
-  {:query []
-   :initial-state (fn [_])}
-   (dom/ul {:className "sidebar-entries sidebar-nav"}
-    (dom/li {:className "sidebar-brand"}
-            (dom/a
-                                           "Home")
+(defsc ListItem [this {:list-item/keys [name classes] :as props}]
+  {:query [:list-item/name :list-item/classes]
+   :initial-state (fn [{:list-item/keys [name classes] :as props}]
+                    {:list-item/name name
+                     :list-item/classes classes})}
+  (dom/li {:className classes}
+          ;:on-click
+          ;      ; #(reset! c/current-page (c/outer-box "projects"))
+          ;      ; :href
+          ;      ; "#"
+    (dom/a name)))
+(def ui-list-item (comp/factory ListItem))
 
-                                           )
-      ;{:on-click
-      ; #(reset! c/current-page (c/outer-box "home"))
-      ; :href
-      ; "#"}
-    (dom/li (dom/a
-              "About"
-              )
-      ;{:on-click
-      ; #(reset! c/current-page (c/outer-box "about"))
-      ; :href
-      ; "#"}
-)
-    (dom/li (dom/a
-              "Contact"
-              )
-      ;{:on-click
-      ; #(reset! c/current-page (c/outer-box "contact"))
-      ; :href
-      ; "#"}
-)
-    (dom/li (dom/a
-
-              "Projects"
-              )
-      ;{:on-click
-      ; #(reset! c/current-page (c/outer-box "projects"))
-      ; :href
-      ; "#"}
-       )))
+(defsc SidebarContents
+  [this {:sidebar-contents/keys [id state home about contact projects] :as props}]
+  {:query [:sidebar-contents/id
+           :sidebar-contents/state
+           {:sidebar-contents/home (comp/get-query ListItem)}
+           {:sidebar-contents/about (comp/get-query ListItem)}
+           {:sidebar-contents/contact (comp/get-query ListItem)}
+           {:sidebar-contents/projects (comp/get-query ListItem)}]
+   :ident :sidebar-contents/id
+   :initial-state
+    (fn [_]
+      {:sidebar-contents/id 1
+       :sidebar-contents/state 1
+       :sidebar-contents/home
+       (comp/get-initial-state ListItem
+         {:list-item/name "Home" :list-item/classes "sidebar-brand"})
+       :sidebar-contents/about
+       (comp/get-initial-state ListItem
+         {:list-item/name "About" :list-item/classes ""})
+       :sidebar-contents/contact
+       (comp/get-initial-state ListItem
+         {:list-item/name "Contact" :list-item/classes ""})
+       :sidebar-contents/projects
+       (comp/get-initial-state ListItem
+         {:list-item/name "Projects" :list-item/classes ""})})}
+   (dom/ul {:className state
+            ;(str state " sidebar-entries sidebar-nav")
+            }
+           (str "state: " state)
+     (ui-list-item home)
+     (ui-list-item about)
+     (ui-list-item contact)
+     (ui-list-item projects)))
 (def ui-sidebar-contents (comp/factory SidebarContents))
 
 (defsc SidebarButton [this {:button/keys [id num] :as props}]
@@ -367,22 +376,28 @@
    :initial-state
           (fn [{:keys [id] :as params}]
             {:button/id id :button/num 0})}
-  (dom/div {:className (if (= num 1) "Open" "Closed")
+  (dom/div {:className (if (= num 1) "open" "closed")
             :id "sidebar-toggle-button"
             :onClick #(comp/transact! this
-                        `[(uim/toggle ~{:button/id id})])}
+                        `[(uim/toggle ~{:id id})])}
            (dom/p "[")))
 (def ui-button (comp/factory SidebarButton))
+
+; From a client mutation you have the whole of app state.
+; Start off with swap!->
+;, and do assoc-in
+; or call st->st* functions.
 
 (defsc Sidebar [this {:sidebar/keys [button contents] :as props}]
   {:query [{:sidebar/button (comp/get-query SidebarButton)}
            {:sidebar/contents (comp/get-query SidebarContents)}]
-   :initial-state (fn [_]
-                    {:sidebar/button
-                      (comp/get-initial-state SidebarButton
-                        {:button/id 1 :button/num 0})
-                     :sidebar/contents
-                      (comp/get-initial-state SidebarContents)})}
+   :initial-state
+    (fn [_]
+      {:sidebar/button
+        (comp/get-initial-state SidebarButton
+          {:button/id 1 :button/num 0})
+       :sidebar/contents
+        (comp/get-initial-state SidebarContents)})}
   (dom/div {:className "sidebar-wrapper"}
     (ui-button button)
     (ui-sidebar-contents contents)))

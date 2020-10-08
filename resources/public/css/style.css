@@ -167,7 +167,7 @@ body > * {
     transition: 0.5s;
 }
 
-#sidebar.toggled{
+#sidebar.open{
     width: 8.5em;
     margin-left: 4em;
 }
@@ -203,7 +203,7 @@ p {
 
 }
 
-.toggled>#toggle-wrapper {
+.open>#toggle-wrapper {
     margin-right: 8.4em;
 }
 
@@ -243,7 +243,7 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
     justify-content: flex-end;
 }
 
-.toggled>#sidebar-wrapper {
+.open>#sidebar-wrapper {
     width: 8.5em;
 }
 
@@ -294,44 +294,44 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
 
 }
 
-#sidebar:not(.toggled) #toggle-wrapper:hover{
+#sidebar:not(.open) #toggle-wrapper:hover{
     margin-right: 1.1em;
 }
 
-#sidebar:not(.toggled) #toggle-wrapper:hover + #sidebar-wrapper {
+#sidebar:not(.open) #toggle-wrapper:hover + #sidebar-wrapper {
     width: 0.8em;
 }
 
-#sidebar.toggled #toggle-wrapper:hover{
+#sidebar.open #toggle-wrapper:hover{
     margin-right: 8em;
 }
 
-#sidebar.toggled #toggle-wrapper:hover + #sidebar-wrapper {
+#sidebar.open #toggle-wrapper:hover + #sidebar-wrapper {
     width: 8em;
 }
 
 
 media (min-width: 1em) {
-  sidebar.toggled #toggle-wrapper:hover #toggle-wrapper{
+  sidebar.open #toggle-wrapper:hover #toggle-wrapper{
     position: relative;
     transition: margin .35s ease-out;
     left: 0.3em;
   }
 
-  sidebar:not(.toggled) #toggle-wrapper:hover #toggle-wrapper{
+  sidebar:not(.open) #toggle-wrapper:hover #toggle-wrapper{
     margin-right: 5em;
   }
 
-  sidebar:not(.toggled) #sidebar-wrapper {
+  sidebar:not(.open) #sidebar-wrapper {
     margin-right: -10em;
   }
-  sidebar:not(.toggled) #toggle-wrapper:hover + #sidebar-wrapper {
+  sidebar:not(.open) #toggle-wrapper:hover + #sidebar-wrapper {
     position: relative;
     transition: margin .35s ease-out;
     right: 1.5em;
   }
 
-  sidebar.toggled #toggle-wrapper:hover + #sidebar-wrapper {
+  sidebar.open #toggle-wrapper:hover + #sidebar-wrapper {
     position: relative;
     transition: margin .35s ease-out;
     left: 0.7em;
@@ -340,6 +340,10 @@ media (min-width: 1em) {
 
 .align-vertical {
   flex-direction: column;
+}
+
+-closed {
+    margin-right: -10em;
 }
 
 .align-horizontal {

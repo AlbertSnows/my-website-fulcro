@@ -9,6 +9,9 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(update-in [:button/id id :button/num]
+;           #(if (= %1 1) 0 1))
+
 ; also useful
 ;(defn style [& info]
 ;  {:style (.trim (apply str (map #(let [[kwd val] %]

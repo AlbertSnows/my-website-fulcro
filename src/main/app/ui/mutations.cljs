@@ -6,7 +6,7 @@
 (defmutation toggle [{:keys [id]}]
   (action [{:keys [state] :as env}]
       (swap!-> state
-         (update-in [:button/id id :button/num]
-                    #(if (= %1 1) 0 1))
-         (update-in [:sidebar-contents/id 2 :sidebar-contents/state]
-                    #(if (= %1 1) 0 1)))))
+         (update-in [:sidebar-contents/id id :sidebar-contents/state]
+                    #(if (= %1 "closed") "open" "closed"))
+         (update-in [:sidebar/id id :sidebar/state]
+                    #(if (= %1 "closed") "open" "closed")))))

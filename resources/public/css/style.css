@@ -241,6 +241,7 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
     right: 0;
     position: fixed;
     justify-content: flex-end;
+    transition: margin .35s ease-out;
 }
 
 .open>#sidebar-wrapper {
@@ -294,31 +295,49 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
 
 }
 
-#sidebar:not(.open) #toggle-wrapper:hover{
+.open {
+    margin-right: 0em;
+}
+
+.closed {
+    margin-right: -11em;
+}
+
+.closed:hover {
+    margin-right: -9em;
+}
+
+.open:hover {
+    margin-right: -1em;
+}
+
+closed.:hover #sidebar-toggle-button {
     margin-right: 1.1em;
 }
 
-#sidebar:not(.open) #toggle-wrapper:hover + #sidebar-wrapper {
+closed:hover #sidebar-toggle-button + .sidebar-nav {
     width: 0.8em;
 }
 
-#sidebar.open #toggle-wrapper:hover{
+open:hover #sidebar-toggle-button {
     margin-right: 8em;
 }
 
-#sidebar.open #toggle-wrapper:hover + #sidebar-wrapper {
+open #sidebar-toggle-button:hover + .sidebar-nav {
     width: 8em;
 }
 
 
 media (min-width: 1em) {
-  sidebar.open #toggle-wrapper:hover #toggle-wrapper{
+   -#sidebar-toggle-button:hover -#sidebar-nav
+   .open:hover {
     position: relative;
     transition: margin .35s ease-out;
     left: 0.3em;
   }
 
-  sidebar:not(.open) #toggle-wrapper:hover #toggle-wrapper{
+  -#toggle-wrapper:hover -#toggle-wrapper
+  .closed:hover {
     margin-right: 5em;
   }
 

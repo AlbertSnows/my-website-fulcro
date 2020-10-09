@@ -250,7 +250,7 @@
                         {:keys [outer-text]}]
        {:query [:container-header/id :container-header/route]
         :ident :container-header/id
-        :initial-state (fn [{:keys [id _] :as params}]
+        :initial-state (fn [{:container-header/keys [id _] :as params}]
                            {:container-header/id id
                             :container-header/route "home"})
         :css   [[:.outer-text
@@ -281,8 +281,8 @@
                  {:keys [outer]}]
        {:query [:outer-box/id :outer-box/route :outer-box/header :outer-box/body]
         :ident :outer-box/id
-        :initial-state (fn [{:keys [id _] :as params}]
-                           {:outer-box/keys id
+        :initial-state (fn [{:outer-box/keys [id route] :as params}]
+                           {:outer-box/id id
                             :outer-box/route "home"
                             :outer-box/header
                             (comp/get-initial-state
@@ -336,9 +336,8 @@
 (def ui-list-item (comp/factory ListItem))
 
 (defsc SidebarContents
-  [this {:sidebar-contents/keys [id state home about contact projects] :as props}]
+  [this {:sidebar-contents/keys [id home about contact projects] :as props}]
   {:query [:sidebar-contents/id
-           :sidebar-contents/state
            {:sidebar-contents/home (comp/get-query ListItem)}
            {:sidebar-contents/about (comp/get-query ListItem)}
            {:sidebar-contents/contact (comp/get-query ListItem)}
@@ -346,8 +345,7 @@
    :ident :sidebar-contents/id
    :initial-state
     (fn [_]
-      {:sidebar-contents/id 2
-       :sidebar-contents/state 1
+      {:sidebar-contents/id 1
        :sidebar-contents/home
        (comp/get-initial-state ListItem
          {:list-item/name "Home" :list-item/classes "sidebar-brand"})
@@ -360,45 +358,42 @@
        :sidebar-contents/projects
        (comp/get-initial-state ListItem
          {:list-item/name "Projects" :list-item/classes ""})})}
-   (dom/ul {:className state
-            ;(str state " sidebar-entries sidebar-nav")
-            }
-           (str "state: " state)
+   (dom/ul {:className "sidebar-entries sidebar-nav"}
      (ui-list-item home)
      (ui-list-item about)
      (ui-list-item contact)
      (ui-list-item projects)))
 (def ui-sidebar-contents (comp/factory SidebarContents))
 
-(defsc SidebarButton [this {:button/keys [id num] :as props}]
-  {:query [:button/id :button/num]
+(defsc SidebarButton [this {:button/keys [id] :as props}]
+  {:query [:button/id]
    :ident :button/id
    :initial-state
-          (fn [{:keys [id] :as params}]
-            {:button/id id :button/num 0})}
-  (dom/div {:className (if (= num 1) "open" "closed")
+    (fn [{:button/keys [id] :as params}]
+      {:button/id id})}
+  (dom/div {:className ""
             :id "sidebar-toggle-button"
             :onClick #(comp/transact! this
                         `[(uim/toggle ~{:id id})])}
            (dom/p "[")))
 (def ui-button (comp/factory SidebarButton))
 
-; From a client mutation you have the whole of app state.
-; Start off with swap!->
-;, and do assoc-in
-; or call st->st* functions.
-
-(defsc Sidebar [this {:sidebar/keys [button contents] :as props}]
-  {:query [{:sidebar/button (comp/get-query SidebarButton)}
+(defsc Sidebar [this {:sidebar/keys [id state button contents] :as props}]
+  {:query [:sidebar/id
+           :sidebar/state
+           {:sidebar/button (comp/get-query SidebarButton)}
            {:sidebar/contents (comp/get-query SidebarContents)}]
+   :ident :sidebar/id
    :initial-state
-    (fn [_]
-      {:sidebar/button
+    (fn [{:sidebar/keys [id] :as props}]
+      {:sidebar/id id
+       :sidebar/state "closed"
+       :sidebar/button
         (comp/get-initial-state SidebarButton
-          {:button/id 1 :button/num 0})
+          {:button/id 1})
        :sidebar/contents
         (comp/get-initial-state SidebarContents)})}
-  (dom/div {:className "sidebar-wrapper"}
+  (dom/div {:className (str state " sidebar-wrapper")}
     (ui-button button)
     (ui-sidebar-contents contents)))
 (def ui-sidebar (comp/factory Sidebar))
@@ -413,7 +408,7 @@
                      OuterBox {:outer-box/id 1
                                :outer-box/route "home"})
                    :page/sidebar
-                   (comp/get-initial-state Sidebar)})
+                   (comp/get-initial-state Sidebar {:sidebar/id 1})})
    :css [[:.page
           {:display "flex"
            :align-items "center"

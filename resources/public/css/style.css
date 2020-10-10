@@ -188,14 +188,19 @@ p {
     color: white;
 }
 
+#sidebar-toggle-button {
+    padding-top: 5em;
+    width: 0em;
+}
+
 #sidebar-toggle-button>p {
     font-size: 5em;
     color: #111;
-    padding-top: 1em;
     transform: scale(3, 1);
     text-align: center;
     margin: 0;
-    padding-right: 0.2em;
+    cursor: pointer;
+    padding-right: 1em;
 }
 
 #sidebar-toggle-button>p {
@@ -307,7 +312,7 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
     margin-right: -9em;
 }
 
-.open:hover {
+.open>#sidebar-toggle-button:hover .open {
     margin-right: -1em;
 }
 
@@ -325,6 +330,10 @@ open:hover #sidebar-toggle-button {
 
 open #sidebar-toggle-button:hover + .sidebar-nav {
     width: 8em;
+}
+
+.open #sidebar-toggle-button:hover + .sidebar-nav {
+    margin-right: -1em;
 }
 
 

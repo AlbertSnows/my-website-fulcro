@@ -143,6 +143,10 @@ body > * {
   text-align: center;
 }
 
+.sidebar-nav>li {
+    cursor: pointer;
+}
+
 .sidebar-entries>.sidebar-brand>a {
     color: white;
     transition: 1s;

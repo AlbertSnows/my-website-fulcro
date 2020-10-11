@@ -24,14 +24,17 @@
   (app/mount! SPA root/Root "app"))
 
 (defn ^:export init []
-  (log/info "Application starting.")
+  ;(log/info "Application starting.")
   ;(cssi/upsert-css "componentcss" {:component root/Root})
   ;(inspect/app-started! SPA)
   (app/set-root! SPA root/Root {:initialize-state? true})
-  ;(dr/initialize! SPA)
-  (log/info "Starting session machine.")
+  (dr/initialize! SPA)
+  ; (log/info "Starting session machine.")
   ;(uism/begin! SPA session/session-machine ::session/session
     ;{
      ;:actor/login-form      root/Login
      ;:actor/current-session root/Session})
-  (app/mount! SPA root/Root "app" {:initialize-state? false}))
+  (app/mount! SPA root/Root "app" {:initialize-state? false})
+  (dr/change-route SPA ["home" 1])
+  ; (dr/change-route! SPA ["Home"])
+  )

@@ -9,6 +9,13 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defrouter PageOptions [this {:keys [current-state] :as props}]
+;  {:router-targets [Home]}
+;  (case current-state
+;    :pending (dom/div "...")
+;    :failed (dom/div "Failed")
+;    (dom/div "No Route Selected")))
+
 ;(update-in [:button/id id :button/num]
 ;           #(if (= %1 1) 0 1))
 

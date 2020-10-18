@@ -454,14 +454,14 @@
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc OuterBox [this {:outer/keys
-                       [;id
+                       [id
                         ;route
                         ;header
                         ;body
                         router
                         ] :as props}
                  {:keys [outer]}]
-       {:query [;:outer/id
+       {:query [:outer/id
                 ;:outer/route
                 ;:outer/header
                 ;:outer/body
@@ -469,12 +469,13 @@
                 [::uism/asm-id ::RootRouter]
                 ]
         :initial-state
-        {:outer/router {}}
+        {:outer/id 1
+         :outer/router {}}
         :pre-merge
         (fn [{:keys [data-tree]}]
           (merge (comp/get-initial-state OuterBox)
                  data-tree))
-        ;:ident :outer/id
+        :ident :outer/id
         ;:initial-state
         ; (fn [{:outer/keys [id route] :as params}]
         ;   {

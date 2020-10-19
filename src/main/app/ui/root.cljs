@@ -214,7 +214,6 @@
   (dom/div "Hello!"))
 (def ui-projects (comp/factory Projects))
 
-
 (defsc About [this {:about/keys [id] :as props}]
   {:query [:about/id]
    :route-segment ["about"]
@@ -223,9 +222,36 @@
   (dom/div "Hello!"))
 (def ui-about (comp/factory About))
 
+(defsc ContainerHeader [this {:container-header/keys [id route] :as props}
+                        {:keys [outer-text]}]
+  {:query [:container-header/id :container-header/route]
+   :ident :container-header/id
+   :initial-state (fn [{:container-header/keys [id _] :as params}]
+                    {:container-header/id id
+                     :container-header/route "home"})
+   :css   [[:.outer-text
+            {:font-size "2em"
+             :color "white"
+             :text-align "center"
+             :font-family "MINIMAL"
+             :margin "0 auto"
+             :padding "0 auto"
+             :vertical-align "top"}]]}
+  (let [{:keys [outer-text]} (css/get-classnames ContainerHeader)]
+
+    (case route
+      "" (dom/p "empty")
+      nil (dom/p "nil")
+      :nil (dom/p "nil key")
+      :contact (dom/p "home key")
+      "home" (dom/p {:classes [outer-text]}
+                    "What Am I Up To?")
+      (dom/p
+        "nothing matched"))))
+(def ui-container-header (comp/factory ContainerHeader))
+
 (def home-initial-state
-  {:home/id 1
-   :home/left-side
+  {:home/left-side
             (comp/get-initial-state LeftSide
                                     {:top
                                      {:link "https://en.wikipedia.org/wiki/Gaming"
@@ -261,68 +287,55 @@
                                       :id 4
                                       :src "../images/meirl.png"
                                       :alt "g! 'How to print newline in cljs'"}})})
-(defsc Home [this {:home/keys [id
-                               left-side
-                               middle
-                               right-side
-                               ] :as props}]
-       {:query [:home/id
-                {:home/left-side (comp/get-query LeftSide)}
-                {:home/middle (comp/get-query Middle)}
-                {:home/right-side (comp/get-query RightSide)}]
-        :ident (fn [] :component/id :home)
-        :route-segment ["home"]
-        ;:initial-state (fn []
-        ;                 )
-        :initial-state {}
-        ;(fn [{:keys [_] :as params}] home-initial-state)
-        :css [[:.general-container
-               {:display "flex"
-                :flex-direction "row"
-                :justify-content "center"
-                :align-items "center"}]
-              [:.general-container>div>.href-image-container
-               {:width "50%"
-                :height "50%"}]]
-        ;:will-enter
-        ;(fn [app {:home/keys [id] :as route-params}]
-        ;  (log/info "will enter user with route params: " route-params)
-        ;  (log/info "Id: " (:home/keys route-params))
-        ;  (let [id (if (string? id) (js/parseInt id) id)]
-        ;    (dr/route-deferred
-        ;      [:home/id 1]
-        ;      (fn [] (df/load!
-        ;               app
-        ;               [:home/id id]
-        ;               Home
-        ;               {:post-mutation `dr/target-ready
-        ;                :post-mutation-params
-        ;                {:target [:home/id id]}})))))
-        ;:will-enter (fn [app {:home/keys [id] :as route-params}]
-        ;              (dr/route-deferred [:home/id id]
-        ;                #(df/load app [:home/id id] Home
-        ;                    {:post-mutation `dr/target-ready
-        ;                     :post-mutation-params
-        ;                     {:target [:home/id id]}})))
-        ;(dr/route-immediate [:home/id ::home])
-        ;:will-enter
-        ;(fn [app {:home/keys [id] :as route-params}]
-        ; (log/info "Will enter user with route params " route-params)
-        ; ;; be sure to convert strings to int for this case
-        ; (let [id (if (string? id) (js/parseInt id) id)]
-        ;    #(df/load app [:home/id id] Home
-        ;      {:post-mutation `dr/target-ready
-        ;       :post-mutation-params
-        ;        {:target [:home/id id]}}))
-        ;  )
-        }
-       (let [{:keys [general-container]} (css/get-classnames Home)]
-            (dom/div {:classes [general-container]}
-                     "howdy"
-              (ui-left-side left-side)
-              (ui-middle middle)
-              (ui-right-side right-side))))
-(def ui-home (comp/factory Home {:keyfn :home/id}))
+
+(defsc Home [this {:home/keys
+                   [
+                    left-side
+                    middle
+                    right-side
+                    ] :as props}]
+  {:query [
+           {:home/left-side (comp/get-query LeftSide)}
+           {:home/middle (comp/get-query Middle)}
+           {:home/right-side (comp/get-query RightSide)}
+           ]
+   :ident (fn [] [:component/id :home])
+   :route-segment ["home"]
+   :initial-state (fn [_] home-initial-state)
+   }
+  (let [{:keys [general-container]} (css/get-classnames Home)]
+    (dom/div {:classes [general-container]}
+             (ui-left-side left-side)
+             (ui-middle middle)
+             (ui-right-side right-side)
+             )
+    )
+  )
+(def ui-home (comp/factory Home))
+
+(defsc About [this {:test/keys [words left] :as props}]
+  {:query [:test/words
+           {:test/left (comp/get-query LeftSide)}]
+   :ident (fn [] [:component/id :home])
+   :route-segment ["about"]
+   :initial-state
+   (fn [_]
+     {:test/words "Here are some words"
+      :test/left (comp/get-initial-state LeftSide
+                                         {:top
+                                          {:link "https://en.wikipedia.org/wiki/Gaming"
+                                           :id 1
+                                           :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+                                           :alt "I play games I KNOW I'M SORRY"}
+                                          :bottom
+                                          {:link "https://www.whatisitliketobeaphilosopher.com/"
+                                           :id 2
+                                           :src "../images/the-thinker.png\\"
+                                           :alt "But really, what even IS a rock anyways???"}})})}
+  (dom/div
+    (str "Tis about: " words)
+    (str "Left side: ")
+    (ui-left-side left)))
 
 (defsc Contact [this {:contact/keys [id image span-image] :as props}]
   {:query [:contact/id
@@ -405,140 +418,110 @@
        ;)
      (dom/div {:className "very-small-text"}
        "(email for social media)"))))
-(def ui-contact (comp/factory Contact))
 
-(defsc ContainerHeader [this {:container-header/keys [id route] :as props}
-                        {:keys [outer-text]}]
-       {:query [:container-header/id :container-header/route]
-        :ident :container-header/id
-        :initial-state (fn [{:container-header/keys [id _] :as params}]
-                           {:container-header/id id
-                            :container-header/route "home"})
-        :css   [[:.outer-text
-                 {:font-size "2em"
-                  :color "white"
-                  :text-align "center"
-                  :font-family "MINIMAL"
-                  :margin "0 auto"
-                  :padding "0 auto"
-                  :vertical-align "top"}]]}
-       (let [{:keys [outer-text]} (css/get-classnames ContainerHeader)]
-
-            (case route
-             "" (dom/p "empty")
-             nil (dom/p "nil")
-             :nil (dom/p "nil key")
-             :contact (dom/p "home key")
-             "home" (dom/p {:classes [outer-text]}
-                           "What Am I Up To?")
-             (dom/p
-               "nothing matched"))))
-(def ui-container-header (comp/factory ContainerHeader))
-
-(defsc Test [this {:test/keys [words] :as props}]
-  {:query [:test/words]
-   :ident (fn [] [:component/id :test])
-   :route-segment ["test"]
-   :initial-state {:test/words "Here are some words"}}
+(defsc Projects [this {:test/keys [words left] :as props}]
+  {:query [:test/words
+           {:test/left (comp/get-query LeftSide)}]
+   :ident (fn [] [:component/id :home])
+   :route-segment ["projects"]
+   :initial-state
+   (fn [_]
+     {:test/words "Here are some words"
+      :test/left (comp/get-initial-state LeftSide
+       {:top
+        {:link "https://en.wikipedia.org/wiki/Gaming"
+         :id 1
+         :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+         :alt "I play games I KNOW I'M SORRY"}
+        :bottom
+        {:link "https://www.whatisitliketobeaphilosopher.com/"
+         :id 2
+         :src "../images/the-thinker.png\\"
+         :alt "But really, what even IS a rock anyways???"}})})}
   (dom/div
-    (str "Tis a test: " words)))
+    (str "Tis projects: " words)
+    (str "Left side: ")
+    (ui-left-side left)))
 
 (defrouter RootRouter [this {:keys [current-state pending-path-segment] :as props}]
   {:router-targets
-   [Test
-    ;Home
-    ;About
-    ;Contact
-    ;Projects
+   [
+    Home
+    About
+    Contact
+    Projects
     ]})
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc OuterBox [this {:outer/keys
                        [id
-                        ;route
-                        ;header
+                        route
+                        header
                         ;body
                         router
                         ] :as props}
                  {:keys [outer]}]
        {:query [:outer/id
-                ;:outer/route
-                ;:outer/header
+                :outer/route
+                :outer/header
                 ;:outer/body
                 {:outer/router (comp/get-query RootRouter)}
                 [::uism/asm-id ::RootRouter]
                 ]
-        :initial-state
-        {:outer/id 1
-         :outer/router {}}
+        ;:initial-state
+        ;{:outer/id 1
+        ; :outer/router {}}
         :pre-merge
         (fn [{:keys [data-tree]}]
           (merge (comp/get-initial-state OuterBox)
                  data-tree))
         :ident :outer/id
-        ;:initial-state
-        ; (fn [{:outer/keys [id route] :as params}]
-        ;   {
-        ;    ;:outer/id id
-        ;    ;:outer/route "contact"
-        ;    ;:outer/header
-        ;    ;(comp/get-initial-state
-        ;    ;  ContainerHeader
-        ;    ;  {:container-header/id id
-        ;    ;   :container-header/route "home"})
-        ;    ;:outer/body (comp/get-initial-state Home)                                ;(comp/get-initial-state Contact)
-        ;    :outer/router {}
-        ;    })
-        :css   [[:.outer
-                 {:background-color "black"
-                  ;                  :width "50%"
-                  :display "flex"
-                  :flex-direction "column"
-                  :justify-content "center"
-                  :align-items "center"
-                  :padding "0em 0.5em 1em 0.5em"
-                  :margin "7% 1% 1% 1%"
-                  :border-radius "2.5%"
-                  }]
-                [:.box
-                 {
-                  :border-color "white"
-                  :border-style "solid"
-                  :border-radius "1%"
-                  :position "relative"
-                  :width "98%"
-                  :overflow-wrap "anywhere"
-                  :word-wrap "anywhere"
-                  :border-width "0.2em"
-                  :color "white"
-                  ;:min-width "1em"
-                       }]]}
-  ;(dom/div "test")
-  (ui-root-router router)
-  ;     (let [{:keys [outer box]} (css/get-classnames OuterBox)
-  ;;           ;top-router-state (or (uism/get-active-state
-  ;;           ;                       this
-  ;;           ;                       ::RootRouter)
-  ;;           ;                     :initial)
-  ;           ]
-  ;;
-  ;          (dom/div
-  ;            {:nonsense "TURN BACK, YE WHO ENTER THE DOMAIN OF HTML"
-  ;             :classes [outer]}
-  ;            ;(ui-container-header header)
-  ;            (dom/div {:classes [box]}
-  ;                     ;(str "Thing: " router)
-  ;                  (ui-root-router router)
-  ;                  ;(if (= :initial top-router-state)
-  ;                  ;  (ui-contact body)
-  ;                  ;   (when router
-  ;                  ;     (ui-root-router router))
-  ;                  ;   (ui-home body)
-  ;                  ;(ui-root-router router)
-  ;                  ;)
-  ;           ))
-  ;          )
-  )
+        :initial-state
+         (fn [{:outer/keys [id route] :as params}]
+           {
+            :outer/id id
+            :outer/route "contact"
+            :outer/header
+            (comp/get-initial-state
+              ContainerHeader
+              {:container-header/id id
+               :container-header/route "home"})
+            ;:outer/body (comp/get-initial-state Home)                                ;(comp/get-initial-state Contact)
+            :outer/router {}
+            })
+        :css
+        [[:.outer
+          {:background-color "black"
+           ;                  :width "50%"
+           :display "flex"
+           :flex-direction "column"
+           :justify-content "center"
+           :align-items "center"
+           :padding "0em 0.5em 1em 0.5em"
+           :margin "7% 1% 1% 1%"
+           :border-radius "2.5%"
+           }]
+         [:.box
+          {
+           :border-color "white"
+           :border-style "solid"
+           :border-radius "1%"
+           :position "relative"
+           :width "98%"
+           :overflow-wrap "anywhere"
+           :word-wrap "anywhere"
+           :border-width "0.2em"
+           :color "white"
+           ;:min-width "1em"
+           }]]
+        }
+       (let [{:keys [outer box]} (css/get-classnames OuterBox)]
+            (dom/div
+              {:nonsense "TURN BACK, YE WHO ENTER THE DOMAIN OF HTML"
+               :classes [outer]}
+              (ui-container-header header)
+              (dom/div {:classes [box]}
+                    (ui-root-router router)))))
 (def ui-outer (comp/factory OuterBox))
 
 (defsc ListItem [this {:list-item/keys [name classes] :as props}]
@@ -547,7 +530,7 @@
                     {:list-item/name name
                      :list-item/classes classes})}
   (dom/li {:className classes
-           :onClick (fn [] (dr/change-route! this ["home" "1"]))}
+           :onClick (fn [] (dr/change-route! this [name]))}
           ;(log/info "Name: " name)
     (dom/a name)))
 (def ui-list-item (comp/factory ListItem {:keyfn :list-item/name}))
@@ -663,7 +646,7 @@
        (let [{:keys [container]} (css/get-classnames Root)]
             (dom/div {:classes [container]}
               (inj/style-element {:component Root})
-              (inj/style-element {:component Home})
+                     ;(inj/style-element {:component Home})
               (inj/style-element {:component ContainerHeader})
 
               (ui-page page)

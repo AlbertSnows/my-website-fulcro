@@ -34,7 +34,7 @@
     ;{
      ;:actor/login-form      root/Login
      ;:actor/current-session root/Session})
-  (dr/change-route! SPA ["test"])
+  (dr/change-route! SPA ["home"])
   (app/mount! SPA root/Root "app" {:initialize-state? false})
   ; (dr/change-route! SPA ["Home"])
   )

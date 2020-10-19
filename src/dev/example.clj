@@ -9,6 +9,224 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+
+
+
+
+
+
+
+;(fn [_] {                                                ;:home/left-side
+;         ;(comp/get-initial-state LeftSide)
+;         ;:home/middle
+;         ;(comp/get-initial-state LeftSide)
+;         ;:home/right-side
+;         ;(comp/get-initial-state LeftSide)
+;         })
+;:css [[:.general-container
+;       {:display "flex"
+;        :flex-direction "row"
+;        :justify-content "center"
+;        :align-items "center"}]
+;      [:.general-container>div>.href-image-container
+;       {:width "50%"
+;        :height "50%"}]]
+;:initial-state (fn [])
+;(fn [{:keys [_] :as params}] home-initial-state)
+;:will-enter
+;(fn [app {:home/keys [id] :as route-params}]
+;  (log/info "will enter user with route params: " route-params)
+;  (log/info "Id: " (:home/keys route-params))
+;  (let [id (if (string? id) (js/parseInt id) id)]
+;    (dr/route-deferred
+;      [:home/id 1]
+;      (fn [] (df/load!
+;               app
+;               [:home/id id]
+;               Home
+;               {:post-mutation `dr/target-ready
+;                :post-mutation-params
+;                {:target [:home/id id]}})))))
+;:will-enter (fn [app {:home/keys [id] :as route-params}]
+;              (dr/route-deferred [:home/id id]
+;                #(df/load app [:home/id id] Home
+;                    {:post-mutation `dr/target-ready
+;                     :post-mutation-params
+;                     {:target [:home/id id]}})))
+;(dr/route-immediate [:home/id ::home])
+;:will-enter
+;(fn [app {:home/keys [id] :as route-params}]
+; (log/info "Will enter user with route params " route-params)
+; ;; be sure to convert strings to int for this case
+; (let [id (if (string? id) (js/parseInt id) id)]
+;    #(df/load app [:home/id id] Home
+;      {:post-mutation `dr/target-ready
+;       :post-mutation-params
+;        {:target [:home/id id]}}))
+;  )
+
+
+
+
+;(defsc Home [this {:test/keys [words left] :as props}]
+;  {:query [:test/words
+;           {:test/left (comp/get-query LeftSide)}]
+;   :ident (fn [] [:component/id :home])
+;   :route-segment ["home"]
+;   :initial-state
+;   (fn [_]
+;     {:test/words "Here are some words"
+;      :test/left (comp/get-initial-state LeftSide
+;       {:top
+;        {:link "https://en.wikipedia.org/wiki/Gaming"
+;         :id 1
+;         :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+;         :alt "I play games I KNOW I'M SORRY"}
+;        :bottom
+;        {:link "https://www.whatisitliketobeaphilosopher.com/"
+;         :id 2
+;         :src "../images/the-thinker.png\\"
+;         :alt "But really, what even IS a rock anyways???"}})})}
+;  (dom/div
+;    (str "Tis a test: " words)
+;    (str "Left side: ")
+;    (ui-left-side left)))
+
+;(defsc Home [this {:home/keys [words] :as props}]
+;  {:query [:home/words]
+;      :ident (fn [] [:component/id :home])
+;
+;   :route-segment ["home"]
+;   :initial-state (fn [_] {:home/words "words"})}
+;  (dom/div "home" words))
+
+;HOME JUNK
+
+;(defsc Home [this {:home/keys
+;                   [
+;                    ;left-side
+;                    ;middle
+;                    ;right-side
+;                    ] :as props}]
+;  {:query [
+;           ;{:home/left-side (comp/get-query LeftSide)}
+;           ;{:home/middle (comp/get-query Middle)}
+;           ;{:home/right-side (comp/get-query RightSide)}
+;           ]
+;   :ident (fn [] :component/id :home)
+;   :route-segment ["home"]
+;   :initial-state
+;   (fn [_] {                                                ;:home/left-side
+;            ;(comp/get-initial-state LeftSide)
+;            ;:home/middle
+;            ;(comp/get-initial-state LeftSide)
+;            ;:home/right-side
+;            ;(comp/get-initial-state LeftSide)
+;            })
+;   ;:css [[:.general-container
+;   ;       {:display "flex"
+;   ;        :flex-direction "row"
+;   ;        :justify-content "center"
+;   ;        :align-items "center"}]
+;   ;      [:.general-container>div>.href-image-container
+;   ;       {:width "50%"
+;   ;        :height "50%"}]]
+;   ;:initial-state (fn [])
+;   ;(fn [{:keys [_] :as params}] home-initial-state)
+;   ;:will-enter
+;   ;(fn [app {:home/keys [id] :as route-params}]
+;   ;  (log/info "will enter user with route params: " route-params)
+;   ;  (log/info "Id: " (:home/keys route-params))
+;   ;  (let [id (if (string? id) (js/parseInt id) id)]
+;   ;    (dr/route-deferred
+;   ;      [:home/id 1]
+;   ;      (fn [] (df/load!
+;   ;               app
+;   ;               [:home/id id]
+;   ;               Home
+;   ;               {:post-mutation `dr/target-ready
+;   ;                :post-mutation-params
+;   ;                {:target [:home/id id]}})))))
+;   ;:will-enter (fn [app {:home/keys [id] :as route-params}]
+;   ;              (dr/route-deferred [:home/id id]
+;   ;                #(df/load app [:home/id id] Home
+;   ;                    {:post-mutation `dr/target-ready
+;   ;                     :post-mutation-params
+;   ;                     {:target [:home/id id]}})))
+;   ;(dr/route-immediate [:home/id ::home])
+;   ;:will-enter
+;   ;(fn [app {:home/keys [id] :as route-params}]
+;   ; (log/info "Will enter user with route params " route-params)
+;   ; ;; be sure to convert strings to int for this case
+;   ; (let [id (if (string? id) (js/parseInt id) id)]
+;   ;    #(df/load app [:home/id id] Home
+;   ;      {:post-mutation `dr/target-ready
+;   ;       :post-mutation-params
+;   ;        {:target [:home/id id]}}))
+;   ;  )
+;   }
+;  ;(let [{:keys [general-container]} (css/get-classnames Home)]
+;    (dom/div "home"
+;  ;    ;{:classes [general-container]}
+;  ;           (ui-left-side left-side)
+;  ;           ;(ui-middle middle)
+;  ;           ;            (ui-right-side right-side)
+;  ;           )
+;    )
+;
+;  )
+;(def ui-home (comp/factory Home {:keyfn :home/id}))
+
+
+;(def home-initial-state
+;  {:home/id 1
+;   :home/left-side
+;            (comp/get-initial-state LeftSide
+;                                    {:top
+;                                     {:link "https://en.wikipedia.org/wiki/Gaming"
+;                                      :id 1
+;                                      :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+;                                      :alt "I play games I KNOW I'M SORRY"}
+;                                     :bottom
+;                                     {:link "https://www.whatisitliketobeaphilosopher.com/"
+;                                      :id 2
+;                                      :src "../images/the-thinker.png\\"
+;                                      :alt "But really, what even IS a rock anyways???"}})
+;   :home/middle
+;            (comp/get-initial-state Middle
+;                                    {:content
+;                                     [(dom/p {:key 1
+;                                              :className "enlarge-text"}
+;                                             ;{:class "enlarge-text"}
+;                                             "Mostly this stuff")
+;                                      (dom/p
+;                                        {:key 2
+;                                         :className "small-text"}
+;                                        "(check out my projects for novel things)")]
+;                                     })
+;   :home/right-side
+;            (comp/get-initial-state RightSide
+;                                    {:top
+;                                     {:link "https://www.youtube.com/"
+;                                      :id 3
+;                                      :src "../images/tubes.png"
+;                                      :alt "Youtube is my Netflix, sadly"}
+;                                     :bottom
+;                                     {:link "https://en.wikipedia.org/wiki/Programmer"
+;                                      :id 4
+;                                      :src "../images/meirl.png"
+;                                      :alt "g! 'How to print newline in cljs'"}})})
+
+;;;;
+
+
+
+
+
+
+
+
+
 ;(defrouter PageOptions [this {:keys [current-state] :as props}]
 ;  {:router-targets [Home]}
 ;  (case current-state

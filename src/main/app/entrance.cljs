@@ -14,5 +14,5 @@
 (defn ^:export init []
   (app/set-root! SPA root/Root {:initialize-state? true})
   (dr/initialize! SPA)
-  (dr/change-route! SPA ["test"])
+  (dr/change-route! SPA ["home"])
   (app/mount! SPA root/Root "app" {:initialize-state? false}))

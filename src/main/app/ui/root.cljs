@@ -10,217 +10,76 @@
     [com.fulcrologic.fulcro-css.css-injection :as inj]
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div label button span p h4 ul]]
+     :refer [div label button span p h4 ul a]]
     [com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]
     [com.fulcrologic.fulcro.data-fetch :as df]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr :refer [defrouter]]
     [taoensso.timbre :as log]))
 
-(defsc Image [this {:image/keys [id src alt classes]} {:keys [image]}]
-  {:query         [:image/id
-                   :image/src
-                   :image/alt
-                   :image/classes]
-   :ident (fn [_] [:image/id :image])
+
+
+(defsc Second [this {:second/keys [second]}]
+  {:query [:second/second]
    :initial-state
-    (fn [{:keys [id src alt classes]}]
-      {:image/id id
-       :image/src src
-       :image/alt alt
-       :image/classes classes})}
-       (dom/img {:src src :alt alt :className (doall classes)}))
-(def ui-image (comp/factory Image {:keyfn :image/id}))
+    (fn [{:keys [second]}]
+      {:second/second second})}
+  (div
+    (str "big secondo: " second)))
+(def ui-second (comp/factory Second))
 
-(defsc Href [this {:href/keys [id link image] :as props}]
-       {:query [:href/id
-                :href/link
-                {:href/image (comp/get-query Image)}]
-        :initial-state
-          (fn [{:keys [link id src alt]}]
-              {:href/id id
-               :href/link link
-               :href/image
-                (comp/get-initial-state
-                  Image {:id id :src src :alt alt})})
-        :css [[:.href-container
-               {:display "flex"
-                :justify-content "center"
-                :margin "1em 0em"}]
-              [:.href-container>img
-               {:height "auto"
-                :max-width "100%"
-                }]]}
-       (let [{:keys [href-container]} (css/get-classnames Href)]
-            (dom/a {:href link
-                    :target "__blank"
-                    :rel "noopener noreferrer"
-                    :classes [href-container]}            ;IT HAS TO MATCH THE CSS CLASS NAME
-                   (ui-image image))))
-(def ui-href (comp/factory Href {:keyfn :href/id}))
+(defsc Test [this {:test/keys [first second]}]
+  {:query [:test/id
+           :test/first
+           {:test/second (comp/get-query Second)}]
+   :ident :test/id
+   :initial-state
+    (fn [{:keys [id first second]}]
+      {:test/id id
+       :test/first first
+       :test/second
+        (comp/get-initial-state Second {:second second})})}
+  (div
+    (str "First: " first)
+    (ui-second second)))
+(def ui-test (comp/factory Test))
 
-(defsc TopLeft [this {:top-left/keys [contents] :as props}]
-       {:query [{:top-left/contents (comp/get-query Href)}]
-        :initial-state
-         (fn [{:keys [link id src alt]}]
-             {:top-left/contents
-              (comp/get-initial-state Href
-                {:link link :id id :src src :alt alt})})}
-         (ui-href contents))
-(def ui-top-left (comp/factory TopLeft))
+(defsc Home [this {:home/keys [first
+                               second
+                               third]}]
+  {:query [{:home/first (comp/get-query Test)}
+           {:home/second (comp/get-query Test)}
+           {:home/third (comp/get-query Test)}]
+   :route-segment ["home"]
+   :ident (fn [] [:component/id :home])
+   :initial-state
+   (fn [_]
+     {:home/first
+        (comp/get-initial-state
+          Test
+          {:id 1
+           :first "home first first"
+           :second "home first second"})
+      :home/second
+        (comp/get-initial-state
+          Test
+          {:id 2
+           :first "home second first"
+           :second "home second second"})
+      :home/third
+        (comp/get-initial-state
+          Test
+          {:id 3
+           :first "home third first"
+           :second "home third second"})})}
+  (div
+    (div "First: " (ui-test first))
+    (div "Second: " (ui-test second))
+    (div "Third: " (ui-test third))))
 
-(defsc BottomLeft [this {:bottom-left/keys [contents] :as props}]
-       {:query [{:bottom-left/contents (comp/get-query Href)}]
-        :initial-state
-         (fn [{:keys [link id src alt]}]
-             {:bottom-left/contents
-              (comp/get-initial-state Href
-                {:link link :id id :src src :alt alt})})}
-         (ui-href contents))
-(def ui-bottom-left (comp/factory BottomLeft))
-
-(defsc LeftSide [this {:left-side/keys [top bottom] :as props}
-                 {:keys [left-side]}]
-       {:query [{:left-side/top (comp/get-query TopLeft)}
-                {:left-side/bottom (comp/get-query BottomLeft)}]
-        :initial-state
-          (fn [{:keys [top bottom] :as params}]
-               {:left-side/top
-                (comp/get-initial-state TopLeft
-                  {:link (:link top)
-                   :id (:id top)
-                   :src (:src top)
-                   :alt (:alt top)})
-                :left-side/bottom
-                (comp/get-initial-state
-                  BottomLeft
-                  {:link (:link bottom)
-                   :id (:id bottom)
-                   :src (:src bottom)
-                   :alt (:alt bottom)})})
-        :css [[:.left-side
-               {:display "flex"
-                :flex-direction "column"
-                :align-items "center"
-                :padding-left "1.5em"
-                :width "100%"}]
-              [:.left-side>div
-               {:padding-top "1em"
-                :padding-bottom "1em"}]
-              [:.left-side>a+a
-               {:padding-top "6em"}]]}
-       (let [{:keys [left-side]} (css/get-classnames LeftSide)]
-            (dom/div {:classes [left-side]}
-                     (ui-top-left top)
-                     (ui-bottom-left bottom))))
-(def ui-left-side (comp/factory LeftSide))
-
-(defsc TopRight [this {:top-right/keys [contents] :as props}]
-       {:query [{:top-right/contents (comp/get-query Href)}]
-        :initial-state
-         (fn [{:keys [link id src alt]}]
-             {:top-right/contents
-              (comp/get-initial-state Href
-                {:link link :id id :src src :alt alt})})
-        :css [:.right-top []]}
-       (dom/div
-         (ui-href contents)))
-(def ui-top-right (comp/factory TopRight))
-
-(defsc BottomRight [this {:bottom-right/keys [contents] :as props}]
-       {:query [{:bottom-right/contents (comp/get-query Href)}]
-        :initial-state
-               (fn [{:keys [link id src alt]}]
-                   {:bottom-right/contents
-                    (comp/get-initial-state Href
-                      {:link link :id id :src src :alt alt})})}
-       (dom/div (ui-href contents)))
-(def ui-bottom-right (comp/factory BottomRight))
-
-(defsc RightSide [this {:right-side/keys [top bottom] :as props}
-                  {:keys [right-side]}]
-       {:query [{:right-side/top (comp/get-query TopLeft)}
-                {:right-side/bottom (comp/get-query BottomLeft)}]
-        :initial-state
-         (fn [{:keys [top bottom] :as params}]
-             {:right-side/top
-               (comp/get-initial-state TopLeft
-                 {:link (:link top)
-                  :id (:id top)
-                  :src (:src top)
-                  :alt (:alt top)})
-              :right-side/bottom
-               (comp/get-initial-state BottomLeft
-                 {:link (:link bottom)
-                  :id (:id bottom)
-                  :src (:src bottom)
-                  :alt (:alt bottom)})})
-        :css [[:.right-side
-               {:display "flex";
-                :flex-direction "column"
-                :align-items "center"
-                :padding-right "1.5em"
-                :width "100%"}]
-              [:.right-side>a+a
-               {:padding-top "6em"}]]}
-       (let [{:keys [right-side]} (css/get-classnames RightSide)]
-         (dom/div {:classes [right-side]}
-           (ui-top-left top)
-           (ui-bottom-left bottom))))
-(def ui-right-side (comp/factory RightSide))
-
-(defsc Middle [this {:middle/keys [id content] :as props}]
-       {:query [:middle/id
-                {:middle/content (comp/get-query Href)}]
-        :initial-state
-         (fn [{:keys [content]}]
-             {:middle/id 1
-              :middle/content content})
-        :css [[:.middle-main-page
-               {:display "flex"
-                :flex-direction "column"
-                :font-size "4vw"
-                :margin "0 auto"
-                :justify-content "center"
-                :min-width "6em"
-                :height "auto"}]
-              [:.padding-bottom
-               {:padding-bottom "1em"}]
-              [:.enlarge-text
-               {:font-size "larger"
-                :overflow "hidden"}]
-              [:.small-text
-               {:font-size "initial"
-                :margin "0 auto"
-                :text-align "center"}]]}
-       (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-       (dom/div
-         {:classes [middle-main-page padding-bottom]}
-         ;:.general-container
-         ;       {
-         ;:.general-container
-         ;:.middle-main-page
-         ;:.padding-bottom
-         ;        :className (doall [middle-main-page padding-bottom])
-                 ;}
-                (doall content)
-                )))
-(def ui-middle (comp/factory Middle {:keyfn :middle/id}))
-
-(defsc Projects [this {:projects/keys [id] :as props}]
-  {:query [:projects/id]
-   :route-segment ["projects"]
-   :ident (fn [] [:projects/id :projects])
-   :initial-state {}}
-  (dom/div "Hello!"))
-(def ui-projects (comp/factory Projects))
-
-(defsc About [this {:about/keys [id] :as props}]
-  {:query [:about/id]
-   :route-segment ["about"]
-   :ident (fn [] [:component/id :about])
-   :initial-state {}}
-  (dom/div "Hello!"))
-(def ui-about (comp/factory About))
+(defrouter RootRouter
+  [this {:keys [current-state pending-path-segment]}]
+  {:router-targets [Home]})
+(def ui-root-router (comp/factory RootRouter))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}
                         {:keys [outer-text]}]
@@ -249,165 +108,6 @@
       (dom/p
         "nothing matched"))))
 (def ui-container-header (comp/factory ContainerHeader))
-
-(def home-initial-state
-  {:home/left-side
-    (comp/get-initial-state
-      LeftSide
-      {:top
-       {:link "https://en.wikipedia.org/wiki/Gaming"
-        :id "gamin"
-        :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-        :alt "I play games I KNOW I'M SORRY"}
-       :bottom
-       {:link "https://www.whatisitliketobeaphilosopher.com/"
-        :id "pho"
-        :src "../images/the-thinker.png"
-        :alt "But really, what even IS a rock anyways???"}})
-   ;:home/middle
-   ; (comp/get-initial-state
-   ;   Middle
-   ;   {:content
-   ;    [(dom/p {:key 1
-   ;             :className "enlarge-text"}
-   ;            ;{:class "enlarge-text"}
-   ;            "Mostly this stuff")
-   ;     (dom/p
-   ;       {:key 2
-   ;        :className "small-text"}
-   ;       "(check out my projects for novel things)")]
-   ;    })
-   ;:home/right-side
-   ; (comp/get-initial-state
-   ;   RightSide
-   ;   {:top
-   ;    {:link "https://www.youtube.com/"
-   ;     :id "Tube"
-   ;     :src "../images/tubes.png"
-   ;     :alt "Youtube is my Netflix, sadly"}
-   ;    :bottom
-   ;    {:link "https://en.wikipedia.org/wiki/Programmer"
-   ;     :id "debug"
-   ;     :src "../images/meirl.png"
-   ;     :alt "g! 'How to print newline in cljs'"}})
-   })
-
-;(defsc Home [this {:home/keys [left-side] :as props}]
-;  {:query [{:home/left-side (comp/get-query LeftSide)}]
-;   :ident (fn [] [:component/id :home])
-;   :route-segment ["home"]
-;   :initial-state
-;     (fn [_]
-;       {:home/left-side
-;        (comp/get-initial-state
-;          LeftSide
-;          {:top
-;           {:link "https://en.wikipedia.org/wiki/Gaming"
-;            :id "gamin"
-;            :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-;            :alt "I play games I KNOW I'M SORRY"}
-;           :bottom
-;           {:link "https://www.whatisitliketobeaphilosopher.com/"
-;            :id "pho"
-;            :src "../images/the-thinker.png"
-;            :alt "But really, what even IS a rock anyways???"}})
-;        })}
-;  ;(let [{:keys [general-container]} (css/get-classnames Home)]
-;    (dom/div
-;      (str "First: "
-;           (comp/get-initial-state
-;             LeftSide
-;             {:top
-;              {:link "https://en.wikipedia.org/wiki/Gaming"
-;               :id "gamin"
-;               :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-;               :alt "I play games I KNOW I'M SORRY"}
-;              :bottom
-;              {:link "https://www.whatisitliketobeaphilosopher.com/"
-;               :id "pho"
-;               :src "../images/the-thinker.png"
-;               :alt "But really, what even IS a rock anyways???"}})
-;           )
-;      (str "Second: "
-;           left-side)
-;      ;{:classes [general-container]}
-;      ;(ui-left-side
-;        ;left-side
-;        ;)
-;      )
-;    ;)
-;  )
-
-(defsc Home [this {:test/keys [right
-                               left
-                               ] :as props}]
-  {:query [
-           ;{:test/left (comp/get-query LeftSide)}
-           :test/right
-           :test/left
-           ]
-   :ident (fn [] [:component/id :home])
-   :route-segment ["home"]
-   :initial-state
-   (fn [_]
-     {
-      :test/right
-        (comp/get-initial-state
-          LeftSide
-          {:top
-           {:link "https://en.wikipedia.org/wiki/Gaming"
-            :id "gamin"
-            :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-            :alt "I play games I KNOW I'M SORRY"}
-           :bottom
-           {:link "https://www.whatisitliketobeaphilosopher.com/"
-            :id "pho"
-            :src "../images/the-thinker.png"
-            :alt "But really, what even IS a rock anyways???"}})
-      :test/left
-        (comp/get-initial-state
-          LeftSide
-          {:top
-           {:link "https://en.wikipedia.org/wiki/Gaming"
-            :id "gamin"
-            :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-            :alt "I play games I KNOW I'M SORRY"}
-           :bottom
-           {:link "https://www.whatisitliketobeaphilosopher.com/"
-            :id "pho"
-            :src "../images/the-thinker.png"
-            :alt "But really, what even IS a rock anyways???"}})
-
-      }
-     )
-   }
-  ;(dom/div
-  ;  (str "Right: " right)
-  ;  (str "--------")
-  ;  (str "Left: " left))
-  ;(str "aaa: " right)
-  ;(dom/div
-  ;  (ui-left-side right)
-  ;  )
-  (dom/div
-      (ui-left-side right)
-
-    (ui-left-side left)
-    )
-  )
-
-(defrouter RootRouter
-  [this {:keys [current-state pending-path-segment]
-         :as props}]
-  {:router-targets
-   [
-    ;Test
-    Home
-    ;About
-    ;Contact
-    ;Projects
-    ]})
-(def ui-root-router (comp/factory RootRouter))
 
 (defsc OuterBox [this {:outer/keys
                        [id route header router] :as props}

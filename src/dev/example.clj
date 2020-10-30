@@ -8,6 +8,17 @@
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
+;[app.ui.mutations :as uim]
+;[cljs.core.match :refer-macros [match]]
+;[com.fulcrologic.fulcro.routing.dynamic-routing :as dr]
+;[com.fulcrologic.fulcro.ui-state-machines :as uism
+; :refer [defstatemachine]]
+;[com.fulcrologic.fulcro.algorithms.normalized-state :refer [swap!->]]
+;[com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]
+;[com.fulcrologic.fulcro.data-fetch :as df]
+;[com.fulcrologic.fulcro.routing.dynamic-routing :as dr :refer [defrouter]]
+;[taoensso.timbre :as log]
+
 
 ;(defsc Image [this {:image/keys [src alt classes]} {:keys [image]}]
 ;  {:query         [:image/src
@@ -121,222 +132,6 @@
 ;;;;
 
 
-;;;; IMPORTANT
-;(defsc Href
-;  [this {:href/keys [id link image]}]
-;   {:query [:href/id
-;            :href/link
-;            {:href/image (comp/get-query Image)}]
-;    :initial-state
-;      (fn [{:keys [link id src alt] :as props}]
-;        (log/info "Props: " props)
-;          {:href/id id
-;           :href/link link
-;           :href/image
-;            (comp/get-initial-state
-;              Image
-;              {:id (str id "-img")
-;               :src src
-;               :alt alt})})}
-;  (dom/a
-;    {:href link
-;     :target "__blank"
-;     :rel "noopener noreferrer"}
-;    (ui-image image)))
-;(def ui-href (comp/factory Href))
-;
-;(defsc TopLeft [this {:top-left/keys [contents] :as props}]
-;       {:query [{:top-left/contents (comp/get-query Href)}]
-;        :initial-state
-;         (fn [{:keys [link id src alt]}]
-;             {:top-left/contents
-;              (comp/get-initial-state Href
-;                {:link link :id id :src src :alt alt})})}
-;         (ui-href contents))
-;(def ui-top-left (comp/factory TopLeft))
-;
-;(defsc BottomLeft [this {:bottom-left/keys [contents] :as props}]
-;       {:query [{:bottom-left/contents (comp/get-query Href)}]
-;        :initial-state
-;         (fn [{:keys [link id src alt]}]
-;             {:bottom-left/contents
-;              (comp/get-initial-state Href
-;                {:link link :id id :src src :alt alt})})}
-;         (ui-href contents))
-;(def ui-bottom-left (comp/factory BottomLeft))
-;
-;(defsc LeftSide [this {:left-side/keys [top bottom] :as props}]
-;       {:query [{:left-side/top (comp/get-query TopLeft)}
-;                {:left-side/bottom (comp/get-query BottomLeft)}]
-;        :initial-state
-;          (fn [{:keys [top bottom] :as params}]
-;               {:left-side/top
-;                (comp/get-initial-state TopLeft
-;                  {:link (:link top)
-;                   :id (:id top)
-;                   :src (:src top)
-;                   :alt (:alt top)})
-;                :left-side/bottom
-;                (comp/get-initial-state
-;                  BottomLeft
-;                  {:link (:link bottom)
-;                   :id (:id bottom)
-;                   :src (:src bottom)
-;                   :alt (:alt bottom)})})
-;        :css [[:.left-side
-;               {:display "flex"
-;                :flex-direction "column"
-;                :align-items "center"
-;                :padding-left "1.5em"
-;                :width "100%"}]
-;              [:.left-side>div
-;               {:padding-top "1em"
-;                :padding-bottom "1em"}]
-;              [:.left-side>a+a
-;               {:padding-top "6em"}]]}
-;       (let [{:keys [left-side]} (css/get-classnames LeftSide)]
-;            (dom/div {:classes [left-side]}
-;                     (ui-top-left top)
-;                     (ui-bottom-left bottom))))
-;(def ui-left-side (comp/factory LeftSide))
-;
-;(defsc TopRight [this {:top-right/keys [contents] :as props}]
-;       {:query [{:top-right/contents (comp/get-query Href)}]
-;        :initial-state
-;         (fn [{:keys [link id src alt]}]
-;             {:top-right/contents
-;              (comp/get-initial-state Href
-;                {:link link :id id :src src :alt alt})})
-;        :css [:.right-top []]}
-;       (dom/div
-;         (ui-href contents)))
-;(def ui-top-right (comp/factory TopRight))
-;
-;(defsc BottomRight [this {:bottom-right/keys [contents] :as props}]
-;       {:query [{:bottom-right/contents (comp/get-query Href)}]
-;        :initial-state
-;               (fn [{:keys [link id src alt]}]
-;                   {:bottom-right/contents
-;                    (comp/get-initial-state Href
-;                      {:link link :id id :src src :alt alt})})}
-;       (dom/div (ui-href contents)))
-;(def ui-bottom-right (comp/factory BottomRight))
-;
-;(defsc RightSide [this {:right-side/keys [top bottom] :as props}
-;                  {:keys [right-side]}]
-;       {:query [{:right-side/top (comp/get-query TopLeft)}
-;                {:right-side/bottom (comp/get-query BottomLeft)}]
-;        :initial-state
-;         (fn [{:keys [top bottom] :as params}]
-;             {:right-side/top
-;               (comp/get-initial-state TopLeft
-;                 {:link (:link top)
-;                  :id (:id top)
-;                  :src (:src top)
-;                  :alt (:alt top)})
-;              :right-side/bottom
-;               (comp/get-initial-state BottomLeft
-;                 {:link (:link bottom)
-;                  :id (:id bottom)
-;                  :src (:src bottom)
-;                  :alt (:alt bottom)})})
-;        :css [[:.right-side
-;               {:display "flex";
-;                :flex-direction "column"
-;                :align-items "center"
-;                :padding-right "1.5em"
-;                :width "100%"}]
-;              [:.right-side>a+a
-;               {:padding-top "6em"}]]}
-;       (let [{:keys [right-side]} (css/get-classnames RightSide)]
-;         (dom/div {:classes [right-side]}
-;           (ui-top-left top)
-;           (ui-bottom-left bottom))))
-;(def ui-right-side (comp/factory RightSide))
-;
-;(defsc Middle [this {:middle/keys [id content] :as props}]
-;       {:query [:middle/id
-;                {:middle/content (comp/get-query Href)}]
-;        :initial-state
-;         (fn [{:keys [content]}]
-;             {:middle/id 1
-;              :middle/content content})
-;        :css [[:.middle-main-page
-;               {:display "flex"
-;                :flex-direction "column"
-;                :font-size "4vw"
-;                :margin "0 auto"
-;                :justify-content "center"
-;                :min-width "6em"
-;                :height "auto"}]
-;              [:.padding-bottom
-;               {:padding-bottom "1em"}]
-;              [:.enlarge-text
-;               {:font-size "larger"
-;                :overflow "hidden"}]
-;              [:.small-text
-;               {:font-size "initial"
-;                :margin "0 auto"
-;                :text-align "center"}]]}
-;       (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-;       (dom/div
-;         {:classes [middle-main-page padding-bottom]}
-;         ;:.general-container
-;         ;       {
-;         ;:.general-container
-;         ;:.middle-main-page
-;         ;:.padding-bottom
-;         ;        :className (doall [middle-main-page padding-bottom])
-;                 ;}
-;                (doall content)
-;                )))
-;(def ui-middle (comp/factory Middle {:keyfn :middle/id}))
-;
-;(defsc Projects [this {:projects/keys [id] :as props}]
-;  {:query [:projects/id]
-;   :route-segment ["projects"]
-;   :ident (fn [] [:projects/id :projects])
-;   :initial-state {}}
-;  (dom/div "Hello!"))
-;(def ui-projects (comp/factory Projects))
-;
-;(defsc About [this {:about/keys [id] :as props}]
-;  {:query [:about/id]
-;   :route-segment ["about"]
-;   :ident (fn [] [:component/id :about])
-;   :initial-state {}}
-;  (dom/div "Hello!"))
-;(def ui-about (comp/factory About))
-;
-;(defsc Test [this {:test/keys [topleft
-;                               bottomleft]}]
-;  {:query [{:test/topleft (comp/get-query Href)}
-;           {:test/bottomleft (comp/get-query Href)}]
-;   :route-segment ["test"]
-;   :ident (fn [] [:component/id :test])
-;   :initial-state
-;    (fn [item]
-;      {:test/topleft
-;        (comp/get-initial-state
-;          Href
-;          {:href/link "https://en.wikipedia.org/wiki/Gaming"
-;           :href/image {:image/src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-;                        :image/alt "I play games I KNOW I'M SORRY"}})
-;       :test/bottomleft
-;        (comp/get-initial-state
-;          Href
-;          {:href/link "https://www.whatisitliketobeaphilosopher.com/"
-;           :href/image {:image/src "../images/the-thinker.png"
-;                        :image/alt "But really, what even IS a rock anyways???"}})}
-;      )}
-;  (dom/div
-;    (str "Topleft: " topleft)
-;    (newline)
-;    (str "Bottomleft: " bottomleft)
-;    ;(ui-top-left topleft)
-;    ;(ui-bottom-left bottomleft)
-;    ))
-;;;;
 
 
 ;(def home-initial-state

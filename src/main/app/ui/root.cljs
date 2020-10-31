@@ -9,7 +9,8 @@
                                   Sidebar
                                   ui-outer
                                   ui-sidebar
-                                  ContainerHeader]]))
+                                  ContainerHeader
+                                  Home]]))
 
 (defsc Page [this {:page/keys [outer sidebar]}]
   {:query [{:page/outer (comp/get-query OuterBox)}
@@ -45,6 +46,6 @@
             (div
               {:classes [container]}
               (inj/style-element {:component Root})
-              ;(inj/style-element {:component Home})
+              (inj/style-element {:component Home})
               (inj/style-element {:component ContainerHeader})
               (ui-page page))))

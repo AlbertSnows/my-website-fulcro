@@ -9,6 +9,43 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+
+;(defsc Contact [this {:contact/keys [
+;                                     ;image
+;                                     ;span-image
+;                                     ] :as props}]
+;  {:query [
+;           ;{:contact/image (comp/get-query Image)}
+;           ;{:contact/span-image (comp/get-query Image)}
+;           ]
+;   :route-segment ["contact"]
+;   :ident (fn [] [:component/id :contact])
+;   :initial-state
+;   (fn [_] {})
+;   :css uicss/Contact}
+;  ;(let [{:keys [contact]} (fcss/get-classnames Contact)]
+;  ;  (dom/div
+;  ;    {:classes [contact
+;  ;               ;           contact>big-mail-boi
+;  ;               ;           contact>small-mail-boi
+;  ;               ]
+;  ;     }
+;      ;(inj/style-element {:component Contact})
+;      ;(ui-image image)
+;      ;(ui-image span-image)
+;
+;      ;(:span {:className "popup"})
+;
+;      ;(dom/div
+;      ;(dom/div {:className "mail"} )
+;      ;)
+;      (dom/div {:className "very-small-text"}
+;               "(email for social media)")
+;  ;)
+;    ;)
+;  )
+
+
 ;(defsc Image [this {:image/keys [src alt classes]} {:keys [image]}]
 ;  {:query         [:image/src
 ;                   :image/alt

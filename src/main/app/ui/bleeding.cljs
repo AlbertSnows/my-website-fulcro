@@ -5,209 +5,217 @@
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr :refer [defrouter]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span p h4 ul a img]]
-    [com.fulcrologic.fulcro-css.css :as css]
+    [com.fulcrologic.fulcro-css.css :as fcss]
+    [app.ui.css :as uicss]
     ))
 
-(defsc Image [this {:second/keys [id src alt]}]
-       {:query [:second/id :second/src :second/alt]
-        :initial-state
-         (fn [{:keys [src id alt]}]
-           {:second/src src
-            :second/id id
-            :second/alt alt})}
-       (img
-         {:src src
-          :id id
-          :alt alt}
-         ))
-(def ui-second (comp/factory Image))
+(defsc Image [this {:image/keys [id src alt]}]
+  {:query [:image/id :image/src :image/alt]
+   :initial-state
+          (fn [{:keys [src id alt]}]
+            {:image/src src
+             :image/id (str id "-img")
+             :image/alt alt})}
+  (img {:src src :id id :alt alt}))
+(def ui-image (comp/factory Image {:keyfn :image/id}))
 
-(defsc Href [this {:test/keys [id link thing]}]
-       {:query [:test/id
-                :test/link
-                {:test/thing (comp/get-query Image)}]
-        :ident :test/id
-        :initial-state
-         (fn [{:keys [id link src alt]}]
-           {:test/id id
-            :test/thing
-              (comp/get-initial-state
-                Image
-                {:src src
-                 :id (str id "-img")
-                 :alt alt})})}
+(defsc Href [this {:href/keys [id link image]}]
+  {:query [:href/id
+           :href/link
+           {:href/image (comp/get-query Image)}]
+   :ident :href/id
+   :initial-state
+          (fn [{:keys [id link src alt]}]
+            {:href/id (str id "-href")
+             :href/link link
+             :href/image
+                      (comp/get-initial-state
+                        Image
+                        {:src src
+                         :id id
+                         :alt alt})})}
   (a {:href link
       :target "__blank"
       :rel "noopener noreferrer"}
-    (ui-second thing)))
-(def ui-test (comp/factory Href))
+     (ui-image image)))
+(def ui-href (comp/factory Href {:keyfn :href/id}))
 
-(defsc TopLeft [this {:top-left/keys [contents] :as props}]
-  {:query [{:top-left/contents (comp/get-query Href)}]
+(defsc ProjectDescription [this {:description/keys [header body]}]
+  {:ident :description/id
+   :query [:description/id :description/header :description/body]
    :initial-state
-          (fn [{:keys [link id src alt]}]
-            {:top-left/contents
-             (comp/get-initial-state
-               Href
-               {:link link :id id :src src :alt alt})})}
-  (ui-test contents))
-(def ui-top-left (comp/factory TopLeft))
+    (fn [{:keys [id header body] :as props}]
+      {:description/id (str id "-description")
+       :description/header header
+       :description/body body})}
+  (div
+    (str "Header: " header)
+    (str "Body: " body)))
+(def ui-project-description
+  (comp/factory ProjectDescription {:keyfn :description/id}))
 
-(defsc BottomLeft [this {:bottom-left/keys [contents] :as props}]
-  {:query [{:bottom-left/contents (comp/get-query Href)}]
+
+(defsc ProjectBox [this {:box/keys [id description href] :as props}]
+  {:ident :box/id
+   :query [:box/id
+           {:box/description (comp/get-query ProjectDescription)}
+           {:box/href (comp/get-query Href)}]
    :initial-state
-          (fn [{:keys [link id src alt]}]
-            {:bottom-left/contents
-             (comp/get-initial-state
-               Href
-               {:link link :id id :src src :alt alt})})}
-  (ui-test contents))
-(def ui-bottom-left (comp/factory BottomLeft))
+    (fn [{:keys [id description href]}]
+      {:box/id id
+       :box/description
+               (comp/get-initial-state
+                 ProjectDescription
+                 (merge description {:id id}))
+       :box/href
+        (comp/get-initial-state
+          Href
+          (merge href {:id id}))
+       }
+      )}
+  (div {:key id}
+    (ui-project-description description)
+    (ui-href href)))
+(def ui-project-box (comp/factory ProjectBox {:keyfn :box/id}))
 
-(defsc LeftSide [this {:left-side/keys [
-                                        top
-                                        bottom
-                                        ] :as props}]
-       {:query [{:left-side/top (comp/get-query TopLeft)}
-                {:left-side/bottom (comp/get-query BottomLeft)}]
-        :initial-state
-         (fn [{:keys [top bottom]}]
-           (let [mappy
-                 (fn [dir]
-                   {:link (:link dir)
-                    :id (:id dir)
-                    :src (:src dir)
-                    :alt (:alt dir)})]
-             {:left-side/top
-              (comp/get-initial-state
-                TopLeft
-                top)
-              :left-side/bottom
-              (comp/get-initial-state
-                BottomLeft
-                bottom)
-              }))}
-       (dom/div
-         (ui-top-left top)
-         (ui-bottom-left bottom)
-         ))
-(def ui-left-side (comp/factory LeftSide))
-
-(defsc Middle [this {:middle/keys [id content] :as props}]
-  {:query [:middle/id
-           :middle/content]
+(defsc Projects [this {:projects/keys [contents] :as props}]
+  {:ident (fn [] [:component/id :projects])
+   :route-segment ["projects"]
+   :query [:projects/contents]
    :initial-state
-          (fn [{:keys [id content]}]
-            {:middle/id id
-             :middle/content content})
-   :css [[:.middle-main-page
-          {:display "flex"
-           :flex-direction "column"
-           :font-size "4vw"
-           :margin "0 auto"
-           :justify-content "center"
-           :min-width "6em"
-           :height "auto"}]
-         [:.padding-bottom
-          {:padding-bottom "1em"}]
-         [:.enlarge-text
-          {:font-size "larger"
-           :overflow "hidden"}]
-         [:.small-text
-          {:font-size "initial"
-           :margin "0 auto"
-           :text-align "center"}]]}
-  (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-    (dom/div
-      ;{:classes [middle-main-page padding-bottom]}
-      ;:.general-container
-      ;       {
-      ;:.general-container
-      ;:.middle-main-page
-      ;:.padding-bottom
-      ;        :className (doall [middle-main-page padding-bottom])
-      ;}
-      (doall content))))
-(def ui-middle (comp/factory Middle {:keyfn :middle/id}))
+     (fn [_]
+       {:projects/contents
+        [
+         (comp/get-initial-state
+           ProjectBox
+           {:key "my-website"
+            :id "my-website"
+            :description
+                  {:header "This Website"
+                   :body "The website you're perusing."}
+            :href
+                {:link "https://github.com/AlbertSnows/my-website"
+                 :alt "This Website"
+                 :src "../images/this_website.PNG"}
+            })
+         ]
+        })}
+  (div {:id "project-page-body" :key "papi"}
+    (
+      mapv
+      ui-project-box
+      contents)
+       ))
 
-(defsc RightSide [this {:right-side/keys [top bottom] :as props}
-                  {:keys [right-side]}]
-  {:query [{:right-side/top (comp/get-query TopLeft)}
-           {:right-side/bottom (comp/get-query BottomLeft)}]
-   :initial-state
-          (fn [{:keys [top bottom] :as params}]
-            {:right-side/top
-             (comp/get-initial-state TopLeft
-                                     {:link (:link top)
-                                      :id (:id top)
-                                      :src (:src top)
-                                      :alt (:alt top)})
-             :right-side/bottom
-             (comp/get-initial-state BottomLeft
-                                     {:link (:link bottom)
-                                      :id (:id bottom)
-                                      :src (:src bottom)
-                                      :alt (:alt bottom)})})
-   :css [[:.right-side
-          {:display "flex";
-           :flex-direction "column"
-           :align-items "center"
-           :padding-right "1.5em"
-           :width "100%"}]
-         [:.right-side>a+a
-          {:padding-top "6em"}]]}
-  (let [{:keys [right-side]} (css/get-classnames RightSide)]
-    (dom/div {:classes [right-side]}
-             (ui-top-left top)
-             (ui-bottom-left bottom))))
-(def ui-right-side (comp/factory RightSide))
-
-(def home-initial-state
-  {:home/left
-   (comp/get-initial-state
-     LeftSide
-     {:top
-      {:link "https://en.wikipedia.org/wiki/Gaming"
-       :id "gamin"
-       :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-       :alt "I play games I KNOW I'M SORRY"}
-      :bottom
-      {:link "https://www.whatisitliketobeaphilosopher.com/"
-       :id "pho"
-       :src "../images/the-thinker.png"
-       :alt "But really, what even IS a rock anyways???"}})
-   :home/middle
-   (comp/get-initial-state
-     Middle
-     {:id "home-middle"
-      :content
-          [(p {:key 1 :className "enlarge-text"}
-              "Mostly this stuff")
-           (p {:key 2 :className "small-text"}
-              "(check out my projects for novel things)")]})
-   :home/right
-    (comp/get-initial-state
-      RightSide
-      {:top
-       {:link "https://www.youtube.com/"
-        :id "Tube"
-        :src "../images/tubes.png"
-        :alt "Youtube is my Netflix, sadly"}
-       :bottom
-       {:link "https://en.wikipedia.org/wiki/Programmer"
-        :id "debug"
-        :src "../images/meirl.png"
-        :alt "g! 'How to print newline in cljs'"}})})
-(defsc Home [this {:home/keys [left middle right]}]
-       {:query [{:home/left (comp/get-query LeftSide)}
-                {:home/middle (comp/get-query Middle)}
-                {:home/right (comp/get-query RightSide)}]
-        :route-segment ["home"]
-        :ident (fn [] [:component/id :home])
-        :initial-state
-          (fn [_]
-            home-initial-state)}
-       (div
-         (ui-left-side left)
-         (ui-middle middle)
-         (ui-right-side right)))
+;(def image-dir "../images/")
+;
+;(def classes "brief-border href-item-container")
+;
+;(def project-page-header
+;  [:p {:id "project-header"} "Projects"])
+;
+;(defn box-container [contents]
+;  [:div {:class "flex box align-horizontal"} contents])
+;
+;(defn image-container [src alt]
+;  [:img {:src src :alt alt}])
+;
+;(defn image-href-container [id class href src alt]
+;  [:div {:id id :class class}
+;   [:a {:href href :target "__blank" :rel "noopener noreferrer"}
+;    (image-container src alt)]])
+;
+;(defn project-description [title description]
+;  [:div {:class "description-container"}
+;   [:div {:class "text-align-left"} title]
+;   [:div {:class "description text-align-left"} description]])
+;
+;(def project-page-body
+;  [:div {:id "project-body"}
+;   (box-container
+;     [:div (image-href-container
+;             "my-website"
+;             classes
+;             "https://github.com/AlbertSnows/my-website"
+;             (str image-dir "this_website.PNG")
+;             "This Website")
+;      (project-description
+;        "This Website"
+;        "The website you're perusing")])
+;   (box-container
+;     [:div (image-href-container
+;             "first-website"
+;             classes
+;             "https://github.com/AlbertSnows/FWRcljs"
+;             (str image-dir "kistners_flowers.PNG")
+;             "My First Website")
+;      (project-description
+;        "My First website"
+;        "First website for class.
+;         Written from Javascript
+;         -> Typescript
+;         -> Clojurescript over the semester")])
+;   (box-container
+;     [:div (image-href-container
+;             "snake-game"
+;             classes
+;             "https://github.com/AlbertSnows/snake_game"
+;             (str image-dir "snake_rust.PNG")
+;             "Snake Game")
+;      (project-description "Snake Game" "Wrote Snake in Rust")])
+;   (box-container
+;     [:div (image-href-container
+;             "game-jam-2018"
+;             classes
+;             "https://github.com/AlbertSnows/To-Change-A-Lightbulb"
+;             (str image-dir "lightbulb.PNG")
+;             "To Change A Light Bulb")
+;      (project-description
+;        "To Change A Light Bulb"
+;        "A beautiful disaster written over a weekend during a game jam")])
+;   (box-container
+;     [:div (image-href-container
+;             "thermal-modeling"
+;             classes
+;             "https://github.com/AlbertSnows/HumanThermalModeling"
+;             (str image-dir "thermal_modeling.PNG")
+;             "Human Thermal Modeling")
+;      (project-description
+;        "Human Thermal Modeling"
+;        "Multi-threading graduate student's research code")])
+;   (box-container
+;     [:div (image-href-container
+;             "roguelike"
+;             classes
+;             "https://github.com/AlbertSnows/2DRogueLike"
+;             (str image-dir "2Drouge.PNG")
+;             "2D Rogue Like")
+;      (project-description "2D Rogue Like" "First game made in Unity")])
+;   (box-container
+;     [:div (image-href-container
+;             "edgesweeper"
+;             classes
+;             "https://github.com/AlbertSnows/python-tkinter-minesweeper"
+;             (str image-dir "minesweeper.PNG")
+;             "Edgesweeper")
+;      (project-description
+;        "Edgesweeper"
+;        "Took Minesweeper, written in python, and added a feature")])
+;   (box-container
+;     [:div (image-href-container
+;             "first-unity"
+;             classes
+;             "https://github.com/AlbertSnows/RollABall"
+;             (str image-dir "rollaball.PNG")
+;             "Roll A Ball")
+;      (project-description "Roll A Ball" "First tutorial exposure to Unity")])
+;   (box-container
+;     [:div (image-href-container
+;             "mobile-app-game"
+;             classes
+;             "https://github.com/AlbertSnows/SimpleMobileGame"
+;             (str image-dir "first_app.PNG")
+;             "Simple App")
+;      (project-description
+;        "Simple App"
+;        "Playing with Java/Kotlin in Android Studio")])])

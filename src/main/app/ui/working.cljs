@@ -12,21 +12,21 @@
     [app.ui.mutations :as uim]
     ))
 
-(defsc Projects [this {:projects/keys [id] :as props}]
-  {:query [:projects/id]
-   :route-segment ["projects"]
-   :ident (fn [] [:projects/id :projects])
-   :initial-state {}}
-  (dom/div "Hello!"))
-(def ui-projects (comp/factory Projects))
-
-(defsc About [this {:about/keys [id] :as props}]
-  {:query [:about/id]
-   :route-segment ["about"]
-   :ident (fn [] [:component/id :about])
-   :initial-state {}}
-  (dom/div "Hello!"))
-(def ui-about (comp/factory About))
+;(defsc Projects [this {:projects/keys [id] :as props}]
+;  {:query [:projects/id]
+;   :route-segment ["projects"]
+;   :ident (fn [] [:projects/id :projects])
+;   :initial-state {}}
+;  (dom/div "Hello!"))
+;(def ui-projects (comp/factory Projects))
+;
+;(defsc About [this {:about/keys [id] :as props}]
+;  {:query [:about/id]
+;   :route-segment ["about"]
+;   :ident (fn [] [:component/id :about])
+;   :initial-state {}}
+;  (dom/div "Hello!"))
+;(def ui-about (comp/factory About))
 
 (defsc Image [this {:second/keys [id src alt]}]
   {:query [:second/id :second/src :second/alt]
@@ -40,7 +40,7 @@
      :id id
      :alt alt}
     ))
-(def ui-second (comp/factory Image))
+(def ui-image (comp/factory Image))
 
 (defsc Href [this {:test/keys [id link thing]}]
   {:query [:test/id
@@ -59,8 +59,8 @@
   (a {:href link
       :target "__blank"
       :rel "noopener noreferrer"}
-     (ui-second thing)))
-(def ui-test (comp/factory Href))
+     (ui-image thing)))
+(def ui-href (comp/factory Href))
 
 (defsc TopLeft [this {:top-left/keys [contents] :as props}]
   {:query [{:top-left/contents (comp/get-query Href)}]
@@ -70,7 +70,7 @@
              (comp/get-initial-state
                Href
                {:link link :id id :src src :alt alt})})}
-  (ui-test contents))
+  (ui-href contents))
 (def ui-top-left (comp/factory TopLeft))
 
 (defsc BottomLeft [this {:bottom-left/keys [contents] :as props}]
@@ -81,7 +81,7 @@
              (comp/get-initial-state
                Href
                {:link link :id id :src src :alt alt})})}
-  (ui-test contents))
+  (ui-href contents))
 (def ui-bottom-left (comp/factory BottomLeft))
 
 (defsc LeftSide [this {:left-side/keys [
@@ -218,32 +218,45 @@
        :id "debug"
        :src "../images/meirl.png"
        :alt "g! 'How to print newline in cljs'"}})})
-(defsc Home [this {:home/keys [
-                               left
-                               middle
-                               right
-                               ]}]
-  {:query [
-           {:home/left (comp/get-query LeftSide)}
+(defsc Home [this {:home/keys [left middle right]}]
+  {:query [{:home/left (comp/get-query LeftSide)}
            {:home/middle (comp/get-query Middle)}
-           {:home/right (comp/get-query RightSide)}
-           ]
+           {:home/right (comp/get-query RightSide)}]
    :route-segment ["home"]
    :ident (fn [] [:component/id :home])
    :initial-state
-   (fn [_]
-     home-initial-state
-
-     )}
+   (fn [_] home-initial-state)}
   (div
     (ui-left-side left)
     (ui-middle middle)
-    (ui-right-side right)
-    ))
+    (ui-right-side right)))
+
+(def contact-initial-state
+  {:contact/image
+   (comp/get-initial-state
+     Image
+     {:id "mail-big"
+      :src "../images/mailV2.png"
+      :alt "email"})
+   :contact/span
+   (comp/get-initial-state
+     Image
+     {:id "mail-small"
+      :src "../images/mail_secure.PNG"
+      :alt "for security reasons"})})
+(defsc Contact [this {:contact/keys [image span] :as props}]
+  {:ident (fn [] [:component/id :contact])
+   :query [{:contact/image (comp/get-query Image)}
+           {:contact/span (comp/get-query Image)}]
+   :initial-state (fn [_] contact-initial-state)
+   :route-segment ["contact"]}
+  (div
+    (ui-image image)
+    (ui-image span)))
 
 (defrouter RootRouter
            [this {:keys [current-state pending-path-segment]}]
-           {:router-targets [Home About]})
+           {:router-targets [Home Contact b/Projects]})
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}
@@ -339,7 +352,7 @@
                           :list-item/classes classes})}
        (dom/li {:className classes
                 :onClick (fn [] (dr/change-route! this [name]))}
-               ;(log/info "Name: " name)
+               (log/info "Name: " name)
                (dom/a name)))
 (def ui-list-item (comp/factory ListItem {:keyfn :list-item/name}))
 
@@ -355,17 +368,24 @@
                (fn [_]
                  {:sidebar-contents/id 1
                   :sidebar-contents/home
-                                       (comp/get-initial-state ListItem
-                                                               {:list-item/name "home" :list-item/classes "sidebar-brand"})
+                                       (comp/get-initial-state
+                                         ListItem
+                                         {:list-item/name "home"
+                                          :list-item/classes "sidebar-brand"})
                   :sidebar-contents/about
-                                       (comp/get-initial-state ListItem
-                                                               {:list-item/name "about" :list-item/classes ""})
+                                       (comp/get-initial-state
+                                         ListItem
+                                         {:list-item/name "about"
+                                          :list-item/classes ""})
                   :sidebar-contents/contact
-                                       (comp/get-initial-state ListItem
-                                                               {:list-item/name "contact" :list-item/classes ""})
+                                       (comp/get-initial-state
+                                         ListItem
+                                         {:list-item/name "contact"
+                                          :list-item/classes ""})
                   :sidebar-contents/projects
-                                       (comp/get-initial-state ListItem
-                                                               {:list-item/name "projects" :list-item/classes ""})})}
+                                       (comp/get-initial-state
+                                         ListItem
+                                         {:list-item/name "projects" :list-item/classes ""})})}
        (dom/ul {:className "sidebar-entries sidebar-nav"}
                (ui-list-item home)
                (ui-list-item about)

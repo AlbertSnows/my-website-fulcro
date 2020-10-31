@@ -9,3 +9,46 @@
                   {:height "auto"
                    :max-width "100%"
                    }]]})
+
+(def Contact
+  [[:.general-container
+    {:display "flex"
+     :flex-direction "row"
+     :justify-content "center"
+     :align-items "center"}]
+   [:.general-container>div>.href-image-container
+    {:width "50%"
+     :height "50%"}]
+   [:.contact {:color "white"
+               :position "relative"
+               :top "0"
+               :left "0"
+               :transform "scale(0.7)"
+               :display "flex"
+               :flex-direction "column"
+               :align-items "center"
+               }]
+   [:.contact>img {:width "100%"
+                   :height "auto"
+                   :position "relative"
+                   :top "0"
+                   :left "0"}]
+   [:.contact>.big-email-boi {:position "relative"
+                              :top "0"
+                              :left "0"
+                              :border-radius "1.5em"}]
+   [:.contact>.small-email-boi {:position "absolute"
+                                :top "38%"
+                                :left "0"
+                                :visibility "hidden"
+                                :transform "scale(0.8)"
+                                }]
+   [:.contact>.big-email-boi:hover+.small-email-boi {
+                                                     :visibility "visible"
+                                                     }]
+   [:.very-small-text {
+
+
+                       }]
+   [:.contact>.small-email-boi:hover {:visibility "visible"}]
+   ])

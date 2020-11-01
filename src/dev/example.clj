@@ -9,6 +9,55 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defsc Projects [this {:projects/keys [id] :as props}]
+;  {:query [:projects/id]
+;   :route-segment ["projects"]
+;   :ident (fn [] [:projects/id :projects])
+;   :initial-state {}}
+;  (dom/div "Hello!"))
+;(def ui-projects (comp/factory Projects))
+;
+;(defsc About [this {:about/keys [id] :as props}]
+;  {:query [:about/id]
+;   :route-segment ["about"]
+;   :ident (fn [] [:component/id :about])
+;   :initial-state {}}
+;  (dom/div "Hello!"))
+;(def ui-about (comp/factory About))
+
+;(defsc Image [this {:second/keys [id src alt]}]
+;  {:query [:second/id :second/src :second/alt]
+;   :initial-state
+;          (fn [{:keys [src id alt]}]
+;            {:second/src src
+;             :second/id id
+;             :second/alt alt})}
+;  (img
+;    {:src src
+;     :id id
+;     :alt alt}
+;    ))
+;(def ui-image (comp/factory Image))
+;
+;(defsc Href [this {:test/keys [id link thing]}]
+;  {:query [:test/id
+;           :test/link
+;           {:test/thing (comp/get-query Image)}]
+;   :ident :test/id
+;   :initial-state
+;          (fn [{:keys [id link src alt]}]
+;            {:test/id id
+;             :test/thing
+;                      (comp/get-initial-state
+;                        Image
+;                        {:src src
+;                         :id (str id "-img")
+;                         :alt alt})})}
+;  (a {:href link
+;      :target "__blank"
+;      :rel "noopener noreferrer"}
+;     (ui-image thing)))
+;(def ui-href (comp/factory Href))
 
 ;(defsc Contact [this {:contact/keys [
 ;                                     ;image

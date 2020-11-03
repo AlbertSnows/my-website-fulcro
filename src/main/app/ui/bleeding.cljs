@@ -104,6 +104,7 @@
       ;:.padding-bottom
       ;        :className (doall [middle-main-page padding-bottom])
       ;}
+      "Hello!"
       (ui-image content))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
@@ -195,9 +196,55 @@
    :query [{:about/timebox (comp/get-query Timebox)}]
    :initial-state
      (fn [_]
-       [(comp/get-initial-state
-          Timebox)]
+       {:about/timebox
+        [
+         (comp/get-initial-state
+           Timebox
+           {:timebox/middle
+           (comp/get-initial-state
+             Middle
+             {:content
+              (comp/get-initial-state
+                Image
+                {:id "end-node"
+                 :alt "The future is yet to come"
+                 :src "../images/middle-node.PNG"})
+              })
+            })
+         ;(comp/get-initial-state
+         ;  Timebox
+         ;  {:timebox/middle
+         ;   (comp/get-initial-state
+         ;     Middle
+         ;     {:content
+         ;      (comp/get-initial-state
+         ;        Image
+         ;        {:id "middle-node"
+         ;         :alt "arbitrary point in timeline"
+         ;         :src "../images/middle-node.PNG"})
+         ;      })
+         ;   })
+         ;(comp/get-initial-state
+         ;  Timebox
+         ;  {:timebox/middle
+         ;   (comp/get-initial-state
+         ;     Middle
+         ;     {:content
+         ;      (comp/get-initial-state
+         ;        Image
+         ;        {:id "end-of-the-road"
+         ;         :alt "end of the road, cowboy"
+         ;         :src "../images/end-of-the-road.PNG"})
+         ;      })
+         ;   })
+         ]
+        }
        )}
   (div {:id "project-page-body"}
-    (mapv ui-timebox timebox)))
+    ;(mapv ui-timebox timebox)
+       (mapv
+         (fn [box]
+           (str "item: " box))
+         timebox)
+       ))
 

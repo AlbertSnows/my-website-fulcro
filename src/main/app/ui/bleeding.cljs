@@ -104,7 +104,7 @@
       ;:.padding-bottom
       ;        :className (doall [middle-main-page padding-bottom])
       ;}
-      "Hello!"
+      ;"Hello!"
       (ui-image content))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
@@ -161,21 +161,15 @@
    :ident :timebox/id
    :initial-state
           (fn [{:keys [id left middle right]}]
-            {:timebox/left
+            {:timebox/id id
+             :timebox/left
               (comp/get-initial-state
                 LeftSide
                 {:content
                  []})
              :timebox/middle
               (comp/get-initial-state
-                Middle
-                {:content
-                 (comp/get-initial-state
-                    Image
-                    {:id "end-node"
-                     :alt "The future is yet to come"
-                     :src "../images/end-node.PNG"})
-                  })
+                Middle middle)
              :timebox/right
               (comp/get-initial-state
                 RightSide
@@ -197,54 +191,91 @@
    :initial-state
      (fn [_]
        {:about/timebox
-        [
-         (comp/get-initial-state
-           Timebox
-           {:timebox/middle
-           (comp/get-initial-state
-             Middle
+          [(comp/get-initial-state
+            Timebox
+            {:id "first"
+             :middle
              {:content
               (comp/get-initial-state
                 Image
                 {:id "end-node"
                  :alt "The future is yet to come"
-                 :src "../images/middle-node.PNG"})
-              })
-            })
-         ;(comp/get-initial-state
-         ;  Timebox
-         ;  {:timebox/middle
-         ;   (comp/get-initial-state
-         ;     Middle
-         ;     {:content
-         ;      (comp/get-initial-state
-         ;        Image
-         ;        {:id "middle-node"
-         ;         :alt "arbitrary point in timeline"
-         ;         :src "../images/middle-node.PNG"})
-         ;      })
-         ;   })
-         ;(comp/get-initial-state
-         ;  Timebox
-         ;  {:timebox/middle
-         ;   (comp/get-initial-state
-         ;     Middle
-         ;     {:content
-         ;      (comp/get-initial-state
-         ;        Image
-         ;        {:id "end-of-the-road"
-         ;         :alt "end of the road, cowboy"
-         ;         :src "../images/end-of-the-road.PNG"})
-         ;      })
-         ;   })
-         ]
+                 :src "../images/end-node.PNG"})}
+             }
+            )
+           (comp/get-initial-state
+             Timebox
+             {:id "second"
+              :middle
+                  {:content
+                   (comp/get-initial-state
+                     Image
+                     {:id "middle-node"
+                      :alt "arbitrary point in timeline"
+                      :src "../images/middle-node.PNG"})}
+              }
+             )
+           (comp/get-initial-state
+             Timebox
+             {:id "third"
+              :middle
+                  {:content
+                   (comp/get-initial-state
+                     Image
+                     {:id "end-of-the-road"
+                      :alt "end of the node, cowboy"
+                      :src "../images/end-of-the-road.PNG"})}
+              }
+             )
+           ]
+        ;[
+        ; (comp/get-initial-state
+        ;   Timebox
+        ;   {:id "first"
+        ;    :middle
+        ;
+        ;     {:content
+        ;      (comp/get-initial-state
+        ;        Image
+        ;        {:id "end-node"
+        ;         :alt "The future is yet to come"
+        ;         :src "../images/end-node.PNG"})
+        ;      }
+        ;    })
+        ; (comp/get-initial-state
+        ;   Timebox
+        ;   {:id "first"
+        ;    :middle
+        ;
+        ;      {:content
+        ;       (comp/get-initial-state
+        ;         Image
+        ;         {:id "middle-node"
+        ;          :alt "arbitrary point in timeline"
+        ;          :src "../images/middle-node.PNG"})
+        ;       }
+        ;    })
+        ; (comp/get-initial-state
+        ;   Timebox
+        ;   {:id "first"
+        ;    :middle
+        ;
+        ;      {:content
+        ;       (comp/get-initial-state
+        ;         Image
+        ;         {:id "end-of-the-road"
+        ;          :alt "end of the road, cowboy"
+        ;          :src "../images/end-of-the-road.PNG"})
+        ;       }
+        ;    })
+        ; ]
         }
        )}
   (div {:id "project-page-body"}
-    ;(mapv ui-timebox timebox)
-       (mapv
-         (fn [box]
-           (str "item: " box))
-         timebox)
+    (mapv ui-timebox timebox)
+    ;   (mapv
+    ;     (fn [box]
+    ;       (str "item: " box))
+    ;     timebox)
        ))
 

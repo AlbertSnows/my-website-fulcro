@@ -40,33 +40,40 @@
      (ui-image image)))
 (def ui-href (comp/factory Href {:keyfn :href/id}))
 
-(defsc LeftSide [this {:left-side/keys [
+(defsc LeftSide [this {:left-side/keys [content
                                         ;top
                                         ;bottom
                                         ] :as props}]
-  {:query [
+  {:query [:left-side/content
            ;{:left-side/top (comp/get-query TopLeft)}
            ;{:left-side/bottom (comp/get-query BottomLeft)}
            ]
    :initial-state
-          (fn [{:keys [top bottom]}]
-            (let [mappy
-                  (fn [dir]
-                    {:link (:link dir)
-                     :id (:id dir)
-                     :src (:src dir)
-                     :alt (:alt dir)})]
-              {
-               ;:left-side/top
-               ;(comp/get-initial-state
-               ;  TopLeft
-               ;  top)
-               ;:left-side/bottom
-               ;(comp/get-initial-state
-               ;  BottomLeft
-               ;  bottom)
-               }))}
+          (fn [{:keys [content]}]
+            {:left-side/content content}
+            ;(let [mappy
+            ;      (fn [dir]
+            ;        {:link (:link dir)
+            ;         :id (:id dir)
+            ;         :src (:src dir)
+            ;         :alt (:alt dir)})]
+            ;  {
+            ;   ;:left-side/top
+            ;   ;(comp/get-initial-state
+            ;   ;  TopLeft
+            ;   ;  top)
+            ;   ;:left-side/bottom
+            ;   ;(comp/get-initial-state
+            ;   ;  BottomLeft
+            ;   ;  bottom)
+            ;   })
+            )}
   (dom/div
+    (ui-image (comp/get-initial-state
+                Image
+                {:id "left-side-arrow"
+                 :alt "point to the right from left"
+                 :src "../images/left-side-arrow.PNG"}))
     ;(ui-top-left top)
     ;(ui-bottom-left bottom)
     ))
@@ -109,17 +116,15 @@
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
 (defsc RightSide [this {:right-side/keys [
-                                          ;top
-                                          ;bottom
+                                          content
                                           ] :as props}]
-  {:query [
+  {:query [:right-side/content
            ;{:right-side/top (comp/get-query TopLeft)}
            ;{:right-side/bottom (comp/get-query BottomLeft)}
            ]
    :initial-state
-          (fn [{:keys [top bottom] :as params}]
-            {
-             }
+          (fn [{:keys [content] :as params}]
+            {:right-side/content content}
             ;:right-side/top
              ;(comp/get-initial-state TopLeft
              ;                        {:link (:link top)
@@ -141,22 +146,33 @@
            :width "100%"}]
          [:.right-side>a+a
           {:padding-top "6em"}]]}
-  (let [{:keys [right-side]} (fcss/get-classnames RightSide)]
-    (dom/div {:classes [right-side]}
+  ;(let [{:keys [right-side]} (fcss/get-classnames RightSide)]
+    (dom/div
+      ;{:classes [right-side]}
+      (ui-image
+        ;content
+        (comp/get-initial-state
+          Image
+          {:id "right-side-arrow"
+           :alt "point to the left from right"
+           :src "../images/right-side-arrow.PNG"})
+        )
              ;(ui-top-left top)
              ;(ui-bottom-left bottom)
-             )))
+             )
+    ;)
+  )
 (def ui-right-side (comp/factory RightSide))
 
 (defsc Timebox [this {:timebox/keys [id
-                                     ;left
+                                     left
                                      middle
-                                     ;right
+                                     right
                                      ] :as props}]
   {:query [:timebox/id
-           ;{:timebox/left (comp/get-query LeftSide)}
+           {:timebox/left (comp/get-query LeftSide)}
            {:timebox/middle (comp/get-query Middle)}
-           ;{:timebox/right (comp/get-query RightSide)}
+           {:timebox/right (comp/get-query RightSide)}
            ]
    :ident :timebox/id
    :initial-state
@@ -164,23 +180,19 @@
             {:timebox/id id
              :timebox/left
               (comp/get-initial-state
-                LeftSide
-                {:content
-                 []})
+                LeftSide left)
              :timebox/middle
               (comp/get-initial-state
                 Middle middle)
              :timebox/right
               (comp/get-initial-state
-                RightSide
-                {:content
-                 []})
+                RightSide right)
 
              })}
   (div
-    ;(ui-left-side left)
+    (ui-left-side left)
     (ui-middle middle)
-    ;(ui-right-side right)
+    (ui-right-side right)
     ))
 (def ui-timebox (comp/factory Timebox))
 
@@ -201,6 +213,13 @@
                 {:id "end-node"
                  :alt "The future is yet to come"
                  :src "../images/end-node.PNG"})}
+             :right
+              {:content
+               (comp/get-initial-state
+                 Image
+                 {:id "right-side-arrow"
+                  :alt "point to the left from right"
+                  :src "../images/right-side-arrow.PNG"})}
              }
             )
            (comp/get-initial-state
@@ -213,6 +232,13 @@
                      {:id "middle-node"
                       :alt "arbitrary point in timeline"
                       :src "../images/middle-node.PNG"})}
+              :left
+              {:content
+               (comp/get-initial-state
+                 Image
+                 {:id "left-side-arrow"
+                  :alt "point to the right from left"
+                  :src "../images/left-side-arrow.PNG"})}
               }
              )
            (comp/get-initial-state

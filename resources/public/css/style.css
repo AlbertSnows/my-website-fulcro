@@ -730,12 +730,12 @@ table-role-video>a>img {
     margin-bottom: 12em;
     }
 
-.about-left>img {
+.about-left>div>img {
     width: 10%;
     height: 8%;
 }
 
-.about-right>img {
+.about-right>div>img {
     width: 10%;
     height: 8%;
 }

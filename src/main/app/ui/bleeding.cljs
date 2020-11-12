@@ -134,8 +134,8 @@
          [:.right-side>a+a
           {:padding-top "6em"}]]
    }
-  (dom/div
-    (dom/div {:className "right-side"}
+  (dom/div {:className "about-right"}
+    (dom/div
              (ui-image
                (comp/get-initial-state
                  Image

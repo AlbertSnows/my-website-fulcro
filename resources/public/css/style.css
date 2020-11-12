@@ -739,3 +739,12 @@ table-role-video>a>img {
     width: 10%;
     height: 8%;
 }
+
+.home {
+    display: flex;
+}
+
+#project-page-body {
+    display: flex;
+    flex-direction: column;
+}

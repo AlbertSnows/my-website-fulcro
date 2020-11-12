@@ -207,7 +207,7 @@
    :ident (fn [] [:component/id :home])
    :initial-state
    (fn [_] home-initial-state)}
-  (div
+  (div {:className "home"}
     (ui-left-side left)
     (ui-middle middle)
     (ui-right-side right)))

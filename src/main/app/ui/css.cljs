@@ -1,5 +1,23 @@
 (ns app.ui.css)
 
+(def Timebox
+  {:css
+  [[:.about-left
+    {:display "flex"
+     :justify-content "flex-end"
+     :margin-top "12em"}]
+   [:.about-right
+    {:display "flex"
+     :justify-content "flex-start"
+     :align-content "space-evenly"
+     :align-self "flex-end"
+     :margin-bottom "12em"}]
+   [:.div>img
+    {:width "10%"
+     :height "8%"}]
+   [:.timebox
+    {:display "flex"}]]})
+
 (def Href
   {        :css [[:.href-container
                   {:display "flex"

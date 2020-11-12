@@ -7,6 +7,8 @@
      :refer [div label button span p h4 ul a img]]
     [com.fulcrologic.fulcro-css.css :as fcss]
     [app.ui.css :as uicss]
+    [com.fulcrologic.fulcro-css.css-injection :as inj]
+
     ))
 
 (defsc Image [this {:image/keys [id src alt]}]
@@ -41,16 +43,15 @@
 (def ui-href (comp/factory Href {:keyfn :href/id}))
 
 (defsc LeftSide [this {:left-side/keys [content
-                                        ;top
-                                        ;bottom
+                                        classes
                                         ] :as props}]
   {:query [:left-side/content
-           ;{:left-side/top (comp/get-query TopLeft)}
-           ;{:left-side/bottom (comp/get-query BottomLeft)}
+           :left-side/classes
            ]
    :initial-state
-          (fn [{:keys [content]}]
-            {:left-side/content content}
+          (fn [{:keys [content classes]}]
+            {:left-side/content content
+             :left-side/classes classes}
             ;(let [mappy
             ;      (fn [dir]
             ;        {:link (:link dir)
@@ -68,7 +69,7 @@
             ;   ;  bottom)
             ;   })
             )}
-  (dom/div
+  (dom/div {:className classes}
     (ui-image (comp/get-initial-state
                 Image
                 {:id "left-side-arrow"
@@ -117,14 +118,15 @@
 
 (defsc RightSide [this {:right-side/keys [
                                           content
+                                          classes
                                           ] :as props}]
   {:query [:right-side/content
-           ;{:right-side/top (comp/get-query TopLeft)}
-           ;{:right-side/bottom (comp/get-query BottomLeft)}
+           :right-side/classes
            ]
    :initial-state
-          (fn [{:keys [content] :as params}]
-            {:right-side/content content}
+          (fn [{:keys [content classes] :as params}]
+            {:right-side/content content
+             :right-side/classes classes}
             ;:right-side/top
              ;(comp/get-initial-state TopLeft
              ;                        {:link (:link top)
@@ -138,16 +140,20 @@
              ;                         :src (:src bottom)
              ;                         :alt (:alt bottom)})}
             )
-   :css [[:.right-side
+   :css
+          ;(:css uicss/Timebox)
+
+          [[:.right-side
           {:display "flex";
            :flex-direction "column"
            :align-items "center"
            :padding-right "1.5em"
            :width "100%"}]
          [:.right-side>a+a
-          {:padding-top "6em"}]]}
+          {:padding-top "6em"}]]
+   }
   ;(let [{:keys [right-side]} (fcss/get-classnames RightSide)]
-    (dom/div
+    (dom/div {:className classes}
       ;{:classes [right-side]}
       (ui-image
         ;content
@@ -180,20 +186,24 @@
             {:timebox/id id
              :timebox/left
               (comp/get-initial-state
-                LeftSide left)
+                LeftSide
+                (merge left
+                  {:classes "about-left"}))
              :timebox/middle
               (comp/get-initial-state
                 Middle middle)
              :timebox/right
               (comp/get-initial-state
-                RightSide right)
-
-             })}
-  (div
-    (ui-left-side left)
-    (ui-middle middle)
-    (ui-right-side right)
-    ))
+                RightSide
+                (merge right
+                  {:classes "about-right"}))})
+   :css (:css uicss/Timebox)}
+  (let [{:keys [timebox]} (fcss/get-classnames Timebox)]
+    (div {:classes [timebox]}
+      (ui-left-side left)
+      (ui-middle middle)
+      (ui-right-side right)
+      )))
 (def ui-timebox (comp/factory Timebox))
 
 (defsc About [this {:about/keys [timebox] :as props}]
@@ -298,7 +308,8 @@
         }
        )}
   (div {:id "project-page-body"}
-    (mapv ui-timebox timebox)
+       (inj/style-element {:component Timebox})
+       (mapv ui-timebox timebox)
     ;   (mapv
     ;     (fn [box]
     ;       (str "item: " box))

@@ -94,7 +94,7 @@
    {:id "end-of-the-road"
     :alt "end of the node, cowboy"
     :src "../images/end-of-the-road.PNG"}})
-(defsc Middle [this {:middle/keys [id] :as props}]
+(defsc AboutMiddle [this {:middle/keys [id] :as props}]
   {:query [:middle/id]
    :ident :middle/id
    :initial-state
@@ -117,12 +117,12 @@
           {:font-size "initial"
            :margin "0 auto"
            :text-align "center"}]]}
-  (let [{:keys [middle-main-page padding-bottom]} (fcss/get-classnames Middle)]
+  (let [{:keys [middle-main-page padding-bottom]} (fcss/get-classnames AboutMiddle)]
     (dom/div
       (ui-image
         (comp/get-initial-state Image
           (get node-options id))))))
-(def ui-middle (comp/factory Middle {:keyfn :middle/id}))
+(def ui-middle (comp/factory AboutMiddle {:keyfn :middle/id}))
 
 (defsc AboutRightSide [this {:right-side/keys [gallery] :as props}]
   {:query [:right-side/gallery
@@ -164,7 +164,7 @@
                                      ] :as props}]
   {:query [:timebox/id
            {:timebox/left (comp/get-query AboutLeftSide)}
-           {:timebox/middle (comp/get-query Middle)}
+           {:timebox/middle (comp/get-query AboutMiddle)}
            {:timebox/right (comp/get-query AboutRightSide)}
            ]
    :ident :timebox/id
@@ -177,7 +177,7 @@
           left)
        :timebox/middle
         (comp/get-initial-state
-          Middle middle)
+          AboutMiddle middle)
        :timebox/right
         (comp/get-initial-state
           AboutRightSide
@@ -191,7 +191,7 @@
       (ui-middle middle)
       (ui-right-side right)
       )))
-(def ui-timebox (comp/factory Timebox))
+(def ui-timebox (comp/factory Timebox {:keyfn :timebox/id}))
 
 (defsc About [this {:about/keys [timebox] :as props}]
   {:ident (fn [] [:component/id :about])
@@ -209,8 +209,7 @@
                 :alt "I work here rn"}
                {:id "okcity"
                 :src "../images/okcity.PNG"
-                :alt "I live here rn"}
-               ]
+                :alt "I live here rn"}]
              :middle {:id :first}
              :right
                [{:id "twbb"

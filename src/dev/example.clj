@@ -9,6 +9,49 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+
+;[
+; (comp/get-initial-state
+;   Timebox
+;   {:id "first"
+;    :middle
+;
+;     {:content
+;      (comp/get-initial-state
+;        Image
+;        {:id "end-node"
+;         :alt "The future is yet to come"
+;         :src "../images/end-node.PNG"})
+;      }
+;    })
+; (comp/get-initial-state
+;   Timebox
+;   {:id "first"
+;    :middle
+;
+;      {:content
+;       (comp/get-initial-state
+;         Image
+;         {:id "middle-node"
+;          :alt "arbitrary point in timeline"
+;          :src "../images/middle-node.PNG"})
+;       }
+;    })
+; (comp/get-initial-state
+;   Timebox
+;   {:id "first"
+;    :middle
+;
+;      {:content
+;       (comp/get-initial-state
+;         Image
+;         {:id "end-of-the-road"
+;          :alt "end of the road, cowboy"
+;          :src "../images/end-of-the-road.PNG"})
+;       }
+;    })
+; ]
+
 ;(def image-dir "../images/")
 ;
 ;(def classes "brief-border href-item-container")

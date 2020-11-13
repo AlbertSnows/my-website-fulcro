@@ -465,7 +465,6 @@
                           :list-item/classes classes})}
        (dom/li {:className classes
                 :onClick (fn [] (dr/change-route! this [name]))}
-               (log/info "Name: " name)
                (dom/a name)))
 (def ui-list-item (comp/factory ListItem {:keyfn :list-item/name}))
 

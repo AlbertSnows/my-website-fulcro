@@ -43,11 +43,21 @@
 (def ui-href (comp/factory Href {:keyfn :href/id}))
 
 (defsc Gallery
-  [this {:gallery/keys [image-list] :as props}]
-  {:query [:gallery/image-list]
-   :initial-state (fn [gallery] {:gallery/image-list gallery})}
+  [this {:gallery/keys [photos] :as props}]
+  {:query [:gallery/photos]
+   :initial-state
+          (fn [gallery]
+            (log/info "deh Gallery: " gallery)
+            {:gallery/photos gallery})}
   (dom/div {:className "gallery"}
-    (mapv ui-image image-list)))
+    (mapv
+      (fn [photo]
+        (ui-image
+          (comp/get-initial-state
+            Image
+            photo)
+          ))
+      photos)))
 (def ui-gallery (comp/factory Gallery))
 
 (defsc AboutLeftSide [this {:left-side/keys   [
@@ -55,7 +65,7 @@
                                         ] :as props}]
   {:query [:left-side/gallery]
    :initial-state
-          (fn [{:keys [gallery]}]
+          (fn [gallery]
             {:left-side/gallery
              (comp/get-initial-state Gallery gallery)}
             )}
@@ -108,19 +118,17 @@
            :margin "0 auto"
            :text-align "center"}]]}
   (let [{:keys [middle-main-page padding-bottom]} (fcss/get-classnames Middle)]
-    (log/info "Id: " id)
-    (log/info "map thing: " (get node-options id))
     (dom/div
       (ui-image
         (comp/get-initial-state Image
           (get node-options id))))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
-(defsc RightSide [this {:right-side/keys [gallery] :as props}]
+(defsc AboutRightSide [this {:right-side/keys [gallery] :as props}]
   {:query [:right-side/gallery
            ]
    :initial-state
-          (fn [{:keys [gallery] :as params}]
+          (fn [gallery]
             {:right-side/gallery
              (comp/get-initial-state Gallery gallery)}
             )
@@ -147,7 +155,7 @@
     (ui-gallery gallery)
     )
   )
-(def ui-right-side (comp/factory RightSide))
+(def ui-right-side (comp/factory AboutRightSide))
 
 (defsc Timebox [this {:timebox/keys [id
                                      left
@@ -157,7 +165,7 @@
   {:query [:timebox/id
            {:timebox/left (comp/get-query AboutLeftSide)}
            {:timebox/middle (comp/get-query Middle)}
-           {:timebox/right (comp/get-query RightSide)}
+           {:timebox/right (comp/get-query AboutRightSide)}
            ]
    :ident :timebox/id
    :initial-state
@@ -172,12 +180,13 @@
           Middle middle)
        :timebox/right
         (comp/get-initial-state
-          RightSide
+          AboutRightSide
           right
           )})
    :css (:css uicss/Timebox)}
   (let [{:keys [timebox]} (fcss/get-classnames Timebox)]
-    (div {:classes [timebox]}
+    (div {:classes [timebox]
+          :id id}
       (ui-left-side left)
       (ui-middle middle)
       (ui-right-side right)
@@ -191,20 +200,22 @@
    :initial-state
      (fn [_]
        {:about/timebox
-          [(comp/get-initial-state
+        [(comp/get-initial-state
             Timebox
             {:id "first-box"
              :left
-               {:gallery
-                [{:id "paycom"
-                  :src "../images/end-node.PNG"
-                  :alt "I work here rn"}]}
+              [{:id "paycom"
+                :src "../images/paycom.PNG"
+                :alt "I work here rn"}
+               {:id "okcity"
+                :src "../images/okcity.PNG"
+                :alt "I live here rn"}
+               ]
              :middle {:id :first}
              :right
-              {:gallery
-               [{:id "okcity"
-                 :src "../images/okcity.PNG"
-                 :alt "I live here rn"}]}
+               [{:id "twbb"
+                 :src "../images/twbb.jpg"
+                 :alt "There Will Be Blood"}]
              }
             )
            (comp/get-initial-state
@@ -220,47 +231,7 @@
               }
              )
            ]
-        ;[
-        ; (comp/get-initial-state
-        ;   Timebox
-        ;   {:id "first"
-        ;    :middle
-        ;
-        ;     {:content
-        ;      (comp/get-initial-state
-        ;        Image
-        ;        {:id "end-node"
-        ;         :alt "The future is yet to come"
-        ;         :src "../images/end-node.PNG"})
-        ;      }
-        ;    })
-        ; (comp/get-initial-state
-        ;   Timebox
-        ;   {:id "first"
-        ;    :middle
-        ;
-        ;      {:content
-        ;       (comp/get-initial-state
-        ;         Image
-        ;         {:id "middle-node"
-        ;          :alt "arbitrary point in timeline"
-        ;          :src "../images/middle-node.PNG"})
-        ;       }
-        ;    })
-        ; (comp/get-initial-state
-        ;   Timebox
-        ;   {:id "first"
-        ;    :middle
-        ;
-        ;      {:content
-        ;       (comp/get-initial-state
-        ;         Image
-        ;         {:id "end-of-the-road"
-        ;          :alt "end of the road, cowboy"
-        ;          :src "../images/end-of-the-road.PNG"})
-        ;       }
-        ;    })
-        ; ]
+
         }
        )}
   (div {:id "project-page-body"}

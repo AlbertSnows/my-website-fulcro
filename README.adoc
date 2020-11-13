@@ -1,4 +1,4 @@
-= Step 1 (w/o docker):
+== Step 1 (w/o docker):
 
 
 You'll need 2 terminals and a repl
@@ -15,7 +15,8 @@ Also type (shadow/repl :main)
 
 Then, hopefully, it should show stuff if you go to 3000 localhost.You will have trancended to the astral plane if you can type '(js/alert "hello world")' in the nrepl and it shows up in the browser!
 
-= Step 2 (currently not fully functional) - docker setup:
+== Step 2 (currently not fully functional) - docker setup:
+
 
 2.1: install and learn docker (good luck)
 
@@ -317,3 +318,16 @@ IMPORTANT: Any namespace ending in `-ws` will be auto-detected and added to your
 
 See tools deps projects like Depstar. You'll need to make a release js build, optionally
 pre-compile your CLJ, and package it.  We will likely add a demo of this process soon.
+
+== FAQ
+
+Q: Error: Each child in a list should have a unique "key" prop?
+
+A: Whatever component you're making needs to have a react key thing I guess.
+So the factory needs to look something like this.
+
+[source]
+----
+(def ui-timebox (comp/factory Timebox {:keyfn :timebox/id}))
+----
+The important thing is to ensure you're passing an idea for each instance of this component that you create, that you have a corresponding ident for it, and that you add the `{:keyfn -ident-}`, whatever the `-ident-` may be.

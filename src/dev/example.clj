@@ -9,6 +9,237 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defsc LeftSide [this {:left-side/keys [
+;                                        top
+;                                        bottom
+;                                        ] :as props}]
+;  {:query [{:left-side/top (comp/get-query Top)}
+;           {:left-side/bottom (comp/get-query Bottom)}]
+;   :initial-state
+;          (fn [{:keys [top bottom]}]
+;            {:left-side/top
+;             (comp/get-initial-state
+;               Top
+;               top)
+;             :left-side/bottom
+;             (comp/get-initial-state
+;               Bottom
+;               bottom)
+;             })}
+;  (dom/div {:className "left-side"}
+;           (ui-top-left top)
+;           (ui-bottom-left bottom)
+;           ))
+;(def ui-left-side (comp/factory LeftSide))
+
+;(let [{:keys [right-side]} (css/get-classnames RightSide)]
+;  (dom/div {:classes [right-side]}
+;           (ui-top-left top)
+;           (ui-bottom-left bottom))))
+
+;{:classes [middle-main-page padding-bottom]}
+;:.general-container
+;       {
+;:.general-container
+;:.middle-main-page
+;:.padding-bottom
+;        :className (doall [middle-main-page padding-bottom])
+;}
+
+;(defsc Gallery
+;  [this {:gallery/keys [photos] :as props}]
+;  {:query [:gallery/photos]
+;   :initial-state
+;          (fn [gallery]
+;            {:gallery/photos gallery})}
+;  (dom/div {:className "gallery"}
+;           (mapv
+;             (fn [photo]
+;               (ui-image
+;                 (comp/get-initial-state
+;                   Image
+;                   photo)
+;                 ))
+;             photos)))
+;(def ui-gallery (comp/factory Gallery))
+;
+;(defsc AboutLeftSide [this {:left-side/keys   [
+;                                               gallery
+;                                               ] :as props}]
+;  {:query [:left-side/gallery]
+;   :initial-state
+;          (fn [gallery]
+;            {:left-side/gallery
+;             (comp/get-initial-state Gallery gallery)}
+;            )}
+;  (dom/div {:className "about-left"}
+;           (ui-gallery gallery)
+;           (dom/div
+;             (ui-image
+;               (comp/get-initial-state
+;                 Image
+;                 {:id "left-side-arrow"
+;                  :alt "point to the right from left"
+;                  :src "../images/left-side-arrow.PNG"}))
+;             )))
+;(def ui-left-side (comp/factory AboutLeftSide))
+;
+;(def node-options
+;  {:first
+;   {:id "end-node"
+;    :alt "The future is yet to come"
+;    :src "../images/end-node.PNG"}
+;   :middle
+;   {:id "middle-node"
+;    :alt "arbitrary point in timeline"
+;    :src "../images/middle-node.PNG"}
+;   :end
+;   {:id "end-of-the-road"
+;    :alt "end of the node, cowboy"
+;    :src "../images/end-of-the-road.PNG"}})
+;(defsc AboutMiddle [this {:middle/keys [id] :as props}]
+;  {:query [:middle/id]
+;   :ident :middle/id
+;   :initial-state
+;          (fn [{:keys [id]}]
+;            {:middle/id id})
+;   :css [[:.middle-main-page
+;          {:display "flex"
+;           :flex-direction "column"
+;           :font-size "4vw"
+;           :margin "0 auto"
+;           :justify-content "center"
+;           :min-width "6em"
+;           :height "auto"}]
+;         [:.padding-bottom
+;          {:padding-bottom "1em"}]
+;         [:.enlarge-text
+;          {:font-size "larger"
+;           :overflow "hidden"}]
+;         [:.small-text
+;          {:font-size "initial"
+;           :margin "0 auto"
+;           :text-align "center"}]]}
+;  (let [{:keys [middle-main-page padding-bottom]} (fcss/get-classnames AboutMiddle)]
+;    (dom/div
+;      (ui-image
+;        (comp/get-initial-state Image
+;                                (get node-options id))))))
+;(def ui-middle (comp/factory AboutMiddle {:keyfn :middle/id}))
+;
+;(defsc AboutRightSide [this {:right-side/keys [gallery] :as props}]
+;  {:query [:right-side/gallery
+;           ]
+;   :initial-state
+;          (fn [gallery]
+;            {:right-side/gallery
+;             (comp/get-initial-state Gallery gallery)}
+;            )
+;   :css
+;          [[:.right-side
+;            {:display "flex";
+;             :flex-direction "column"
+;             :align-items "center"
+;             :padding-right "1.5em"
+;             :width "100%"}]
+;           [:.right-side>a+a
+;            {:padding-top "6em"}]]
+;   }
+;  (dom/div {:className "about-right"}
+;           (dom/div
+;             (ui-image
+;               (comp/get-initial-state
+;                 Image
+;                 {:id "right-side-arrow"
+;                  :alt "point to the left from right"
+;                  :src "../images/right-side-arrow.PNG"})
+;               ))
+;
+;           (ui-gallery gallery)
+;           )
+;  )
+;(def ui-right-side (comp/factory AboutRightSide))
+;
+;(defsc Timebox [this {:timebox/keys [id
+;                                     left
+;                                     middle
+;                                     right
+;                                     ] :as props}]
+;  {:query [:timebox/id
+;           {:timebox/left (comp/get-query AboutLeftSide)}
+;           {:timebox/middle (comp/get-query AboutMiddle)}
+;           {:timebox/right (comp/get-query AboutRightSide)}
+;           ]
+;   :ident :timebox/id
+;   :initial-state
+;          (fn [{:keys [id left middle right]}]
+;            {:timebox/id id
+;             :timebox/left
+;                         (comp/get-initial-state
+;                           AboutLeftSide
+;                           left)
+;             :timebox/middle
+;                         (comp/get-initial-state
+;                           AboutMiddle middle)
+;             :timebox/right
+;                         (comp/get-initial-state
+;                           AboutRightSide
+;                           right
+;                           )})
+;   :css (:css uicss/Timebox)}
+;  (let [{:keys [timebox]} (fcss/get-classnames Timebox)]
+;    (div {:classes [timebox]
+;          :id id}
+;         (ui-left-side left)
+;         (ui-middle middle)
+;         (ui-right-side right)
+;         )))
+;(def ui-timebox (comp/factory Timebox {:keyfn :timebox/id}))
+;
+;(defsc About [this {:about/keys [timebox] :as props}]
+;  {:ident (fn [] [:component/id :about])
+;   :route-segment ["about"]
+;   :query [{:about/timebox (comp/get-query Timebox)}]
+;   :initial-state
+;   (fn [_]
+;     {:about/timebox
+;      [(comp/get-initial-state
+;         Timebox
+;         {:id "first-box"
+;          :left
+;              [{:id "paycom"
+;                :src "../images/paycom.PNG"
+;                :alt "I work here rn"}
+;               {:id "okcity"
+;                :src "../images/okcity.PNG"
+;                :alt "I live here rn"}]
+;          :middle {:id :first}
+;          :right
+;          [{:id "twbb"
+;            :src "../images/twbb.jpg"
+;            :alt "There Will Be Blood"}]
+;          }
+;         )
+;       (comp/get-initial-state
+;         Timebox
+;         {:id "second"
+;          :middle {:id :middle}
+;          }
+;         )
+;       (comp/get-initial-state
+;         Timebox
+;         {:id "third"
+;          :middle {:id :end}
+;          }
+;         )
+;       ]
+;
+;      }
+;     )}
+;  (div {:id "project-page-body"}
+;       (inj/style-element {:component Timebox})
+;       (mapv ui-timebox timebox)
+;       ))
 
 ;[
 ; (comp/get-initial-state

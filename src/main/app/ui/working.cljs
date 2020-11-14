@@ -46,112 +46,86 @@
      (ui-image image)))
 (def ui-href (comp/factory Href {:keyfn :href/id}))
 
-(defsc TopLeft [this {:top-left/keys [contents] :as props}]
-  {:query [{:top-left/contents (comp/get-query Href)}]
+(defsc Top [this {:top-left/keys [state ui] :as props}]
+  {:query [:top-left/ui
+           :top-left/state]
    :initial-state
-          (fn [{:keys [link id src alt]}]
-            {:top-left/contents
-             (comp/get-initial-state
-               Href
-               {:link link :id id :src src :alt alt})})}
-  (ui-href contents))
-(def ui-top-left (comp/factory TopLeft))
+          (fn [{:keys [ui factory state]}]
+            {:top-left/state
+                          (comp/get-initial-state factory state)
+             :top-left/ui ui}
+            )}
+  (dom/div {:className "top"} (ui state)))
+(def ui-top (comp/factory Top))
 
-(defsc BottomLeft [this {:bottom-left/keys [contents] :as props}]
-  {:query [{:bottom-left/contents (comp/get-query Href)}]
+(defsc Bottom [this {:bottom-left/keys [ui data] :as props}]
+  {:query [:bottom-left/ui :bottom-left/data]
    :initial-state
-          (fn [{:keys [link id src alt]}]
-            {:bottom-left/contents
-             (comp/get-initial-state
-               Href
-               {:link link :id id :src src :alt alt})})}
-  (ui-href contents))
-(def ui-bottom-left (comp/factory BottomLeft))
+          (fn [{:keys [state factory ui]}]
+            {:bottom-left/ui ui
+             :bottom-left/data
+                             (comp/get-initial-state factory state)
+             })}
+  (dom/div {:className "bottom"}
+           (ui data)))
+(def ui-bottom (comp/factory Bottom))
 
-(defsc LeftSide [this {:left-side/keys [
-                                        top
-                                        bottom
-                                        ] :as props}]
-  {:query [{:left-side/top (comp/get-query TopLeft)}
-           {:left-side/bottom (comp/get-query BottomLeft)}]
+(defsc LeftSide
+  [this {:left-side/keys [ui
+                          data
+                          factory
+                          ] :as props}]
+  {:query [:left-side/data
+           :left-side/ui
+           :left-side/factory]
    :initial-state
-          (fn [{:keys [top bottom]}]
-            (let [mappy
-                  (fn [dir]
-                    {:link (:link dir)
-                     :id   (:id dir)
-                     :src  (:src dir)
-                     :alt  (:alt dir)})]
-              {:left-side/top
-               (comp/get-initial-state
-                 TopLeft
-                 top)
-               :left-side/bottom
-               (comp/get-initial-state
-                 BottomLeft
-                 bottom)
-               }))}
-  (dom/div
-    (ui-top-left top)
-    (ui-bottom-left bottom)
-    ))
+          (fn [{:keys [ui factory data]}]
+            {:left-side/data data
+             :left-side/ui ui
+             :left-side/factory factory
+             }
+            )}
+  (dom/div {:className "left-side"}
+           (mapv
+             (fn [item]
+               (ui (comp/get-initial-state factory item))) data)
+           ))
 (def ui-left-side (comp/factory LeftSide))
 
-(defsc Middle [this {:middle/keys [id content] :as props}]
-  {:query [:middle/id
-           :middle/content]
+(defsc Middle [this {:middle/keys [id ui factory data] :as props}]
+  {:ident :middle/id
+   :query [:middle/id
+           :middle/ui
+           :middle/factory
+           :middle/data]
    :initial-state
-          (fn [{:keys [id content]}]
+          (fn [{:keys [id state ui factory]}]
             {:middle/id      id
-             :middle/content content})
-   :css   [[:.middle-main-page
-            {:display         "flex"
-             :flex-direction  "column"
-             :font-size       "4vw"
-             :margin          "0 auto"
-             :justify-content "center"
-             :min-width       "6em"
-             :height          "auto"}]
-           [:.padding-bottom
-            {:padding-bottom "1em"}]
-           [:.enlarge-text
-            {:font-size "larger"
-             :overflow  "hidden"}]
-           [:.small-text
-            {:font-size  "initial"
-             :margin     "0 auto"
-             :text-align "center"}]]}
+             :middle/ui      ui
+             :middle/factory factory
+             :middle/data    state})
+   :css   (:css uicss/Middle)}
   (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-    (dom/div
-      ;{:classes [middle-main-page padding-bottom]}
-      ;:.general-container
-      ;       {
-      ;:.general-container
-      ;:.middle-main-page
-      ;:.padding-bottom
-      ;        :className (doall [middle-main-page padding-bottom])
-      ;}
-      (doall content))))
+    (dom/div {:id id :className "middle"}
+             (mapv (fn [thing]
+                     (ui (comp/get-initial-state
+                           factory thing))) data))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
 (defsc RightSide [this {:right-side/keys [top bottom] :as props}
-                  {:keys [right-side]}]
-  {:query [{:right-side/top (comp/get-query TopLeft)}
-           {:right-side/bottom (comp/get-query BottomLeft)}]
+                  ]
+  {:query [{:right-side/top (comp/get-query Top)}
+           {:right-side/bottom (comp/get-query Bottom)}]
    :initial-state
           (fn [{:keys [top bottom] :as params}]
             {:right-side/top
-             (comp/get-initial-state TopLeft
-                                     {:link (:link top)
-                                      :id   (:id top)
-                                      :src  (:src top)
-                                      :alt  (:alt top)})
+             (comp/get-initial-state
+               Top
+               top)
              :right-side/bottom
-             (comp/get-initial-state BottomLeft
-                                     {:link (:link bottom)
-                                      :id   (:id bottom)
-                                      :src  (:src bottom)
-                                      :alt  (:alt bottom)})})
+             (comp/get-initial-state
+               Bottom
+               bottom)})
    :css   [[:.right-side
             {:display        "flex"                         ;
              :flex-direction "column"
@@ -160,48 +134,82 @@
              :width          "100%"}]
            [:.right-side>a+a
             {:padding-top "6em"}]]}
-  (let [{:keys [right-side]} (css/get-classnames RightSide)]
-    (dom/div {:classes [right-side]}
-             (ui-top-left top)
-             (ui-bottom-left bottom))))
+  (dom/div {:className "right-side"}
+           (ui-top top)
+           (ui-bottom bottom))
+  )
 (def ui-right-side (comp/factory RightSide))
+
+(defsc Text [this {:text/keys [id text]}]
+  {:query         [:text/id :text/text]
+   :initial-state (fn [{:keys [id text]}]
+                    {:text/id   id
+                     :text/text text})}
+  (p {:id id} text))
+(def ui-text (comp/factory Text {:keyfn :text/id}))
 
 (def home-initial-state
   {:home/left
-   (comp/get-initial-state
-     LeftSide
-     {:top
-      {:link "https://en.wikipedia.org/wiki/Gaming"
-       :id   "gamin"
-       :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-       :alt  "I play games I KNOW I'M SORRY"}
-      :bottom
-      {:link "https://www.whatisitliketobeaphilosopher.com/"
-       :id   "pho"
-       :src  "../images/the-thinker.png"
-       :alt  "But really, what even IS a rock anyways???"}})
+     (comp/get-initial-state
+       LeftSide
+       {:content
+        [{:ui ui-top
+          :factory Top
+          :state
+          {:ui ui-href
+           :factory Href
+           :state
+           {:link "https://en.wikipedia.org/wiki/Gaming"
+            :id   "gamin"
+            :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+            :alt  "I play games I KNOW I'M SORRY"}}}
+         {:ui ui-bottom
+          :factory Bottom
+          :state
+          {:ui ui-href
+           :factory Href
+           :state
+           {:link "https://www.whatisitliketobeaphilosopher.com/"
+            :id   "pho"
+            :src  "../images/the-thinker.png"
+            :alt  "But really, what even IS a rock anyways???"}}}]})
    :home/middle
-   (comp/get-initial-state
-     Middle
-     {:id "home-middle"
-      :content
-          [(p {:key 1 :className "enlarge-text"}
-              "Mostly this stuff")
-           (p {:key 2 :className "small-text"}
-              "(check out my projects for novel things)")]})
+     (comp/get-initial-state
+       Middle
+       {:id      "home-middle"
+        :state
+                 [
+                  {:id   "large-text"
+                   :text "Mostly this stuff"}
+                  {:id   "small-text"
+                   :text "(check out my projects for novel things)"}
+                  ]
+        :factory Text
+        :ui      ui-text})
    :home/right
-   (comp/get-initial-state
-     RightSide
-     {:top
-      {:link "https://www.youtube.com/"
-       :id   "Tube"
-       :src  "../images/tubes.png"
-       :alt  "Youtube is my Netflix, sadly"}
-      :bottom
-      {:link "https://en.wikipedia.org/wiki/Programmer"
-       :id   "debug"
-       :src  "../images/meirl.png"
-       :alt  "g! 'How to print newline in cljs'"}})})
+     (comp/get-initial-state
+       RightSide
+       [{:ui ui-top
+         :factory Top
+         :state
+         {:ui ui-href
+          :factory Href
+          :state
+          {:link "https://www.youtube.com/"
+           :id   "Tube"
+           :src  "../images/tubes.png"
+           :alt  "Youtube is my Netflix, sadly"}}}
+        {:ui ui-bottom
+         :factory Bottom
+         :state
+         {:ui ui-href
+          :factory Href
+          :state
+          {:link "https://en.wikipedia.org/wiki/Programmer"
+           :id   "debug"
+           :src  "../images/meirl.png"
+           :alt  "g! 'How to print newline in cljs'"}}}])
+   })
 (defsc Home [this {:home/keys [left middle right]}]
   {:query         [{:home/left (comp/get-query LeftSide)}
                    {:home/middle (comp/get-query Middle)}
@@ -213,7 +221,8 @@
   (div {:className "home"}
        (ui-left-side left)
        (ui-middle middle)
-       (ui-right-side right)))
+       (ui-right-side right)
+       ))
 
 (def contact-initial-state
   {:contact/image
@@ -375,7 +384,6 @@
   {:query [:gallery/photos]
    :initial-state
           (fn [gallery]
-            (log/info "deh Gallery: " gallery)
             {:gallery/photos gallery})}
   (dom/div {:className "gallery"}
            (mapv
@@ -519,7 +527,7 @@
          (ui-about-middle middle)
          (ui-about-right right)
          )))
-(def ui-timebox (comp/factory Timebox))
+(def ui-timebox (comp/factory Timebox {:keyfn :timebox/id}))
 
 (defsc About [this {:about/keys [timebox] :as props}]
   {:ident         (fn [] [:component/id :about])
@@ -569,7 +577,7 @@
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
-  {:router-targets [Home b/About Contact Projects]})
+  {:router-targets [Home About Contact Projects]})
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}

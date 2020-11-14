@@ -130,3 +130,35 @@
        :id   "pho"
        :src  "../images/the-thinker.png"
        :alt  "But really, what even IS a rock anyways???"}}}]})
+(defn x
+  (fn [stuff]
+    ((:ui stuff) (:data stuff))))
+(dom/div
+  {...}
+  (mapv x data)
+  (ui first)
+  (ui-2 second)
+  (ui-3 third)
+         )
+
+(defn apply-ui [ui factory data]
+  (ui (comp/get-initial-state factory data)))
+(defn apply-uis [ui factory states]
+  (mapv (fn [state] (apply-ui ui factory state)) states))
+
+(defn ConvertCompState [{:keys [ui factory state]}]
+  (ui (comp/get-initial-state factory data)))
+
+(defn GenericComponent [name classes]
+  (defsc name [this {:name/keys [states ui factory]}]
+    {:query [:name/states
+             :name/factory
+             :name/ui]
+     :initial-state
+      (fn [{:keys [ui state factory]}]
+        {:name/content content})}
+    (dom/div {:className classes}
+      (mapv apply-uis states)
+             )))
+
+

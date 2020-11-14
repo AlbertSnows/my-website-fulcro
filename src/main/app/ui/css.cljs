@@ -1,5 +1,25 @@
 (ns app.ui.css)
 
+(def Middle
+  {:css
+   [[:.middle-main-page
+     {:display         "flex"
+      :flex-direction  "column"
+      :font-size       "4vw"
+      :margin          "0 auto"
+      :justify-content "center"
+      :min-width       "6em"
+      :height          "auto"}]
+    [:.padding-bottom
+     {:padding-bottom "1em"}]
+    [:.enlarge-text
+     {:font-size "larger"
+      :overflow  "hidden"}]
+    [:.small-text
+     {:font-size  "initial"
+      :margin     "0 auto"
+      :text-align "center"}]]})
+
 (def Timebox
   {:css
   [[:.about-left

@@ -9,6 +9,255 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defn GenericPTQuery [name]
+;  {:query [:left/components]
+;   :initial-state
+;    (fn [components]
+;      {:left/components components})}
+;(let [kwcomp (keyword (str name "/components"))]
+;  {:query [(keyword (str name "/components"))]
+;   :initial-state
+;          (fn [components]
+;            {(keyword (str name "/components")) components})}
+;)
+;)
+;(defn GenericEQ [name]
+;(let [ui (keyword (str name "/ui"))
+;      data (keyword (str name "/data"))
+;      factory (keyword (str name "/factory"))]
+;  {:query [
+;           (keyword (str name "/ui"))
+;           (keyword (str name "/data"))
+;           (keyword (str name "/factory"))
+;           ]
+;   :initial-state
+;    (fn [pui pdata pfactory]
+;      {(keyword (str name "/ui")) pui
+;       (keyword (str name "/data")) pdata
+;       (keyword (str name "/factory")) pfactory})}
+;  ;)
+;)
+
+;(defsc Top
+;  [this {:top/keys [ui state factory]}]
+;  (GenericEQ "top")
+;  ((GenericEHtml "top-div") ui state factory))
+;(defsc Top [this {:top-left/keys [state ui] :as props}]
+;  {:query [:top-left/ui
+;           :top-left/state]
+;   :initial-state
+;          (fn [{:keys [ui factory state]}]
+;            {:top-left/state
+;                          (comp/get-initial-state factory state)
+;             :top-left/ui ui}
+;            )}
+;  (dom/div {:className "top"} (ui state)))
+;(defsc Top
+
+;(defsc Bottom [this {:bottom-left/keys [ui data] :as props}]
+;  {:query [:bottom-left/ui :bottom-left/data]
+;   :initial-state
+;          (fn [{:keys [state factory ui]}]
+;            {:bottom-left/ui ui
+;             :bottom-left/data
+;                             (comp/get-initial-state factory state)
+;             })}
+;  (dom/div {:className "bottom"}
+;           (ui data)))
+;(defsc LeftSide
+;  [this {:left-side/keys [ui
+;                          data
+;                          factory
+;                          ] :as props}]
+;  {:query [:left-side/data
+;           :left-side/ui
+;           :left-side/factory]
+;   :initial-state
+;          (fn [{:keys [ui factory data]}]
+;            {:left-side/data data
+;             :left-side/ui ui
+;             :left-side/factory factory
+;             }
+;            )}
+;  (dom/div {:className "left-side"}
+;           (mapv
+;             (fn [item]
+;               (ui (comp/get-initial-state factory item))) data)
+;           ))
+
+;(defn GenericQuerySetup [name]
+;  {:query [:name/components name]})
+;
+;(defsc CreatePassThroughGeneric
+;  [this {:generic/keys [components]}]
+;  {:query [:generic/components]
+;   :initial-state
+;          (fn [collection]
+;            {:name/components collection})}
+;  (GenericHtmlSetup components "example"))
+
+;(defn call [this & that]
+;  (apply (resolve (symbol this)) that))
+
+;(defn CreateGenericEndComponent [name classes]
+;  (defn name [this [{:name/keys [ui state factory]}]]
+;    {:query [:name/ui
+;             :name/factory
+;             :name/state]
+;     :initial-state
+;            (fn [{:keys [ui factory state]}]
+;              {:name/ui ui
+;               :name/state state
+;               :name/factory factory})}
+;    (dom/div
+;      {:className name}
+;      (ui (comp/get-initial-state
+;            factory
+;            state)))))
+
+;(defsc Top [this {:top-left/keys [state ui] :as props}]
+;  {:query [:top-left/ui
+;           :top-left/state]
+;   :initial-state
+;          (fn [{:keys [ui factory state]}]
+;            {:top-left/state
+;                          (comp/get-initial-state factory state)
+;             :top-left/ui ui}
+;            )}
+;  (dom/div {:className "top"} (ui state)))
+;(def ui-top (comp/factory Top))
+;
+;(defsc Bottom [this {:bottom-left/keys [ui data] :as props}]
+;  {:query [:bottom-left/ui :bottom-left/data]
+;   :initial-state
+;          (fn [{:keys [state factory ui]}]
+;            {:bottom-left/ui ui
+;             :bottom-left/data
+;                             (comp/get-initial-state factory state)
+;             })}
+;  (dom/div {:className "bottom"}
+;           (ui data)))
+;(def ui-bottom (comp/factory Bottom))
+
+;
+;(defn string-keys [name]
+;  (keyword (str name "/keys")))
+
+;(defsc "Generic" [this {(string-keys name) [components]}]
+;  (GenericHtmlSetup components classes))
+;
+;(defsc AboutLeftSide [this {:left-side/keys [
+;                                             gallery
+;                                             ] :as props}]
+;  {:query [:left-side/gallery]
+;   :initial-state
+;          (fn [gallery]
+;            {:left-side/gallery
+;             (comp/get-initial-state Gallery gallery)}
+;            )}
+;  (dom/div {:className "about-left"}
+;           (ui-gallery gallery)
+;           (dom/div
+;             (ui-image
+;               (comp/get-initial-state
+;                 Image
+;                 {:id  "left-side-arrow"
+;                  :alt "point to the right from left"
+;                  :src "../images/left-side-arrow.PNG"}))
+;             )))
+;(def ui-about-left (comp/factory AboutLeftSide))
+;
+;(defsc LeftSide [this {:left-side/keys [
+;                                        ui
+;                                        data
+;                                        factory
+;                                        ] :as props}]
+;  {:query [:left-side/data
+;           :left-side/ui
+;           :left-side/factory]
+;   :initial-state
+;          (fn [{:keys [ui factory data]}]
+;            {:left-side/data data
+;             :left-side/ui ui
+;             :left-side/factory factory
+;             }
+;            )}
+;  (dom/div {:className "left-side"}
+;           (mapv
+;             (fn [item]
+;               (ui (comp/get-initial-state factory item))) data)
+;           ))
+;(def ui-left-side (comp/factory LeftSide))
+
+
+
+;(comp/get-initial-state
+;  LeftSide
+;  {:content
+;   [{:ui ui-top
+;     :state
+;      (comp/get-initial-state
+;        Top
+;        {:ui ui-href
+;         :state
+;          (comp/get-initial-state
+;            Href
+;            {:link "https://en.wikipedia.org/wiki/Gaming"
+;             :id   "gamin"
+;             :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+;             :alt  "I play games I KNOW I'M SORRY"}
+;                                  )
+;         }
+;        {:ui ui-href
+;         :factory Href
+;         :state
+;         {:link "https://en.wikipedia.org/wiki/Gaming"
+;          :id   "gamin"
+;          :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+;          :alt  "I play games I KNOW I'M SORRY"}}
+;                              )}
+;    {:ui ui-top
+;     :factory Top
+;     :state
+;     {:ui ui-href
+;      :factory Href
+;      :state
+;      {:link "https://en.wikipedia.org/wiki/Gaming"
+;       :id   "gamin"
+;       :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+;       :alt  "I play games I KNOW I'M SORRY"}}}
+;    {:ui ui-bottom
+;     :factory Bottom
+;     :state
+;     {:ui ui-href
+;      :factory Href
+;      :state
+;      {:link "https://www.whatisitliketobeaphilosopher.com/"
+;       :id   "pho"
+;       :src  "../images/the-thinker.png"
+;       :alt  "But really, what even IS a rock anyways???"}}}]})
+
+;
+;(defn apply-ui [ui factory data]
+;  (ui (comp/get-initial-state factory data)))
+;(defn apply-uis [ui factory states]
+;  (mapv (fn [state] (apply-ui ui factory state)) states))
+;
+;(defn ConvertCompState [{:keys [ui factory state]}]
+;  (ui (comp/get-initial-state factory data)))
+;
+;(defn GenericComponent [name classes]
+;  (defsc name [this {:name/keys [states ui factory]}]
+;    {:query [:name/states
+;             :name/factory
+;             :name/ui]
+;     :initial-state
+;      (fn [{:keys [ui state factory]}]
+;        {:name/content content})}
+;    (dom/div {:className classes}
+;      (mapv apply-uis states)
+;             )))
+
 ;(defsc LeftSide [this {:left-side/keys [
 ;                                        top
 ;                                        bottom

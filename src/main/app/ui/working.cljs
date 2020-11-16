@@ -577,7 +577,7 @@
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
-  {:router-targets [Home About Contact Projects]})
+  {:router-targets [b/Home About Contact Projects]})
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}

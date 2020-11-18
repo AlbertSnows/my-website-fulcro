@@ -46,51 +46,76 @@
      (ui-image image)))
 (def ui-href (comp/factory Href {:keyfn :href/id}))
 
-(defsc Top [this {:top-left/keys [state ui] :as props}]
-  {:query [:top-left/ui
-           :top-left/state]
-   :initial-state
-          (fn [{:keys [ui factory state]}]
-            {:top-left/state
-                          (comp/get-initial-state factory state)
-             :top-left/ui ui}
-            )}
-  (dom/div {:className "top"} (ui state)))
-(def ui-top (comp/factory Top))
+(defn add-id [comp-id sub-comp]
+  (if (nil? (:id sub-comp))
+    (merge sub-comp {:id comp-id})
+    (merge sub-comp {:id (str comp-id "-" (:id sub-comp))})))
+(defn apply-contained-component [component]
+  ((:ui component)
+   (comp/get-initial-state
+     (:factory component)
+     (if (vector? (:data component))
+       (mapv
+         (fn [sub-component]
+           (add-id (:id component) sub-component))
+         (:data component))
+       (add-id (:id component) (:data component))))))
+(defn div-with-classes [classes contents]
+  (div {:className classes} contents))
+(defn div-with-classes-and-id [id classes contents]
+  (div {:id id :className classes} contents))
+(defn create-div-id [component id]
+  (str (:id component) "-" id))
+(defn append-id [component id]
+  (merge component {:id (create-div-id component id)}))
+(defn rand-str [len]
+  (apply str (take len (repeatedly #(char (+ (rand 26) 65))))))
 
-(defsc Bottom [this {:bottom-left/keys [ui data] :as props}]
-  {:query [:bottom-left/ui :bottom-left/data]
+(defsc Top
+  [this {:top/keys [components id]}]
+  {:ident :top/id
+   :query [:top/components
+           :top/id]
    :initial-state
-          (fn [{:keys [state factory ui]}]
-            {:bottom-left/ui ui
-             :bottom-left/data
-                             (comp/get-initial-state factory state)
-             })}
-  (dom/div {:className "bottom"}
-           (ui data)))
-(def ui-bottom (comp/factory Bottom))
+          (fn [components]
+            {:top/components components
+             :top/id (:id (first components))})}
+  (div-with-classes-and-id
+    (str id "-top")
+    "top-div"
+    (mapv apply-contained-component components)))
+(def ui-top (comp/factory Top {:keyfn :top/id}))
 
-(defsc LeftSide
-  [this {:left-side/keys [ui
-                          data
-                          factory
-                          ] :as props}]
-  {:query [:left-side/data
-           :left-side/ui
-           :left-side/factory]
+(defsc Bottom
+  [this {:bottom/keys [components id]}]
+  {:ident :bottom/id
+   :query [:bottom/components
+           :bottom/id]
    :initial-state
-          (fn [{:keys [ui factory data]}]
-            {:left-side/data data
-             :left-side/ui ui
-             :left-side/factory factory
-             }
-            )}
-  (dom/div {:className "left-side"}
-           (mapv
-             (fn [item]
-               (ui (comp/get-initial-state factory item))) data)
-           ))
-(def ui-left-side (comp/factory LeftSide))
+          (fn [components]
+            {:bottom/components components
+             :bottom/id (:id (first components))})}
+  (div-with-classes-and-id
+    (str id "-bottom")
+    "bottom-div"
+    (mapv apply-contained-component components)))
+(def ui-bottom (comp/factory Bottom {:keyfn :bottom/id}))
+
+(defsc Left
+  [this {:left/keys [components id]}]
+  {:query [:left/components
+           :left/id]
+   :initial-state
+          (fn [components]
+            {:left/components components
+             :left/id (:id (first components))})}
+  (div {:id (create-div-id (first components) "left")
+        :className "left-side"}
+       (mapv (fn [component]
+               (apply-contained-component
+                 (append-id component "left")))
+             components)))
+(def ui-left (comp/factory Left {:keyfn :left/id}))
 
 (defsc Middle [this {:middle/keys [id ui factory data] :as props}]
   {:ident :middle/id
@@ -112,33 +137,28 @@
                            factory thing))) data))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
-(defsc RightSide [this {:right-side/keys [top bottom] :as props}
-                  ]
-  {:query [{:right-side/top (comp/get-query Top)}
-           {:right-side/bottom (comp/get-query Bottom)}]
+(defsc Right
+  [this {:right/keys [components id] :as props}]
+  {:query [:right/components :right/id]
    :initial-state
-          (fn [{:keys [top bottom] :as params}]
-            {:right-side/top
-             (comp/get-initial-state
-               Top
-               top)
-             :right-side/bottom
-             (comp/get-initial-state
-               Bottom
-               bottom)})
-   :css   [[:.right-side
+          (fn [components]
+            {:right/components components
+             :right/id (:id (first components))})
+   :css   [[:.right
             {:display        "flex"                         ;
              :flex-direction "column"
              :align-items    "center"
              :padding-right  "1.5em"
              :width          "100%"}]
-           [:.right-side>a+a
+           [:.right>a+a
             {:padding-top "6em"}]]}
-  (dom/div {:className "right-side"}
-           (ui-top top)
-           (ui-bottom bottom))
-  )
-(def ui-right-side (comp/factory RightSide))
+  (div {:id (create-div-id (first components) "right")
+        :className "right-side"}
+       (mapv (fn [component]
+               (apply-contained-component
+                 (append-id component "right")))
+             components)))
+(def ui-right (comp/factory Right {:keyfn :right/id}))
 
 (defsc Text [this {:text/keys [id text]}]
   {:query         [:text/id :text/text]
@@ -150,79 +170,79 @@
 
 (def home-initial-state
   {:home/left
-     (comp/get-initial-state
-       LeftSide
-       {:content
-        [{:ui ui-top
-          :factory Top
-          :state
-          {:ui ui-href
-           :factory Href
-           :state
-           {:link "https://en.wikipedia.org/wiki/Gaming"
-            :id   "gamin"
-            :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-            :alt  "I play games I KNOW I'M SORRY"}}}
-         {:ui ui-bottom
-          :factory Bottom
-          :state
-          {:ui ui-href
-           :factory Href
-           :state
-           {:link "https://www.whatisitliketobeaphilosopher.com/"
-            :id   "pho"
-            :src  "../images/the-thinker.png"
-            :alt  "But really, what even IS a rock anyways???"}}}]})
+   (comp/get-initial-state
+     Left
+     [{:id "home1"
+       :ui ui-top
+       :factory Top
+       :data
+       [{:ui ui-href
+         :factory Href
+         :data
+         {:link "https://en.wikipedia.org/wiki/Gaming"
+          :id   "gamin"
+          :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+          :alt  "I play games I KNOW I'M SORRY"}}]}
+      {:id "home2"
+       :ui ui-bottom
+       :factory Bottom
+       :data
+       [{:ui ui-href
+         :factory Href
+         :data
+         {:link "https://www.whatisitliketobeaphilosopher.com/"
+          :id   "pho"
+          :src  "../images/the-thinker.png"
+          :alt  "But really, what even IS a rock anyways???"}}]}])
    :home/middle
-     (comp/get-initial-state
-       Middle
-       {:id      "home-middle"
-        :state
-                 [
-                  {:id   "large-text"
-                   :text "Mostly this stuff"}
-                  {:id   "small-text"
-                   :text "(check out my projects for novel things)"}
-                  ]
-        :factory Text
-        :ui      ui-text})
+   (comp/get-initial-state
+     Middle
+     {:id      "home-middle"
+      :state
+               [{:id   "large-text"
+                 :text "Mostly this stuff"}
+                {:id   "small-text"
+                 :text "(check out my projects for novel things)"}]
+      :factory Text
+      :ui      ui-text})
    :home/right
-     (comp/get-initial-state
-       RightSide
-       [{:ui ui-top
-         :factory Top
-         :state
-         {:ui ui-href
-          :factory Href
-          :state
-          {:link "https://www.youtube.com/"
-           :id   "Tube"
-           :src  "../images/tubes.png"
-           :alt  "Youtube is my Netflix, sadly"}}}
-        {:ui ui-bottom
-         :factory Bottom
-         :state
-         {:ui ui-href
-          :factory Href
-          :state
-          {:link "https://en.wikipedia.org/wiki/Programmer"
-           :id   "debug"
-           :src  "../images/meirl.png"
-           :alt  "g! 'How to print newline in cljs'"}}}])
-   })
+   (comp/get-initial-state
+     Right
+     [{:id "home3"
+       :ui ui-top
+       :factory Top
+       :data
+       [{:ui ui-href
+         :factory Href
+         :data
+         {:link "https://www.youtube.com/"
+          :id   "Tube"
+          :src  "../images/tubes.png"
+          :alt  "Youtube is my Netflix, sadly"}}]}
+      {:id "home4"
+       :ui ui-bottom
+       :factory Bottom
+       :data
+       [{:ui ui-href
+         :factory Href
+         :data
+         {:link "https://en.wikipedia.org/wiki/Programmer"
+          :id   "debug"
+          :src  "../images/meirl.png"
+          :alt  "g! 'How to print newline in cljs'"}}]}])})
+
 (defsc Home [this {:home/keys [left middle right]}]
-  {:query         [{:home/left (comp/get-query LeftSide)}
+  {:query         [{:home/left (comp/get-query Left)}
                    {:home/middle (comp/get-query Middle)}
-                   {:home/right (comp/get-query RightSide)}]
+                   {:home/right (comp/get-query Right)}]
    :route-segment ["home"]
    :ident         (fn [] [:component/id :home])
    :initial-state
                   (fn [_] home-initial-state)}
   (div {:className "home"}
-       (ui-left-side left)
+       (ui-left left)
        (ui-middle middle)
-       (ui-right-side right)
-       ))
+       (ui-right right)))
 
 (def contact-initial-state
   {:contact/image
@@ -577,7 +597,7 @@
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
-  {:router-targets [b/Home About Contact Projects]})
+  {:router-targets [Home b/About Contact Projects]})
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}

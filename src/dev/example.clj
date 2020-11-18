@@ -9,6 +9,25 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defsc Right
+;  [this {:right/keys [components]}]
+;  {:query [:right/components]
+;   :initial-state
+;          (fn [components]
+;            {:right/components components})}
+;  ;((GenericPTHtml "right") components)
+;  (dom/div)
+;  )
+
+
+;((GenericPTHtml "left-side") components)
+;(div {:className "left-side"}
+;     (mapv apply-contained-component components)
+;     )
+;(div-with-classes
+;  "left-side"
+;  (mapv apply-contained-component components))
+
 ;(defn GenericPTQuery [name]
 ;  {:query [:left/components]
 ;   :initial-state

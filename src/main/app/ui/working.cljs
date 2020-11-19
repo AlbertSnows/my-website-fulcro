@@ -108,8 +108,8 @@
    :initial-state
           (fn [components]
             {:left/components components
-             :left/id (:id (first components))})}
-  (div {:id (create-div-id (first components) "left")
+             :left/id         (:id (first components))})}
+  (div {:id        (str id "-left")
         :className "left-side"}
        (mapv (fn [component]
                (apply-contained-component
@@ -140,7 +140,7 @@
    :initial-state
           (fn [components]
             {:right/components components
-             :right/id (:id (first components))})
+             :right/id         (:id (first components))})
    :css   [[:.right
             {:display        "flex"                         ;
              :flex-direction "column"
@@ -149,7 +149,7 @@
              :width          "100%"}]
            [:.right>a+a
             {:padding-top "6em"}]]}
-  (div {:id (create-div-id (first components) "right")
+  (div {:id        (create-div-id id "right")
         :className "right-side"}
        (mapv (fn [component]
                (apply-contained-component
@@ -401,42 +401,24 @@
        (mapv ui-project-box contents)))
 
 (defsc Gallery
-  [this {:gallery/keys [photos] :as props}]
-  {:query [:gallery/photos]
+  [this {:gallery/keys [photos id] :as props}]
+  {:id    :gallery/id
+   :query [:gallery/photos
+           :gallery/id]
    :initial-state
           (fn [gallery]
-            {:gallery/photos gallery})}
-  (dom/div {:className "gallery"}
+            {:gallery/photos gallery
+             :gallery/id     (:id (first gallery))})}
+  (dom/div {:id        (str id "-gallery")
+            :className "gallery"}
            (mapv
              (fn [photo]
                (ui-image
                  (comp/get-initial-state
                    Image
-                   photo)
-                 ))
+                   photo)))
              photos)))
-(def ui-gallery (comp/factory Gallery))
-
-(defsc AboutLeftSide [this {:left-side/keys [
-                                             gallery
-                                             ] :as props}]
-  {:query [:left-side/gallery]
-   :initial-state
-          (fn [gallery]
-            {:left-side/gallery
-             (comp/get-initial-state Gallery gallery)}
-            )}
-  (dom/div {:className "about-left"}
-           (ui-gallery gallery)
-           (dom/div
-             (ui-image
-               (comp/get-initial-state
-                 Image
-                 {:id  "left-side-arrow"
-                  :alt "point to the right from left"
-                  :src "../images/left-side-arrow.PNG"}))
-             )))
-(def ui-about-left (comp/factory AboutLeftSide))
+(def ui-gallery (comp/factory Gallery {:keyfn :gallery/id}))
 
 (def node-options
   {:first
@@ -451,104 +433,102 @@
    {:id  "end-of-the-road"
     :alt "end of the node, cowboy"
     :src "../images/end-of-the-road.PNG"}})
-(defsc AboutMiddle [this {:middle/keys [id] :as props}]
-  {:query [:middle/id]
-   :ident :middle/id
-   :initial-state
-          (fn [{:keys [id]}]
-            {:middle/id id})
-   :css   [[:.middle-main-page
-            {:display         "flex"
-             :flex-direction  "column"
-             :font-size       "4vw"
-             :margin          "0 auto"
-             :justify-content "center"
-             :min-width       "6em"
-             :height          "auto"}]
-           [:.padding-bottom
-            {:padding-bottom "1em"}]
-           [:.enlarge-text
-            {:font-size "larger"
-             :overflow  "hidden"}]
-           [:.small-text
-            {:font-size  "initial"
-             :margin     "0 auto"
-             :text-align "center"}]]}
-  (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames AboutMiddle)]
-    (dom/div
-      (ui-image
-        (comp/get-initial-state Image
-                                (get node-options id))))))
-(def ui-about-middle (comp/factory AboutMiddle {:keyfn :middle/id}))
-
-(defsc AboutRightSide [this {:right-side/keys [gallery] :as props}]
-  {:query [:right-side/gallery
-           ]
-   :initial-state
-          (fn [gallery]
-            {:right-side/gallery
-             (comp/get-initial-state Gallery gallery)}
-            )
-   :css
-          [[:.right-side
-            {:display        "flex"                         ;
-             :flex-direction "column"
-             :align-items    "center"
-             :padding-right  "1.5em"
-             :width          "100%"}]
-           [:.right-side>a+a
-            {:padding-top "6em"}]]
-   }
-  (dom/div {:className "about-right"}
-           (dom/div
-             (ui-image
-               (comp/get-initial-state
-                 Image
-                 {:id  "right-side-arrow"
-                  :alt "point to the left from right"
-                  :src "../images/right-side-arrow.PNG"})
-               ))
-
-           (ui-gallery gallery)
-           )
-  )
-(def ui-about-right (comp/factory AboutRightSide))
 
 (defsc Timebox [this {:timebox/keys [id
                                      left
                                      middle
                                      right
                                      ] :as props}]
-  {:query [:timebox/id
-           {:timebox/left (comp/get-query AboutLeftSide)}
-           {:timebox/middle (comp/get-query AboutMiddle)}
-           {:timebox/right (comp/get-query AboutRightSide)}
-           ]
+  {:query
+          [:timebox/id
+           {:timebox/left (comp/get-query Left)}
+           {:timebox/middle (comp/get-query Middle)}
+           {:timebox/right (comp/get-query Right)}]
    :ident :timebox/id
    :initial-state
           (fn [{:keys [id left middle right]}]
-            {:timebox/id id
+            {:timebox/id
+             id
              :timebox/left
-                         (comp/get-initial-state
-                           AboutLeftSide
-                           left)
+             (comp/get-initial-state
+               Left left)
              :timebox/middle
-                         (comp/get-initial-state
-                           AboutMiddle middle)
+             (comp/get-initial-state
+               Middle
+               (mapv
+                 (fn [component]
+                   (merge
+                     component
+                     {:id (str id "-" "node")}))
+                 middle))
              :timebox/right
-                         (comp/get-initial-state
-                           AboutRightSide
-                           right
-                           )})
+             (comp/get-initial-state
+               Right right)})
    :css   (:css uicss/Timebox)}
   (let [{:keys [timebox]} (css/get-classnames Timebox)]
     (div {:classes [timebox]
           :id      id}
-         (ui-about-left left)
-         (ui-about-middle middle)
-         (ui-about-right right)
-         )))
+         (ui-left left)
+         (ui-middle middle)
+         (ui-right right))))
 (def ui-timebox (comp/factory Timebox {:keyfn :timebox/id}))
+
+(def about-initial-state
+  {:about/timebox
+   [(comp/get-initial-state
+      Timebox
+      {:id     "first"
+       :left
+               [{:id      "first-gallery1"
+                 :ui      ui-gallery
+                 :factory Gallery
+                 :data
+                          [{:id  "paycom"
+                            :src "../images/paycom.PNG"
+                            :alt "I work here rn"}
+                           {:id  "okcity"
+                            :src "../images/okcity.PNG"
+                            :alt "I live here rn"}]}
+                {:id      "first-arrow1"
+                 :ui      ui-image
+                 :factory Image
+                 :data
+                          {:id  "pr"
+                           :alt "point to the right from left"
+                           :src "../images/left-side-arrow.PNG"}}]
+       :middle [{:ui      ui-image
+                 :factory Image
+                 :data
+                          (get node-options :first)}]
+       :right
+               [{:id      "first-gallery2"
+                 :ui      ui-gallery
+                 :factory Gallery
+                 :data
+                          [{:id  "twbb"
+                            :src "../images/twbb.jpg"
+                            :alt "There Will Be Blood"}]}
+                {:id      "first-arrow2"
+                 :ui      ui-image
+                 :factory Image
+                 :data
+                          {:id  "pl"
+                           :alt "point to the left from the right"
+                           :src "../images/right-side-arrow.PNG"}}]})
+    (comp/get-initial-state
+      Timebox
+      {:id     "second"
+       :middle [{:ui      ui-image
+                 :factory Image
+                 :data
+                          (get node-options :middle)}]})
+    (comp/get-initial-state
+      Timebox
+      {:id     "third"
+       :middle [{:ui      ui-image
+                 :factory Image
+                 :data
+                          (get node-options :end)}]})]})
 
 (defsc About [this {:about/keys [timebox] :as props}]
   {:ident         (fn [] [:component/id :about])
@@ -556,49 +536,15 @@
    :query         [{:about/timebox (comp/get-query Timebox)}]
    :initial-state
                   (fn [_]
-                    {:about/timebox
-                     [(comp/get-initial-state
-                        Timebox
-                        {:id     "first-box"
-                         :left
-                                 [{:id  "paycom"
-                                   :src "../images/paycom.PNG"
-                                   :alt "I work here rn"}
-                                  {:id  "okcity"
-                                   :src "../images/okcity.PNG"
-                                   :alt "I live here rn"}
-                                  ]
-                         :middle {:id :first}
-                         :right
-                                 [{:id  "twbb"
-                                   :src "../images/twbb.jpg"
-                                   :alt "There Will Be Blood"}]
-                         }
-                        )
-                      (comp/get-initial-state
-                        Timebox
-                        {:id     "second"
-                         :middle {:id :middle}
-                         }
-                        )
-                      (comp/get-initial-state
-                        Timebox
-                        {:id     "third"
-                         :middle {:id :end}
-                         }
-                        )
-                      ]
-
-                     }
+                    about-initial-state
                     )}
   (div {:id "project-page-body"}
        (inj/style-element {:component Timebox})
-       (mapv ui-timebox timebox)
-       ))
+       (mapv ui-timebox timebox)))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
-  {:router-targets [Home b/About Contact Projects]})
+  {:router-targets [Home About Contact Projects]})
 (def ui-root-router (comp/factory RootRouter))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}

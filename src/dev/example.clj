@@ -9,6 +9,25 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defsc Middle [this {:middle/keys [id ui factory data] :as props}]
+;  {:ident :middle/id
+;   :query [:middle/id
+;           :middle/ui
+;           :middle/factory
+;           :middle/data]
+;   :initial-state
+;          (fn [{:keys [id data ui factory]}]
+;            {:middle/id      id
+;             :middle/ui      ui
+;             :middle/factory factory
+;             :middle/data    data})
+;   :css   (:css uicss/Middle)}
+;  (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
+;    (dom/div {:id id :className "middle"}
+;             (mapv (fn [thing]
+;                     (ui (comp/get-initial-state
+;                           factory thing))) data))))
+
 ;(defsc Right
 ;  [this {:right/keys [components]}]
 ;  {:query [:right/components]

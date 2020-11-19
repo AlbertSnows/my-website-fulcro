@@ -9,6 +9,125 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
 
+;(defsc Left
+;  [this {:left/keys [components id]}]
+;  {:query [:left/components
+;           :left/id]
+;   :initial-state
+;          (fn [components]
+;            {:left/components components
+;             :left/id (:id (first components))})}
+;  (div {:id (create-div-id (first components) "left")
+;        :className "left-side"}
+;       (mapv (fn [component]
+;               (apply-contained-component
+;                 (append-id component "left")))
+;             components)))
+;(def ui-left (comp/factory Left {:keyfn :left/id}))
+;
+;(defsc Middle [this {:middle/keys [id components] :as props}]
+;  {:ident :middle/id
+;   :query [:middle/id :middle/components]
+;   :initial-state
+;          (fn [components]
+;            {:middle/id (:id (first components))
+;             :middle/components components})
+;   :css   (:css uicss/Middle)}
+;  (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
+;    (dom/div
+;      {:id (create-div-id id "middle") :className "middle"}
+;      (mapv (fn [component]
+;              (apply-contained-component
+;                (append-id component "middle")))
+;            components))))
+;(def ui-middle (comp/factory Middle {:keyfn :middle/id}))
+;
+;(defsc Right
+;  [this {:right/keys [components id] :as props}]
+;  {:query [:right/components :right/id]
+;   :initial-state
+;          (fn [components]
+;            {:right/components components
+;             :right/id (:id (first components))})
+;   :css   [[:.right
+;            {:display        "flex"                         ;
+;             :flex-direction "column"
+;             :align-items    "center"
+;             :padding-right  "1.5em"
+;             :width          "100%"}]
+;           [:.right>a+a
+;            {:padding-top "6em"}]]}
+;  (div {:id (create-div-id (first components) "right")
+;        :className "right-side"}
+;       (mapv (fn [component]
+;               (apply-contained-component
+;                 (append-id component "right")))
+;             components)))
+;(def ui-right (comp/factory Right {:keyfn :right/id}))
+
+;(defsc AboutMiddle [this {:middle/keys [id] :as props}]
+;  {:query [:middle/id]
+;   :ident :middle/id
+;   :initial-state
+;          (fn [{:keys [id]}]
+;            {:middle/id id})
+;   :css   [[:.middle-main-page
+;            {:display         "flex"
+;             :flex-direction  "column"
+;             :font-size       "4vw"
+;             :margin          "0 auto"
+;             :justify-content "center"
+;             :min-width       "6em"
+;             :height          "auto"}]
+;           [:.padding-bottom
+;            {:padding-bottom "1em"}]
+;           [:.enlarge-text
+;            {:font-size "larger"
+;             :overflow  "hidden"}]
+;           [:.small-text
+;            {:font-size  "initial"
+;             :margin     "0 auto"
+;             :text-align "center"}]]}
+;  (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames AboutMiddle)]
+;    (dom/div
+;      (ui-image
+;        (comp/get-initial-state Image
+;                                (get node-options id))))))
+;(def ui-about-middle (comp/factory AboutMiddle {:keyfn :middle/id}))
+;
+;(defsc AboutRightSide [this {:right-side/keys [gallery] :as props}]
+;  {:query [:right-side/gallery
+;           ]
+;   :initial-state
+;          (fn [gallery]
+;            {:right-side/gallery
+;             (comp/get-initial-state Gallery gallery)}
+;            )
+;   :css
+;          [[:.right-side
+;            {:display        "flex"                         ;
+;             :flex-direction "column"
+;             :align-items    "center"
+;             :padding-right  "1.5em"
+;             :width          "100%"}]
+;           [:.right-side>a+a
+;            {:padding-top "6em"}]]
+;   }
+;  (dom/div {:className "about-right"}
+;           (dom/div
+;             (ui-image
+;               (comp/get-initial-state
+;                 Image
+;                 {:id  "right-side-arrow"
+;                  :alt "point to the left from right"
+;                  :src "../images/right-side-arrow.PNG"})
+;               ))
+;
+;           (ui-gallery gallery)
+;           )
+;  )
+;(def ui-about-right (comp/factory AboutRightSide))
+
 ;(defsc Middle [this {:middle/keys [id ui factory data] :as props}]
 ;  {:ident :middle/id
 ;   :query [:middle/id

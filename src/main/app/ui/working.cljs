@@ -117,24 +117,21 @@
              components)))
 (def ui-left (comp/factory Left {:keyfn :left/id}))
 
-(defsc Middle [this {:middle/keys [id ui factory data] :as props}]
+(defsc Middle [this {:middle/keys [id components] :as props}]
   {:ident :middle/id
-   :query [:middle/id
-           :middle/ui
-           :middle/factory
-           :middle/data]
+   :query [:middle/id :middle/components]
    :initial-state
-          (fn [{:keys [id state ui factory]}]
-            {:middle/id      id
-             :middle/ui      ui
-             :middle/factory factory
-             :middle/data    state})
+          (fn [components]
+            {:middle/id (:id (first components))
+             :middle/components components})
    :css   (:css uicss/Middle)}
   (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-    (dom/div {:id id :className "middle"}
-             (mapv (fn [thing]
-                     (ui (comp/get-initial-state
-                           factory thing))) data))))
+    (dom/div
+      {:id (create-div-id id "middle") :className "middle"}
+      (mapv (fn [component]
+              (apply-contained-component
+                (append-id component "middle")))
+            components))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
 (defsc Right
@@ -162,9 +159,9 @@
 
 (defsc Text [this {:text/keys [id text]}]
   {:query         [:text/id :text/text]
-   :initial-state (fn [{:keys [id text]}]
+   :initial-state (fn [{:keys [id data]}]
                     {:text/id   id
-                     :text/text text})}
+                     :text/text data})}
   (p {:id id} text))
 (def ui-text (comp/factory Text {:keyfn :text/id}))
 
@@ -197,14 +194,18 @@
    :home/middle
    (comp/get-initial-state
      Middle
-     {:id      "home-middle"
-      :state
-               [{:id   "large-text"
-                 :text "Mostly this stuff"}
-                {:id   "small-text"
-                 :text "(check out my projects for novel things)"}]
-      :factory Text
-      :ui      ui-text})
+     [{:id "large-text"
+       :ui ui-text
+       :factory Text
+       :data
+       {:id "large-text"
+        :data "Mostly this stuff"}}
+      {:id "small-text"
+       :ui ui-text
+       :factory Text
+       :data
+       {:id "small-text"
+        :data "(check out my projects for novel things)"}}])
    :home/right
    (comp/get-initial-state
      Right

@@ -237,24 +237,21 @@
 (def ui-left (comp/factory Left {:keyfn :left/id}))
 
 
-(defsc Middle [this {:middle/keys [id ui factory data] :as props}]
+(defsc Middle [this {:middle/keys [id components] :as props}]
   {:ident :middle/id
-   :query [:middle/id
-           :middle/ui
-           :middle/factory
-           :middle/data]
+   :query [:middle/id :middle/components]
    :initial-state
-          (fn [{:keys [id state ui factory]}]
-            {:middle/id      id
-             :middle/ui      ui
-             :middle/factory factory
-             :middle/data    state})
+          (fn [components]
+            {:middle/id (:id (first components))
+             :middle/components components})
    :css   (:css uicss/Middle)}
   (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-    (dom/div {:id id :className "middle"}
-             (mapv (fn [thing]
-                     (ui (comp/get-initial-state
-                           factory thing))) data))))
+    (dom/div
+      {:id (create-div-id id "middle") :className "middle"}
+      (mapv (fn [component]
+              (apply-contained-component
+                (append-id component "middle")))
+            components))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
 (defsc Right
@@ -272,7 +269,7 @@
              :width          "100%"}]
            [:.right>a+a
             {:padding-top "6em"}]]}
-  (div {:id        (create-div-id (first components) "right")
+  (div {:id        (create-div-id id "right")
         :className "right-side"}
        (mapv (fn [component]
                (apply-contained-component
@@ -363,93 +360,95 @@
                                      right
                                      ] :as props}]
   {:query
-    [:timebox/id
-     {:timebox/left (comp/get-query Left)}
-     {:timebox/middle (comp/get-query AboutMiddle)}
-     {:timebox/right (comp/get-query Right)}]
+          [:timebox/id
+           {:timebox/left (comp/get-query Left)}
+           {:timebox/middle (comp/get-query Middle)}
+           {:timebox/right (comp/get-query Right)}]
    :ident :timebox/id
    :initial-state
-    (fn [{:keys [id left middle right]}]
-      {:timebox/id id
-       :timebox/left
-                   (comp/get-initial-state
-                     Left left)
+          (fn [{:keys [id left middle right]}]
+            {:timebox/id
+             id
+             :timebox/left
+                         (comp/get-initial-state
+                           Left left)
              :timebox/middle
-                   (comp/get-initial-state
-                     AboutMiddle middle)
+             (comp/get-initial-state
+               Middle
+               (mapv
+                 (fn [component]
+                   (merge
+                     component
+                     {:id (str id "-" "node")}))
+                 middle))
              :timebox/right
-                   (comp/get-initial-state
-                     Right right)})
+                         (comp/get-initial-state
+                           Right right)})
    :css   (:css uicss/Timebox)}
   (let [{:keys [timebox]} (css/get-classnames Timebox)]
     (div {:classes [timebox]
           :id      id}
          (ui-left left)
-         (ui-about-middle middle)
-         (ui-right right)
-         )))
+         (ui-middle middle)
+         (ui-right right))))
 (def ui-timebox (comp/factory Timebox {:keyfn :timebox/id}))
-
-
 
 (def about-initial-state
   {:about/timebox
    [(comp/get-initial-state
       Timebox
-      {:id "first-box"
+      {:id     "first"
        :left
-           [{:id      "first-gallery1"
-             :ui      ui-gallery
-             :factory Gallery
-             :data
-                      [{:id  "paycom"
-                        :src "../images/paycom.PNG"
-                        :alt "I work here rn"}
-                       {:id  "okcity"
-                        :src "../images/okcity.PNG"
-                        :alt "I live here rn"}]}
-            {:id      "first-arrow1"
-             :ui      ui-image
-             :factory Image
-             :data
-                      {:id  "pr"
-                       :alt "point to the right from left"
-                       :src "../images/left-side-arrow.PNG"}}]
-       :middle {:id :first}
+               [{:id      "first-gallery1"
+                 :ui      ui-gallery
+                 :factory Gallery
+                 :data
+                          [{:id  "paycom"
+                            :src "../images/paycom.PNG"
+                            :alt "I work here rn"}
+                           {:id  "okcity"
+                            :src "../images/okcity.PNG"
+                            :alt "I live here rn"}]}
+                {:id      "first-arrow1"
+                 :ui      ui-image
+                 :factory Image
+                 :data
+                          {:id  "pr"
+                           :alt "point to the right from left"
+                           :src "../images/left-side-arrow.PNG"}}]
+       :middle [{:ui      ui-image
+                 :factory Image
+                 :data
+                         (get node-options :first)}]
        :right
-           [{:id "first-gallery2"
-             :ui ui-gallery
-             :factory Gallery
-             :data
-             [{:id  "twbb"
-               :src "../images/twbb.jpg"
-               :alt "There Will Be Blood"}]
-
-             }
-            {:id "first-arrow2"
-             :ui ui-image
-             :factory Image
-             :data
-             {:id "pl"
-              :alt "point to the left from the right"
-              :src "../images/right-side-arrow.PNG"}}]})
-    ;(comp/get-initial-state
-    ;  Timebox
-    ;  {:id     "second"
-    ;   :middle {:id :middle}
-    ;   }
-    ;  )
-    ;(comp/get-initial-state
-    ;  Timebox
-    ;  {:id     "third"
-    ;   :middle {:id :end}
-    ;   }
-    ;  )
-    ]
-
-   }
-
-  )
+               [{:id      "first-gallery2"
+                 :ui      ui-gallery
+                 :factory Gallery
+                 :data
+                          [{:id  "twbb"
+                            :src "../images/twbb.jpg"
+                            :alt "There Will Be Blood"}]}
+                {:id      "first-arrow2"
+                 :ui      ui-image
+                 :factory Image
+                 :data
+                          {:id  "pl"
+                           :alt "point to the left from the right"
+                           :src "../images/right-side-arrow.PNG"}}]})
+    (comp/get-initial-state
+      Timebox
+      {:id     "second"
+       :middle [{:ui      ui-image
+                 :factory Image
+                 :data
+                          (get node-options :middle)}]})
+    (comp/get-initial-state
+      Timebox
+      {:id     "third"
+       :middle [{:ui      ui-image
+                 :factory Image
+                 :data
+                          (get node-options :end)}]})]})
 
 (defsc About [this {:about/keys [timebox] :as props}]
   {:ident         (fn [] [:component/id :about])

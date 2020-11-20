@@ -8,7 +8,28 @@
     [com.fulcrologic.fulcro-css.css :as css]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div label button span]]))
-
+;(mapv
+;  (fn [component]
+;    (merge
+;      component
+;      {:id (str id "-" "node")}))
+;  middle)
+;(div {:id        (create-div-id id "right")
+;      :className "right-side"}
+;     (mapv (fn [component]
+;             (apply-contained-component
+;               (append-id component "right")))
+;           components))
+;(dom/div
+;  {:id (create-div-id id "middle") :className "middle"}
+;  (mapv (fn [component]
+;          (apply-contained-component
+;            (append-id component "middle")))
+;        components))
+;(div {:id id :className "left-side"}
+;     (mapv (fn [component]
+;             (apply-contained-component component))
+;           components))
 ;(defsc Left
 ;  [this {:left/keys [components id]}]
 ;  {:query [:left/components

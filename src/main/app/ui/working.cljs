@@ -15,6 +15,34 @@
 
     ))
 
+(defn div-with-classes [classes contents]
+  (div {:className classes} contents))
+(defn div-with-classes-and-id [id classes contents]
+  (div {:id id :className classes} contents))
+(defn create-div-id [component id]
+  (str (:id component) "-" id))
+(defn append-id [component id]
+  (merge component {:id (create-div-id component id)}))
+(defn rand-str [len]
+  (apply str (take len (repeatedly #(char (+ (rand 26) 65))))))
+(defn apply-to-components [mutator data components]
+  (mapv (fn [component] (mutator data component)) components))
+(defn add-id [comp-id sub-comp]
+  (if (nil? (:id sub-comp))
+    (merge sub-comp {:id comp-id})
+    (merge sub-comp {:id (str comp-id "-" (:id sub-comp))})))
+(defn add-id-to-components [new-id components]
+  (apply-to-components add-id new-id components))
+(defn apply-contained-component [{:keys [id ui factory data]}]
+  (ui
+    (comp/get-initial-state factory
+                            (if (vector? data)
+                              (add-id-to-components id data)
+                              (add-id id data)))))
+(defn get-first-id [components]
+  (:id (first components)))
+
+
 (defsc Image [this {:image/keys [id src alt]}]
   {:query [:image/id :image/src :image/alt]
    :initial-state
@@ -22,7 +50,7 @@
             {:image/src src
              :image/id  (str id "-img")
              :image/alt alt})}
-  (img {:src src :id id :alt alt}))
+  (img {:id id  :src src :alt alt}))
 (def ui-image (comp/factory Image {:keyfn :image/id}))
 
 (defsc Href [this {:href/keys [id link image]}]
@@ -38,109 +66,84 @@
                         (comp/get-initial-state
                           Image
                           {:src src
-                           :id  id
+                           :id  (str id "-href")
                            :alt alt})})}
-  (a {:href   link
+  (a {:id id
+      :href   link
       :target "__blank"
       :rel    "noopener noreferrer"}
      (ui-image image)))
 (def ui-href (comp/factory Href {:keyfn :href/id}))
 
-(defn add-id [comp-id sub-comp]
-  (if (nil? (:id sub-comp))
-    (merge sub-comp {:id comp-id})
-    (merge sub-comp {:id (str comp-id "-" (:id sub-comp))})))
-(defn apply-contained-component [component]
-  ((:ui component)
-   (comp/get-initial-state
-     (:factory component)
-     (if (vector? (:data component))
-       (mapv
-         (fn [sub-component]
-           (add-id (:id component) sub-component))
-         (:data component))
-       (add-id (:id component) (:data component))))))
-(defn div-with-classes [classes contents]
-  (div {:className classes} contents))
-(defn div-with-classes-and-id [id classes contents]
-  (div {:id id :className classes} contents))
-(defn create-div-id [component id]
-  (str (:id component) "-" id))
-(defn append-id [component id]
-  (merge component {:id (create-div-id component id)}))
-(defn rand-str [len]
-  (apply str (take len (repeatedly #(char (+ (rand 26) 65))))))
+
+
+
 
 (defsc Top
   [this {:top/keys [components id]}]
   {:ident :top/id
-   :query [:top/components
-           :top/id]
+   :query [:top/components :top/id]
    :initial-state
-          (fn [components]
-            {:top/components components
-             :top/id (:id (first components))})}
-  (div-with-classes-and-id
-    (str id "-top")
-    "top-div"
+    (fn [components]
+      {:top/components
+        (add-id-to-components
+          (str (get-first-id components) "-top")
+          components)
+       :top/id (str (get-first-id components) "-top")})}
+  (div-with-classes-and-id id "top-div"
     (mapv apply-contained-component components)))
 (def ui-top (comp/factory Top {:keyfn :top/id}))
 
 (defsc Bottom
   [this {:bottom/keys [components id]}]
   {:ident :bottom/id
-   :query [:bottom/components
-           :bottom/id]
+   :query [:bottom/components :bottom/id]
    :initial-state
           (fn [components]
-            {:bottom/components components
-             :bottom/id (:id (first components))})}
-  (div-with-classes-and-id
-    (str id "-bottom")
-    "bottom-div"
+            {:bottom/components
+                        (add-id-to-components
+                          (str (get-first-id components) "-bottom")
+                          components)
+             :bottom/id (str (get-first-id components) "-bottom")})}
+  (div-with-classes-and-id id "bottom-div"
     (mapv apply-contained-component components)))
 (def ui-bottom (comp/factory Bottom {:keyfn :bottom/id}))
 
+
 (defsc Left
   [this {:left/keys [components id]}]
-  {:query [:left/components
-           :left/id]
+  {:query [:left/components :left/id]
    :initial-state
-          (fn [components]
-            {:left/components components
-             :left/id         (:id (first components))})}
-  (div {:id        (str id "-left")
-        :className "left-side"}
-       (mapv (fn [component]
-               (apply-contained-component
-                 (append-id component "left")))
-             components)))
+          (fn [{:keys [id data]}]
+            {:left/id (str id "-left")
+             :left/components
+              (add-id-to-components (str id "-left") data)})}
+  (div-with-classes-and-id id "left-side"
+    (mapv apply-contained-component components)))
 (def ui-left (comp/factory Left {:keyfn :left/id}))
 
 (defsc Middle [this {:middle/keys [id components] :as props}]
   {:ident :middle/id
    :query [:middle/id :middle/components]
    :initial-state
-          (fn [components]
-            {:middle/id (:id (first components))
-             :middle/components components})
+          (fn [{:keys [id data]}]
+            {:middle/id (str id "-middle")
+             :middle/components
+              (add-id-to-components (str id "-middle") data)})
    :css   (:css uicss/Middle)}
   (let [{:keys [middle-main-page padding-bottom]} (css/get-classnames Middle)]
-    (dom/div
-      {:id (create-div-id id "middle") :className "middle"}
-      (mapv (fn [component]
-              (apply-contained-component
-                (append-id component "middle")))
-            components))))
+    (div-with-classes-and-id id "middle"
+      (mapv apply-contained-component components))))
 (def ui-middle (comp/factory Middle {:keyfn :middle/id}))
 
 (defsc Right
   [this {:right/keys [components id] :as props}]
   {:query [:right/components :right/id]
    :initial-state
-          (fn [components]
-            {:right/components components
-             :right/id         (:id (first components))})
+          (fn [{:keys [id data]}]
+            {:right/id (str id "-right")
+             :right/components
+              (add-id-to-components (str id "-right") data)})
    :css   [[:.right
             {:display        "flex"                         ;
              :flex-direction "column"
@@ -149,12 +152,8 @@
              :width          "100%"}]
            [:.right>a+a
             {:padding-top "6em"}]]}
-  (div {:id        (create-div-id id "right")
-        :className "right-side"}
-       (mapv (fn [component]
-               (apply-contained-component
-                 (append-id component "right")))
-             components)))
+  (div-with-classes-and-id id "right-side"
+    (mapv apply-contained-component components)))
 (def ui-right (comp/factory Right {:keyfn :right/id}))
 
 (defsc Text [this {:text/keys [id text]}]
@@ -164,86 +163,6 @@
                      :text/text data})}
   (p {:id id} text))
 (def ui-text (comp/factory Text {:keyfn :text/id}))
-
-(def home-initial-state
-  {:home/left
-   (comp/get-initial-state
-     Left
-     [{:id "home1"
-       :ui ui-top
-       :factory Top
-       :data
-       [{:ui ui-href
-         :factory Href
-         :data
-         {:link "https://en.wikipedia.org/wiki/Gaming"
-          :id   "gamin"
-          :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-          :alt  "I play games I KNOW I'M SORRY"}}]}
-      {:id "home2"
-       :ui ui-bottom
-       :factory Bottom
-       :data
-       [{:ui ui-href
-         :factory Href
-         :data
-         {:link "https://www.whatisitliketobeaphilosopher.com/"
-          :id   "pho"
-          :src  "../images/the-thinker.png"
-          :alt  "But really, what even IS a rock anyways???"}}]}])
-   :home/middle
-   (comp/get-initial-state
-     Middle
-     [{:id "large-text"
-       :ui ui-text
-       :factory Text
-       :data
-       {:id "large-text"
-        :data "Mostly this stuff"}}
-      {:id "small-text"
-       :ui ui-text
-       :factory Text
-       :data
-       {:id "small-text"
-        :data "(check out my projects for novel things)"}}])
-   :home/right
-   (comp/get-initial-state
-     Right
-     [{:id "home3"
-       :ui ui-top
-       :factory Top
-       :data
-       [{:ui ui-href
-         :factory Href
-         :data
-         {:link "https://www.youtube.com/"
-          :id   "Tube"
-          :src  "../images/tubes.png"
-          :alt  "Youtube is my Netflix, sadly"}}]}
-      {:id "home4"
-       :ui ui-bottom
-       :factory Bottom
-       :data
-       [{:ui ui-href
-         :factory Href
-         :data
-         {:link "https://en.wikipedia.org/wiki/Programmer"
-          :id   "debug"
-          :src  "../images/meirl.png"
-          :alt  "g! 'How to print newline in cljs'"}}]}])})
-
-(defsc Home [this {:home/keys [left middle right]}]
-  {:query         [{:home/left (comp/get-query Left)}
-                   {:home/middle (comp/get-query Middle)}
-                   {:home/right (comp/get-query Right)}]
-   :route-segment ["home"]
-   :ident         (fn [] [:component/id :home])
-   :initial-state
-                  (fn [_] home-initial-state)}
-  (div {:className "home"}
-       (ui-left left)
-       (ui-middle middle)
-       (ui-right right)))
 
 (def contact-initial-state
   {:contact/image
@@ -302,101 +221,101 @@
     (ui-href href)))
 (def ui-project-box (comp/factory ProjectBox {:keyfn :box/id}))
 
+(def projects-initial-state
+  {:projects/contents
+   [(comp/get-initial-state
+      ProjectBox
+      {:id "my-website"
+       :description
+           {:header "This Website"
+            :body   "The website you're perusing."}
+       :href
+           {:link "https://github.com/AlbertSnows/my-website"
+            :alt  "This Website"
+            :src  "../images/this_website.PNG"}})
+    (comp/get-initial-state
+      ProjectBox
+      {:id "first-website"
+       :description
+           {:header "My First Website"
+            :body   "First website for class.\n                  Written from Javascript\n                  to-> Typescript\n                  to-> Clojurescript over the semester"}
+       :href
+           {:link "https://github.com/AlbertSnows/FWRcljs"
+            :alt  "My First Website"
+            :src  "../images/kistners_flowers.PNG"}})
+    (comp/get-initial-state
+      ProjectBox
+      {:id "snake-game"
+       :description
+           {:header "Snake Game"
+            :body   "Walkthrough re-write of Snake in Rust"}
+       :href
+           {:link "https://github.com/AlbertSnows/snake_game"
+            :alt  "Snake Game"
+            :src  "../images/snake_rust.PNG"}})
+    (comp/get-initial-state
+      ProjectBox
+      {:id "game-jam-2018"
+       :description
+           {:header "To Change A Light Bulb"
+            :body   "A beautiful disaster written over a weekend during a game jam"}
+       :href
+           {:link "https://github.com/AlbertSnows/To-Change-A-Lightbulb"
+            :alt  "To Change A Light Bulb"
+            :src  "../images/lightbulb.PNG"}})
+    (comp/get-initial-state
+      ProjectBox
+      {:id "thermal-modeling"
+       :description
+           {:header "Human Thermal Modeling"
+            :body   "Multi-threading graduate student's research code"}
+       :href
+           {:link "https://github.com/AlbertSnows/HumanThermalModeling"
+            :alt  "Human Thermal Modeling"
+            :src  "../images/thermal_modeling.PNG"}})
+    (comp/get-initial-state
+      ProjectBox
+      {:id "roguelike"
+       :description
+           {:header "2D Rogue Like"
+            :body   "Tutorial game made in Unity"}
+       :href
+           {:link "https://github.com/AlbertSnows/2DRogueLike"
+            :alt  "2D Rogue Like"
+            :src  "../images/2Drouge.PNG"}})
+    (comp/get-initial-state
+      ProjectBox
+      {:id "edgesweeper"
+       :description
+           {:header "Edgesweeper"
+            :body   "Took Minesweeper, written in python, and added a feature"}
+       :href
+           {:link "https://github.com/AlbertSnows/python-tkinter-minesweeper"
+            :alt  "Edgesweeper"
+            :src  "../images/minesweeper.PNG"}})
+    (comp/get-initial-state ProjectBox
+                            {:id "first-unity"
+                             :description
+                                 {:header "Roll A Ball"
+                                  :body   "First tutorial exposure to Unity"}
+                             :href
+                                 {:link "https://github.com/AlbertSnows/RollABall"
+                                  :alt  "Roll A Ball"
+                                  :src  "../images/rollaball.PNG"}})
+    (comp/get-initial-state ProjectBox
+                            {:id "mobile-app-game"
+                             :description
+                                 {:header "Simple App"
+                                  :body   "Exposure to app development in Java/Kotlin via Android Studio"}
+                             :href
+                                 {:link "https://github.com/AlbertSnows/SimpleMobileGame"
+                                  :alt  "Simple App"
+                                  :src  "../images/first_app.PNG"}})]})
 (defsc Projects [this {:projects/keys [contents] :as props}]
   {:ident         (fn [] [:component/id :projects])
    :route-segment ["projects"]
    :query         [:projects/contents]
-   :initial-state
-                  (fn [_]
-                    {:projects/contents
-                     [(comp/get-initial-state
-                        ProjectBox
-                        {:id "my-website"
-                         :description
-                             {:header "This Website"
-                              :body   "The website you're perusing."}
-                         :href
-                             {:link "https://github.com/AlbertSnows/my-website"
-                              :alt  "This Website"
-                              :src  "../images/this_website.PNG"}})
-                      (comp/get-initial-state
-                        ProjectBox
-                        {:id "first-website"
-                         :description
-                             {:header "My First Website"
-                              :body   "First website for class.\n                  Written from Javascript\n                  to-> Typescript\n                  to-> Clojurescript over the semester"}
-                         :href
-                             {:link "https://github.com/AlbertSnows/FWRcljs"
-                              :alt  "My First Website"
-                              :src  "../images/kistners_flowers.PNG"}})
-                      (comp/get-initial-state
-                        ProjectBox
-                        {:id "snake-game"
-                         :description
-                             {:header "Snake Game"
-                              :body   "Walkthrough re-write of Snake in Rust"}
-                         :href
-                             {:link "https://github.com/AlbertSnows/snake_game"
-                              :alt  "Snake Game"
-                              :src  "../images/snake_rust.PNG"}})
-                      (comp/get-initial-state
-                        ProjectBox
-                        {:id "game-jam-2018"
-                         :description
-                             {:header "To Change A Light Bulb"
-                              :body   "A beautiful disaster written over a weekend during a game jam"}
-                         :href
-                             {:link "https://github.com/AlbertSnows/To-Change-A-Lightbulb"
-                              :alt  "To Change A Light Bulb"
-                              :src  "../images/lightbulb.PNG"}})
-                      (comp/get-initial-state
-                        ProjectBox
-                        {:id "thermal-modeling"
-                         :description
-                             {:header "Human Thermal Modeling"
-                              :body   "Multi-threading graduate student's research code"}
-                         :href
-                             {:link "https://github.com/AlbertSnows/HumanThermalModeling"
-                              :alt  "Human Thermal Modeling"
-                              :src  "../images/thermal_modeling.PNG"}})
-                      (comp/get-initial-state
-                        ProjectBox
-                        {:id "roguelike"
-                         :description
-                             {:header "2D Rogue Like"
-                              :body   "Tutorial game made in Unity"}
-                         :href
-                             {:link "https://github.com/AlbertSnows/2DRogueLike"
-                              :alt  "2D Rogue Like"
-                              :src  "../images/2Drouge.PNG"}})
-                      (comp/get-initial-state
-                        ProjectBox
-                        {:id "edgesweeper"
-                         :description
-                             {:header "Edgesweeper"
-                              :body   "Took Minesweeper, written in python, and added a feature"}
-                         :href
-                             {:link "https://github.com/AlbertSnows/python-tkinter-minesweeper"
-                              :alt  "Edgesweeper"
-                              :src  "../images/minesweeper.PNG"}})
-                      (comp/get-initial-state ProjectBox
-                                              {:id "first-unity"
-                                               :description
-                                                   {:header "Roll A Ball"
-                                                    :body   "First tutorial exposure to Unity"}
-                                               :href
-                                                   {:link "https://github.com/AlbertSnows/RollABall"
-                                                    :alt  "Roll A Ball"
-                                                    :src  "../images/rollaball.PNG"}})
-                      (comp/get-initial-state ProjectBox
-                                              {:id "mobile-app-game"
-                                               :description
-                                                   {:header "Simple App"
-                                                    :body   "Exposure to app development in Java/Kotlin via Android Studio"}
-                                               :href
-                                                   {:link "https://github.com/AlbertSnows/SimpleMobileGame"
-                                                    :alt  "Simple App"
-                                                    :src  "../images/first_app.PNG"}})]})}
+   :initial-state (fn [_] projects-initial-state)}
   (div {:id "project-page-body"}
        (mapv ui-project-box contents)))
 
@@ -447,23 +366,16 @@
    :ident :timebox/id
    :initial-state
           (fn [{:keys [id left middle right]}]
-            {:timebox/id
-             id
+            {:timebox/id id
              :timebox/left
-             (comp/get-initial-state
-               Left left)
+               (comp/get-initial-state
+                 Left {:id id :data left})
              :timebox/middle
-             (comp/get-initial-state
-               Middle
-               (mapv
-                 (fn [component]
-                   (merge
-                     component
-                     {:id (str id "-" "node")}))
-                 middle))
+               (comp/get-initial-state
+                 Middle {:id id :data middle})
              :timebox/right
-             (comp/get-initial-state
-               Right right)})
+               (comp/get-initial-state
+                 Right {:id id :data right})})
    :css   (:css uicss/Timebox)}
   (let [{:keys [timebox]} (css/get-classnames Timebox)]
     (div {:classes [timebox]
@@ -479,7 +391,8 @@
       Timebox
       {:id     "first"
        :left
-               [{:id      "first-gallery1"
+
+               [{:id      "gallery1"
                  :ui      ui-gallery
                  :factory Gallery
                  :data
@@ -489,7 +402,7 @@
                            {:id  "okcity"
                             :src "../images/okcity.PNG"
                             :alt "I live here rn"}]}
-                {:id      "first-arrow1"
+                {:id      "arrow1"
                  :ui      ui-image
                  :factory Image
                  :data
@@ -501,14 +414,14 @@
                  :data
                           (get node-options :first)}]
        :right
-               [{:id      "first-gallery2"
+               [{:id      "gallery2"
                  :ui      ui-gallery
                  :factory Gallery
                  :data
                           [{:id  "twbb"
                             :src "../images/twbb.jpg"
                             :alt "There Will Be Blood"}]}
-                {:id      "first-arrow2"
+                {:id      "arrow2"
                  :ui      ui-image
                  :factory Image
                  :data
@@ -529,18 +442,97 @@
                  :factory Image
                  :data
                           (get node-options :end)}]})]})
-
 (defsc About [this {:about/keys [timebox] :as props}]
-  {:ident         (fn [] [:component/id :about])
+  {:ident (fn [] [:component/id :about])
    :route-segment ["about"]
-   :query         [{:about/timebox (comp/get-query Timebox)}]
-   :initial-state
-                  (fn [_]
-                    about-initial-state
-                    )}
+   :query [{:about/timebox (comp/get-query Timebox)}]
+   :initial-state (fn [_] about-initial-state)}
   (div {:id "project-page-body"}
        (inj/style-element {:component Timebox})
        (mapv ui-timebox timebox)))
+
+(def home-initial-state
+  {:home/left
+   (comp/get-initial-state
+     Left
+     {:id "home"
+      :data
+          [{:ui ui-top
+            :factory Top
+            :data
+            [{:ui ui-href
+              :factory Href
+              :data
+              {:link "https://en.wikipedia.org/wiki/Gaming"
+               :id   "gamin"
+               :src  "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+               :alt  "I play games I KNOW I'M SORRY"}}]}
+           {:ui ui-bottom
+            :factory Bottom
+            :data
+            [{:ui ui-href
+              :factory Href
+              :data
+              {:link "https://www.whatisitliketobeaphilosopher.com/"
+               :id   "pho"
+               :src  "../images/the-thinker.png"
+               :alt  "But really, what even IS a rock anyways???"}}]}]})
+   :home/middle
+    (comp/get-initial-state
+      Middle
+      {:id "home"
+       :data
+           [{:id "large-text"
+             :ui ui-text
+             :factory Text
+             :data
+             {:id "large-text"
+              :data "Mostly this stuff"}}
+            {:id "small-text"
+             :ui ui-text
+             :factory Text
+             :data
+             {:id "small-text"
+              :data "(check out my projects for novel things)"}}]})
+   :home/right
+    (comp/get-initial-state
+      Right
+      {:id "home"
+       :data
+           [{:id "home3"
+             :ui ui-top
+             :factory Top
+             :data
+             [{:ui ui-href
+               :factory Href
+               :data
+               {:link "https://www.youtube.com/"
+                :id   "Tube"
+                :src  "../images/tubes.png"
+                :alt  "Youtube is my Netflix, sadly"}}]}
+            {:id "home4"
+             :ui ui-bottom
+             :factory Bottom
+             :data
+             [{:ui ui-href
+               :factory Href
+               :data
+               {:link "https://en.wikipedia.org/wiki/Programmer"
+                :id   "debug"
+                :src  "../images/meirl.png"
+                :alt  "g! 'How to print newline in cljs'"}}]}]})})
+
+(defsc Home [this {:home/keys [left middle right]}]
+  {:query [{:home/left (comp/get-query Left)}
+           {:home/middle (comp/get-query Middle)}
+           {:home/right (comp/get-query Right)}]
+   :route-segment ["home"]
+   :ident (fn [] [:component/id :home])
+   :initial-state (fn [_] home-initial-state)}
+  (div {:className "home"}
+       (ui-left left)
+       (ui-middle middle)
+       (ui-right right)))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]

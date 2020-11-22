@@ -9,7 +9,7 @@
      :justify-content  "center"
      :align-items      "center"
      :padding          "0em 0.5em 1em 0.5em"
-     :margin           "7% 1% 1% 1%"
+     :margin           "7% 10% 1% 10%"
      :border-radius    "2.5%"
      }]
    [:.box
@@ -111,5 +111,4 @@
    [:.very-small-text {
 
                        }]
-   [:.contact>.small-email-boi:hover {:visibility "visible"}]
-   ])
+   [:.contact>.small-email-boi:hover {:visibility "visible"}]])

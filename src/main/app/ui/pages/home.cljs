@@ -72,6 +72,7 @@
    :route-segment ["home"]
    :ident         (fn [] [:component/id :home])
    :initial-state (fn [_] home-initial-state)}
-  (div (ui-left left)
+  (div {:id "home"}
+       (ui-left left)
        (ui-middle middle)
        (ui-right right)))

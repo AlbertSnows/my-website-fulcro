@@ -1,4 +1,4 @@
-(ns app.ui.bleeding
+(ns lab.bleeding
   (:require
     [taoensso.timbre :as log]
     [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
@@ -8,3 +8,4 @@
     [com.fulcrologic.fulcro-css.css :as css]
     [app.ui.css :as uicss]
     [com.fulcrologic.fulcro-css.css-injection :as inj]))
+;;Use this file for new, experimental code.

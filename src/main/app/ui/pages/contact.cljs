@@ -21,10 +21,10 @@
       :src "../images/mail_secure.PNG"
       :alt "for security reasons"})})
 (defsc Contact [this {:contact/keys [image span] :as props}]
-       {:ident         (fn [] [:component/id :contact])
-        :query         [{:contact/image (get-query Image)}
-                        {:contact/span (get-query Image)}]
-        :initial-state (fn [_] contact-initial-state)
-        :route-segment ["contact"]}
-       (div (ui-image image)
-            (ui-image span)))
+  {:ident         (fn [] [:component/id :contact])
+   :query         [{:contact/image (get-query Image)}
+                   {:contact/span (get-query Image)}]
+   :initial-state (fn [_] contact-initial-state)
+   :route-segment ["contact"]}
+  (div (ui-image image)
+       (ui-image span)))

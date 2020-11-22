@@ -2,24 +2,26 @@
   (:require
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc get-query get-initial-state factory]]
-    [com.fulcrologic.fulcro-css.css-injection :as inj :refer [style-element]]
-    [com.fulcrologic.fulcro-css.css :as css :refer [get-classnames]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom :refer [div]]
-    [app.ui.components :as uic
-     :refer [ContainerHeader ui-container-header]]
-    [app.ui.sidebar.core :as sidebar
-     :refer [Sidebar ui-sidebar]]
-    [app.ui.pages.about :as a]
-    [app.ui.pages.contact :as c]
-    [app.ui.pages.home :as h]
-    [app.ui.pages.projects :as p]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr
      :refer [defrouter]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
      :refer [defstatemachine]]
-    [app.ui.css :as uicss]
+    [com.fulcrologic.fulcro-css.css-injection :as inj
+     :refer [style-element]]
+    [com.fulcrologic.fulcro-css.localized-dom :as dom
+     :refer [div]]
+    [app.ui.components :as uic
+     :refer [ContainerHeader ui-container-header]]
+    [com.fulcrologic.fulcro-css.css :as css
+     :refer [get-classnames]]
+    [app.ui.sidebar.core :as sidebar
+     :refer [Sidebar ui-sidebar]]
+    [app.ui.pages.projects :as p]
+    [app.ui.pages.contact :as c]
+    [app.ui.pages.about :as a]
+    [app.ui.pages.home :as h]
     [taoensso.timbre :as log]
-    ))
+    [app.ui.css :as uicss]))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]

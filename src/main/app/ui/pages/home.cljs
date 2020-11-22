@@ -1,12 +1,13 @@
 (ns app.ui.pages.home
   (:require
+    [app.ui.components :as c
+     :refer [Left ui-top Top ui-href Href ui-bottom Bottom
+             Middle ui-text Text Right ui-left ui-middle ui-right]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div]]
-    [app.ui.components :as c
-     :refer [Left ui-top Top ui-href Href ui-bottom Bottom
-             Middle ui-text Text Right ui-left ui-middle ui-right]]))
+     :refer [div]]))
+
 (def home-initial-state
   {:home/left
    (get-initial-state
@@ -17,8 +18,7 @@
             :factory Top
             :data    [{:ui      ui-href
                        :factory Href
-                       :data
-                                {:link  "https://en.wikipedia.org/wiki/Gaming"
+                       :data    {:link  "https://en.wikipedia.org/wiki/Gaming"
                                  :image {:id  "gamin"
                                          :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
                                          :alt "I play games I KNOW I'M SORRY"}}}]}
@@ -26,8 +26,7 @@
             :factory Bottom
             :data    [{:ui      ui-href
                        :factory Href
-                       :data
-                                {:link  "https://www.whatisitliketobeaphilosopher.com/"
+                       :data    {:link  "https://www.whatisitliketobeaphilosopher.com/"
                                  :image {:id  "pho"
                                          :src "../images/the-thinker.png"
                                          :alt "But really, what even IS a rock anyways???"}}}]}]})
@@ -53,8 +52,7 @@
             :factory Top
             :data    [{:ui      ui-href
                        :factory Href
-                       :data
-                                {:link  "https://www.youtube.com/"
+                       :data    {:link  "https://www.youtube.com/"
                                  :image {:id  "Tube"
                                          :src "../images/tubes.png"
                                          :alt "Youtube is my Netflix, sadly"}}}]}
@@ -62,8 +60,7 @@
             :factory Bottom
             :data    [{:ui      ui-href
                        :factory Href
-                       :data
-                                {:link  "https://en.wikipedia.org/wiki/Programmer"
+                       :data    {:link  "https://en.wikipedia.org/wiki/Programmer"
                                  :image {:id  "debug"
                                          :src "../images/meirl.png"
                                          :alt "g! 'How to print newline in cljs'"}}}]}]})})

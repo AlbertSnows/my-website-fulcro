@@ -1,33 +1,32 @@
 (ns app.ui.pages.about
   (:require
+    [app.ui.components :as c
+     :refer [ui-image Image Left Middle Right ui-left
+             ui-middle ui-right]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div]]
-    [app.ui.components :as c
-     :refer [ui-image Image Left Middle Right ui-left
-             ui-middle ui-right]]
-    [app.ui.css :as uicss]
-    [com.fulcrologic.fulcro-css.css :as css :refer [get-classnames]]
-    [com.fulcrologic.fulcro-css.css-injection :as inj :refer [style-element]]
-    ))
+    [com.fulcrologic.fulcro-css.css-injection :as inj
+     :refer [style-element]]
+    [com.fulcrologic.fulcro-css.css :as css
+     :refer [get-classnames]]
+    [app.ui.css :as uicss]))
+
 (defsc Gallery
-       [this {:gallery/keys [photos id] :as props}]
-       {:id    :gallery/id
-        :query [:gallery/photos
-                :gallery/id]
-        :initial-state
-               (fn [gallery]
-                 {:gallery/photos gallery
-                  :gallery/id     (:id (first gallery))})}
-       (div
-         {:id        (str id "-gallery")
-          :className "gallery"}
-         (mapv
-           (fn [photo]
-             (ui-image
-               (get-initial-state Image photo)))
-           photos)))
+  [this {:gallery/keys [photos id] :as props}]
+  {:id    :gallery/id
+   :query [:gallery/photos :gallery/id]
+   :initial-state
+          (fn [gallery]
+            {:gallery/photos gallery
+             :gallery/id     (:id (first gallery))})}
+  (div {:id        (str id "-gallery")
+        :className "gallery"}
+       (mapv
+         (fn [photo]
+           (ui-image (get-initial-state Image photo)))
+         photos)))
 (def ui-gallery (factory Gallery {:keyfn :gallery/id}))
 
 
@@ -47,31 +46,31 @@
     :src "../images/end-of-the-road.PNG"}})
 
 (defsc Timebox [this {:timebox/keys [id left middle right]}]
-       {:query
-               [:timebox/id
-                {:timebox/left (get-query Left)}
-                {:timebox/middle (get-query Middle)}
-                {:timebox/right (get-query Right)}]
-        :ident :timebox/id
-        :initial-state
-               (fn [{:keys [id left middle right]}]
-                 {:timebox/id id
-                  :timebox/left
-                              (get-initial-state
-                                Left {:id id :data left})
-                  :timebox/middle
-                              (get-initial-state
-                                Middle {:id id :data middle})
-                  :timebox/right
-                              (get-initial-state
-                                Right {:id id :data right})})
-        :css   (:css uicss/Timebox)}
-       (let [{:keys [timebox]} (get-classnames Timebox)]
-         (div {:classes [timebox]
-               :id      id}
-              (ui-left left)
-              (ui-middle middle)
-              (ui-right right))))
+  {:query
+          [:timebox/id
+           {:timebox/left (get-query Left)}
+           {:timebox/middle (get-query Middle)}
+           {:timebox/right (get-query Right)}]
+   :ident :timebox/id
+   :initial-state
+          (fn [{:keys [id left middle right]}]
+            {:timebox/id id
+             :timebox/left
+                         (get-initial-state
+                           Left {:id id :data left})
+             :timebox/middle
+                         (get-initial-state
+                           Middle {:id id :data middle})
+             :timebox/right
+                         (get-initial-state
+                           Right {:id id :data right})})
+   :css   (:css uicss/Timebox)}
+  (let [{:keys [timebox]} (get-classnames Timebox)]
+    (div {:classes [timebox]
+          :id      id}
+         (ui-left left)
+         (ui-middle middle)
+         (ui-right right))))
 (def ui-timebox (factory Timebox {:keyfn :timebox/id}))
 
 (def about-initial-state
@@ -82,8 +81,7 @@
        :left   [{:id      "gallery1"
                  :ui      ui-gallery
                  :factory Gallery
-                 :data
-                          [{:id  "paycom"
+                 :data    [{:id  "paycom"
                             :src "../images/paycom.PNG"
                             :alt "I work here rn"}
                            {:id  "okcity"
@@ -92,26 +90,22 @@
                 {:id      "arrow1"
                  :ui      ui-image
                  :factory Image
-                 :data
-                          {:id  "pr"
+                 :data    {:id  "pr"
                            :alt "point to the right from left"
                            :src "../images/left-side-arrow.PNG"}}]
        :middle [{:ui      ui-image
                  :factory Image
-                 :data
-                          (get node-options :first)}]
+                 :data    (get node-options :first)}]
        :right  [{:id      "gallery2"
                  :ui      ui-gallery
                  :factory Gallery
-                 :data
-                          [{:id  "twbb"
+                 :data    [{:id  "twbb"
                             :src "../images/twbb.jpg"
                             :alt "There Will Be Blood"}]}
                 {:id      "arrow2"
                  :ui      ui-image
                  :factory Image
-                 :data
-                          {:id  "pl"
+                 :data    {:id  "pl"
                            :alt "point to the left from the right"
                            :src "../images/right-side-arrow.PNG"}}]})
     (get-initial-state
@@ -119,20 +113,18 @@
       {:id     "second"
        :middle [{:ui      ui-image
                  :factory Image
-                 :data
-                          (get node-options :middle)}]})
+                 :data    (get node-options :middle)}]})
     (get-initial-state
       Timebox
       {:id     "third"
        :middle [{:ui      ui-image
                  :factory Image
-                 :data
-                          (get node-options :end)}]})]})
+                 :data    (get node-options :end)}]})]})
 (defsc About [this {:about/keys [timebox] :as props}]
-       {:ident         (fn [] [:component/id :about])
-        :route-segment ["about"]
-        :query         [{:about/timebox (get-query Timebox)}]
-        :initial-state (fn [_] about-initial-state)}
-       (div {:id "about-page-body"}
-            (style-element {:component Timebox})
-            (mapv ui-timebox timebox)))
+  {:ident         (fn [] [:component/id :about])
+   :route-segment ["about"]
+   :query         [{:about/timebox (get-query Timebox)}]
+   :initial-state (fn [_] about-initial-state)}
+  (div {:id "about-page-body"}
+       (style-element {:component Timebox})
+       (mapv ui-timebox timebox)))

@@ -641,7 +641,7 @@ table-role-video>a>img {
       min-width: 7.3em;
 }
 
-.middle {
+middle {
   font-size: 4vw;
   margin: 0 auto;
   display: flex;
@@ -747,4 +747,43 @@ table-role-video>a>img {
 #project-page-body {
     display: flex;
     flex-direction: column;
+}
+
+#home {
+    display: flex;
+}
+
+.href {
+display: flex;
+justify-content: center;
+margin: 1em 0em;
+}
+
+.href>img {
+    max-width: 70%;
+}
+
+#home-middle {
+    display:    flex;
+    flex-direction: column;
+    margin: 0 auto;
+    justify-content: center;
+    min-width:  11em;
+    height: auto;
+    --widthA: 1vw;
+    --widthB: calc(1.5em - 2.5vw);
+    --widthC: calc(var(--widthA) - var(--widthB));
+    font-size: var(--widthC);
+    align-items: center;
+}
+
+#home-middle-main-text {
+    font-size: larger;
+    overflow:  hidden;
+    text-align: center;
+}
+
+#home-middle-minor-text {
+    margin:     0 auto;
+    text-align: center;
 }

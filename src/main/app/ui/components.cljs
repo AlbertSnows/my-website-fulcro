@@ -42,7 +42,8 @@
   (a {:id     id
       :href   link
       :target "__blank"
-      :rel    "noopener noreferrer"}
+      :rel    "noopener noreferrer"
+      :className "href"}
      (ui-image image)))
 (def ui-href (factory Href {:keyfn :href/id}))
 

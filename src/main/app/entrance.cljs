@@ -5,7 +5,7 @@
     [com.fulcrologic.fulcro.components :as comp]
     [app.application :refer [SPA]]
     [taoensso.timbre :as log]
-    [app.ui.root :as root]))
+    [app.ui.page :as root]))
 
 (defn ^:export refresh []
   (app/mount! SPA root/Root "app")

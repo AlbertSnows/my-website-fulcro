@@ -1,13 +1,10 @@
-(ns example
-  (:require
-    [com.fulcrologic.fulcro.components :as comp :refer [defsc]]
-    [com.fulcrologic.fulcro.routing.dynamic-routing :as dr]
-    [com.fulcrologic.fulcro.ui-state-machines :as uism :refer [defstatemachine]]
-    [com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]
-    [com.fulcrologic.fulcro-css.css-injection :as inj]
-    [com.fulcrologic.fulcro-css.css :as css]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div label button span]]))
+(ns lab.example)
+;;This is a code graveyard.
+
+;(defn div-with-classes [classes contents]
+;  (div {:className classes} contents))
+;(defn rand-str [len]
+;  (apply str (take len (repeatedly #(char (+ (rand 26) 65))))))
 ;(mapv
 ;  (fn [component]
 ;    (merge

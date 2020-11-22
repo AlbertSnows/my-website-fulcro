@@ -1,5 +1,29 @@
 (ns app.ui.css)
 
+(def OuterBox
+  [[:.outer
+    {:background-color "black"
+     ;                  :width "50%"
+     :display          "flex"
+     :flex-direction   "column"
+     :justify-content  "center"
+     :align-items      "center"
+     :padding          "0em 0.5em 1em 0.5em"
+     :margin           "7% 1% 1% 1%"
+     :border-radius    "2.5%"
+     }]
+   [:.box
+    {
+     :border-color  "white"
+     :border-style  "solid"
+     :border-radius "1%"
+     :position      "relative"
+     :width         "98%"
+     :overflow-wrap "anywhere"
+     :word-wrap     "anywhere"
+     :border-width  "0.2em"
+     :color         "white"}]])
+
 (def Middle
   {:css
    [[:.middle-main-page

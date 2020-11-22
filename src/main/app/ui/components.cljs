@@ -10,7 +10,9 @@
     [app.ui.css :as uicss]
     [com.fulcrologic.fulcro-css.css :as css :refer [get-classnames]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
-     :refer [defstatemachine]]))
+     :refer [defstatemachine]]
+    [taoensso.timbre :as log]
+    ))
 
 (defsc Image [this {:image/keys [id src alt]}]
        {:query [:image/id :image/src :image/alt]
@@ -140,11 +142,13 @@
 (def ui-text (factory Text {:keyfn :text/id}))
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}]
-       {:query         [:container-header/id :container-header/route]
+       {:query         [:container-header/id
+                        :container-header/route
+                        [::uism/asm-id ::RootRouter]]
         :ident         :container-header/id
-        :initial-state (fn [{:container-header/keys [id _] :as params}]
+        :initial-state (fn [{:container-header/keys [id route] :as params}]
                          {:container-header/id    id
-                          :container-header/route "home"})
+                          :container-header/route route})
         :css           [[:.outer-text
                          {:font-size      "2em"
                           :color          "white"
@@ -154,12 +158,18 @@
                           :padding        "0 auto"
                           :vertical-align "top"}]]}
        (let [{:keys [outer-text]} (get-classnames ContainerHeader)]
-         (case route
-           "" (p "empty")
-           nil (p "nil")
-           :nil (p "nil key")
-           :contact (p "home key")
-           "home" (p {:classes [outer-text]}
-                     "What Am I Up To?")
-           (p "nothing matched"))))
+         (log/info "container route: " route)
+         (p {:classes [outer-text]}
+            (case route
+              "" "empty"
+              nil "nil"
+              :nil "nil key"
+              :contact "home key"
+              "home" "What Am I Up To?"
+              "about" "About Me"
+              "projects" "Stuff I've Made"
+              "contact" "Reach Out"
+              "nothing matched")
+
+            )))
 (def ui-container-header (factory ContainerHeader))

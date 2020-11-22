@@ -5,41 +5,40 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div]]
     [app.ui.components :as c
-     :refer [Href ui-href]]
-    ))
+     :refer [Href ui-href]]))
 (defsc ProjectDescription [this {:description/keys [header body]}]
-       {:ident :description/id
-        :query [:description/id :description/header :description/body]
-        :initial-state
-               (fn [{:keys [id header body] :as props}]
-                 {:description/id     (str id "-description")
-                  :description/header header
-                  :description/body   body})}
-       (div
-         (str "Header: " header)
-         (str "Body: " body)))
+  {:ident :description/id
+   :query [:description/id :description/header :description/body]
+   :initial-state
+          (fn [{:keys [id header body] :as props}]
+            {:description/id     (str id "-description")
+             :description/header header
+             :description/body   body})}
+  (div
+    (str "Header: " header)
+    (str "Body: " body)))
 (def ui-project-description
   (factory ProjectDescription {:keyfn :description/id}))
 
 (defsc ProjectBox [this {:box/keys [id description href] :as props}]
-       {:ident :box/id
-        :query [:box/id
-                {:box/description (get-query ProjectDescription)}
-                {:box/href (get-query Href)}]
-        :initial-state
-               (fn [{:keys [id description href]}]
-                 {:box/id id
-                  :box/description
-                          (get-initial-state
-                            ProjectDescription
-                            (merge description {:id id}))
-                  :box/href
-                          (get-initial-state
-                            Href
-                            (merge href {:id id}))})}
-       (div
-         (ui-project-description description)
-         (ui-href href)))
+  {:ident :box/id
+   :query [:box/id
+           {:box/description (get-query ProjectDescription)}
+           {:box/href (get-query Href)}]
+   :initial-state
+          (fn [{:keys [id description href]}]
+            {:box/id id
+             :box/description
+                     (get-initial-state
+                       ProjectDescription
+                       (merge description {:id id}))
+             :box/href
+                     (get-initial-state
+                       Href
+                       (merge href {:id id}))})}
+  (div
+    (ui-project-description description)
+    (ui-href href)))
 (def ui-project-box (factory ProjectBox {:keyfn :box/id}))
 
 (def projects-initial-state
@@ -135,9 +134,9 @@
             :image {:alt "Simple App"
                     :src "../images/first_app.PNG"}}})]})
 (defsc Projects [this {:projects/keys [contents] :as props}]
-       {:ident         (fn [] [:component/id :projects])
-        :route-segment ["projects"]
-        :query         [:projects/contents]
-        :initial-state (fn [_] projects-initial-state)}
-       (div {:id "project-page-body"}
-            (mapv ui-project-box contents)))
+  {:ident         (fn [] [:component/id :projects])
+   :route-segment ["projects"]
+   :query         [:projects/contents]
+   :initial-state (fn [_] projects-initial-state)}
+  (div {:id "project-page-body"}
+       (mapv ui-project-box contents)))

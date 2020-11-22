@@ -5,12 +5,13 @@
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div img a p]]
     [app.ui.helpers.core :as hc
-     :refer [add-id add-id-to-components get-first-id
+     :refer [add-id append-id-to-components get-first-id
              div-with-classes-and-id apply-contained-component]]
     [app.ui.css :as uicss]
     [com.fulcrologic.fulcro-css.css :as css :refer [get-classnames]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
      :refer [defstatemachine]]))
+
 (defsc Image [this {:image/keys [id src alt]}]
        {:query [:image/id :image/src :image/alt]
         :initial-state
@@ -28,12 +29,14 @@
         :ident :href/id
         :initial-state
                (fn [{:keys [id link image]}]
-                 {:href/id   (str id "-href")
+                 {:href/id   (str id "-href-" (:id image))
                   :href/link link
                   :href/image
                              (get-initial-state
                                Image
-                               (add-id id image))})}
+                               (merge
+                                 image
+                                 {:id (str id "-href-" (:id image))}))})}
        (a {:id     id
            :href   link
            :target "__blank"
@@ -48,8 +51,8 @@
         :initial-state
                (fn [components]
                  {:top/components
-                          (add-id-to-components
-                            (str (get-first-id components) "-top")
+                          (append-id-to-components
+                            "top"
                             components)
                   :top/id (str (get-first-id components) "-top")})}
        (div-with-classes-and-id
@@ -65,8 +68,8 @@
         :initial-state
                (fn [components]
                  {:bottom/components
-                             (add-id-to-components
-                               (str (get-first-id components) "-bottom")
+                             (append-id-to-components
+                               "bottom"
                                components)
                   :bottom/id (str (get-first-id components) "-bottom")})}
        (div-with-classes-and-id
@@ -82,7 +85,7 @@
                (fn [{:keys [id data]}]
                  {:left/id (str id "-left")
                   :left/components
-                           (add-id-to-components (str id "-left") data)})}
+                           (append-id-to-components (str id "-left") data)})}
        (div-with-classes-and-id
          id
          "left-side"
@@ -96,7 +99,8 @@
                (fn [{:keys [id data]}]
                  {:middle/id (str id "-middle")
                   :middle/components
-                             (add-id-to-components (str id "-middle") data)})
+                             (append-id-to-components
+                               (str id "-middle") data)})
         :css   (:css uicss/Middle)}
        (let [{:keys [middle-main-page padding-bottom]} (get-classnames Middle)]
          (div-with-classes-and-id
@@ -112,7 +116,7 @@
                (fn [{:keys [id data]}]
                  {:right/id (str id "-right")
                   :right/components
-                            (add-id-to-components (str id "-right") data)})
+                            (append-id-to-components (str id "-right") data)})
         :css   [[:.right
                  {:display        "flex"                         ;
                   :flex-direction "column"
@@ -130,11 +134,10 @@
 (defsc Text [this {:text/keys [id text]}]
        {:query         [:text/id :text/text]
         :initial-state (fn [{:keys [id data]}]
-                         {:text/id   id :text/text data})}
+                         {:text/id (str id "-text")
+                          :text/text data})}
        (p {:id id} text))
 (def ui-text (factory Text {:keyfn :text/id}))
-
-
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}]
        {:query         [:container-header/id :container-header/route]

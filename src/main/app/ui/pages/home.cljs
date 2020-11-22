@@ -72,7 +72,6 @@
    :route-segment ["home"]
    :ident         (fn [] [:component/id :home])
    :initial-state (fn [_] home-initial-state)}
-  (div {:className "home"}
-       (ui-left left)
+  (div (ui-left left)
        (ui-middle middle)
        (ui-right right)))

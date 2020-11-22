@@ -158,16 +158,11 @@
                      :padding        "0 auto"
                      :vertical-align "top"}]]}
   (let [{:keys [outer-text]} (get-classnames ContainerHeader)]
-    (log/info "container route: " route)
     (p {:classes [outer-text]}
        (case route
-         "" "empty"
-         nil "nil"
-         :nil "nil key"
-         :contact "home key"
          "home" "What Am I Up To?"
          "about" "About Me"
          "projects" "Stuff I've Made"
          "contact" "Reach Out"
-         "nothing matched"))))
+         ""))))
 (def ui-container-header (factory ContainerHeader))

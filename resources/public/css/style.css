@@ -787,3 +787,11 @@ margin: 1em 0em;
     margin:     0 auto;
     text-align: center;
 }
+
+#home-right {
+    justify-content: space-around;
+}
+
+#home-left {
+    justify-content: space-around;
+}

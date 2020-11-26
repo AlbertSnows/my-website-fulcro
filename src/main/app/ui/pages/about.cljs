@@ -78,8 +78,7 @@
    [(get-initial-state
       Timebox
       {:id     "first"
-       :left   [{:id      "gallery1"
-                 :ui      ui-gallery
+       :left   [{:ui      ui-gallery
                  :factory Gallery
                  :data    [{:id  "paycom"
                             :src "../images/paycom.PNG"
@@ -87,7 +86,7 @@
                            {:id  "okcity"
                             :src "../images/okcity.PNG"
                             :alt "I live here rn"}]}
-                {:id      "arrow1"
+                {:id      "arrow"
                  :ui      ui-image
                  :factory Image
                  :data    {:id  "pr"
@@ -96,13 +95,13 @@
        :middle [{:ui      ui-image
                  :factory Image
                  :data    (get node-options :first)}]
-       :right  [{:id      "gallery2"
+       :right  [{:id      "gallery"
                  :ui      ui-gallery
                  :factory Gallery
                  :data    [{:id  "twbb"
                             :src "../images/twbb.jpg"
                             :alt "There Will Be Blood"}]}
-                {:id      "arrow2"
+                {:id      "arrow"
                  :ui      ui-image
                  :factory Image
                  :data    {:id  "pl"

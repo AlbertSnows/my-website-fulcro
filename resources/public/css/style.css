@@ -795,3 +795,7 @@ margin: 1em 0em;
 #home-left {
     justify-content: space-around;
 }
+
+.gallery>img {
+    max-width: 15%;
+}

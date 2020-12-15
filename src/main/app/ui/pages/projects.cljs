@@ -3,7 +3,7 @@
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div]]
+     :refer [div h3 p]]
     [app.ui.components :as c
      :refer [Href ui-href]]))
 (defsc ProjectDescription [this {:description/keys [header body]}]
@@ -15,8 +15,8 @@
              :description/header header
              :description/body   body})}
   (div
-    (str "Header: " header)
-    (str "Body: " body)))
+    (h3 header)
+    (p body)))
 (def ui-project-description
   (factory ProjectDescription {:keyfn :description/id}))
 
@@ -36,9 +36,9 @@
                      (get-initial-state
                        Href
                        (merge href {:id id}))})}
-  (div
-    (ui-project-description description)
-    (ui-href href)))
+  (div {:id id :className "project-box"}
+       (ui-href href)
+       (ui-project-description description)))
 (def ui-project-box (factory ProjectBox {:keyfn :box/id}))
 
 (def projects-initial-state

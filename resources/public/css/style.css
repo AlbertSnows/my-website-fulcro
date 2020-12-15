@@ -45,9 +45,7 @@ body > * {
   font-size: 2em;
   color: white;
   text-align: center;
-  font-family: MINIMAL;
   margin: 0 auto;
-  padding: 0 auto;
 }
 
 #outer-box {
@@ -69,7 +67,6 @@ body > * {
   text-align: center;
   font-family: MINIMAL;
   margin: 0 auto;
-  padding: 0 auto;
 }
 
 #example {
@@ -297,7 +294,6 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
 
 .popup {
   visibility: hidden;
-  display: hidden;
   background-color: black;
   color: #fff;
   text-align: center;
@@ -311,7 +307,6 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
 
 #email:hover .popup {
   visibility: visible;
-  display: visible;
 }
 
 #email>a>img {
@@ -344,62 +339,12 @@ Xsidebar-entries>li:not(sidebar-entries)>a {
     margin-right: -1em;
 }
 
-closed.:hover #sidebar-toggle-button {
-    margin-right: 1.1em;
-}
-
-closed:hover #sidebar-toggle-button + .sidebar-nav {
-    width: 0.8em;
-}
-
-open:hover #sidebar-toggle-button {
-    margin-right: 8em;
-}
-
-open #sidebar-toggle-button:hover + .sidebar-nav {
-    width: 8em;
-}
-
 .open #sidebar-toggle-button:hover + .sidebar-nav {
     margin-right: -1em;
 }
 
-
-media (min-width: 1em) {
-   -#sidebar-toggle-button:hover -#sidebar-nav
-   .open:hover {
-    position: relative;
-    transition: margin .35s ease-out;
-    left: 0.3em;
-  }
-
-  -#toggle-wrapper:hover -#toggle-wrapper
-  .closed:hover {
-    margin-right: 5em;
-  }
-
-  sidebar:not(.open) #sidebar-wrapper {
-    margin-right: -10em;
-  }
-  sidebar:not(.open) #toggle-wrapper:hover + #sidebar-wrapper {
-    position: relative;
-    transition: margin .35s ease-out;
-    right: 1.5em;
-  }
-
-  sidebar.open #toggle-wrapper:hover + #sidebar-wrapper {
-    position: relative;
-    transition: margin .35s ease-out;
-    left: 0.7em;
-  }
-}
-
 .align-vertical {
   flex-direction: column;
-}
-
--closed {
-    margin-right: -10em;
 }
 
 .align-horizontal {
@@ -545,7 +490,7 @@ thonker>a {
 thonker>a>img {
     height: inherit;
     width: inherit;
-}}
+}
 
 table-role-video {
     width: 100%;
@@ -622,7 +567,7 @@ table-role-video>a>img {
 
 #thonker>a>img {
 
-}}
+}
 
 #table-role-video {
 }
@@ -652,7 +597,7 @@ middle {
 .small-text {
     font-size: 0.3em;
     font-family: MINIMAL;
-    margin: 0 0 0.2;
+    margin: 0 0 0.2em;
     text-align: center;
 }
 
@@ -747,6 +692,7 @@ middle {
 #project-page-body {
     display: flex;
     flex-direction: column;
+    padding: 1em;
 }
 
 #home {
@@ -798,4 +744,53 @@ margin: 1em 0em;
 
 .gallery>img {
     max-width: 15%;
+}
+
+.project-box {
+    display: flex;
+    border-style: solid;
+    border-radius: 1%;
+    border-width: 0.1em;
+    margin-bottom: 1em;
+}
+
+.project-box>a>img {
+    max-width: 100%;
+}
+
+.project-box>a {
+    max-width: 10%;
+    margin: 0.3em 0.3em;
+    border: 4px;
+}
+
+.project-box>div>h3 {
+    margin-bottom: 0.1em;
+}
+
+#contact-container {
+    display: grid;
+    align-items: center;
+    justify-items: center;
+    margin: 1em;
+}
+
+#mail-big-img {
+    width: 40%;
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+}
+
+#mail-big-img:hover + #mail-small-img{
+    display: inline;
+}
+
+#mail-small-img {
+    grid-column: 1 / span 2;
+    grid-row: 1 / span 2;
+    display: none;
+}
+
+#mail-small-img:hover {
+    display: inline;
 }

@@ -75,3 +75,56 @@
     transition: margin .25s ease-out;
     right: 1em;
 }*/
+
+/*
+
+
+closed.:hover #sidebar-toggle-button {
+    margin-right: 1.1em;
+}
+
+closed:hover #sidebar-toggle-button + .sidebar-nav {
+    width: 0.8em;
+}
+
+open:hover #sidebar-toggle-button {
+    margin-right: 8em;
+}
+
+open #sidebar-toggle-button:hover + .sidebar-nav {
+    width: 8em;
+}
+
+media (min-width: 1em) {
+-#sidebar-toggle-button:hover -#sidebar-nav
+                               .open:hover {
+                                   position: relative;
+                                   transition: margin .35s ease-out;
+                                   left: 0.3em;
+                               }
+
+-#toggle-wrapper:hover -#toggle-wrapper
+                        .closed:hover {
+                            margin-right: 5em;
+                        }
+
+sidebar:not(.open) #sidebar-wrapper {
+    margin-right: -10em;
+}
+sidebar:not(.open) #toggle-wrapper:hover + #sidebar-wrapper {
+    position: relative;
+    transition: margin .35s ease-out;
+    right: 1.5em;
+}
+
+sidebar.open #toggle-wrapper:hover + #sidebar-wrapper {
+    position: relative;
+    transition: margin .35s ease-out;
+    left: 0.7em;
+}
+}
+
+-closed {
+    margin-right: -10em;
+}
+*/

@@ -26,5 +26,5 @@
                    {:contact/span (get-query Image)}]
    :initial-state (fn [_] contact-initial-state)
    :route-segment ["contact"]}
-  (div (ui-image image)
+  (div {:id "contact-container"} (ui-image image)
        (ui-image span)))

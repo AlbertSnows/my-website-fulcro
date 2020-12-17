@@ -60,7 +60,9 @@
      {:width  "10%"
       :height "8%"}]
     [:.timebox
-     {:display "flex"}]]})
+     {
+      ;:display "flex"
+      }]]})
 
 (def Href
   {:css [[:.href-container

@@ -18,7 +18,7 @@
             :factory Top
             :data    [{:ui      ui-href
                        :factory Href
-                       :data    {:link  "https://en.wikipedia.org/wiki/Gaming"
+                       :data    {:link  "https://www.youtube.com/watch?v=DSJvCffJCzE"
                                  :image {:id  "gamin"
                                          :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
                                          :alt "I play games I KNOW I'M SORRY"}}}]}
@@ -26,7 +26,7 @@
             :factory Bottom
             :data    [{:ui      ui-href
                        :factory Href
-                       :data    {:link  "https://www.whatisitliketobeaphilosopher.com/"
+                       :data    {:link  "https://www.youtube.com/watch?v=Et6itTuJSYY"
                                  :image {:id  "pho"
                                          :src "../images/the-thinker.png"
                                          :alt "But really, what even IS a rock anyways???"}}}]}]})
@@ -60,7 +60,7 @@
             :factory Bottom
             :data    [{:ui      ui-href
                        :factory Href
-                       :data    {:link  "https://en.wikipedia.org/wiki/Programmer"
+                       :data    {:link  "https://www.youtube.com/watch?v=HluANRwPyNo"
                                  :image {:id  "debug"
                                          :src "../images/meirl.png"
                                          :alt "g! 'How to print newline in cljs'"}}}]}]})})

@@ -78,47 +78,119 @@
    [(get-initial-state
       Timebox
       {:id     "first"
-       :left   [{:ui      ui-gallery
-                 :factory Gallery
-                 :data    [{:id  "paycom"
-                            :src "../images/paycom.PNG"
-                            :alt "I work here rn"}
-                           {:id  "okcity"
-                            :src "../images/okcity.PNG"
-                            :alt "I live here rn"}]}
-                {:id      "arrow"
+       :left   [{:id      "arrow"
                  :ui      ui-image
                  :factory Image
                  :data    {:id  "pr"
                            :alt "point to the right from left"
-                           :src "../images/left-side-arrow.PNG"}}]
+                           :src "../images/left-side-arrow.PNG"}}
+                {:ui      ui-gallery
+                 :factory Gallery
+                 :data    [{:id  "paycom"
+                            :src "../images/paycom-icon.PNG"
+                            :alt "I work here rn"}
+                           {:id  "okcity"
+                            :src "../images/okcity.PNG"
+                            :alt "I live here rn"}
+                           {:id  "okcity"
+                            :src "../images/okcity.PNG"
+                            :alt "I live here rn"}
+                           {:id  "okcity"
+                            :src "../images/okcity.PNG"
+                            :alt "I live here rn"}]}
+
+                ]
        :middle [{:ui      ui-image
                  :factory Image
                  :data    (get node-options :first)}]
-       :right  [{:id      "gallery"
-                 :ui      ui-gallery
-                 :factory Gallery
-                 :data    [{:id  "twbb"
-                            :src "../images/twbb.jpg"
-                            :alt "There Will Be Blood"}]}
-                {:id      "arrow"
+       :right  [{:id      "arrow"
                  :ui      ui-image
                  :factory Image
                  :data    {:id  "pl"
                            :alt "point to the left from the right"
-                           :src "../images/right-side-arrow.PNG"}}]})
-    (get-initial-state
-      Timebox
-      {:id     "second"
-       :middle [{:ui      ui-image
-                 :factory Image
-                 :data    (get node-options :middle)}]})
-    (get-initial-state
-      Timebox
-      {:id     "third"
-       :middle [{:ui      ui-image
-                 :factory Image
-                 :data    (get node-options :end)}]})]})
+                           :src "../images/right-side-arrow.PNG"}}
+                {:id      "gallery"
+                 :ui      ui-gallery
+                 :factory Gallery
+                 :data    [{:id  "twbb"
+                            :src "../images/twbb.jpg"
+                            :alt "There Will Be Blood"}
+                           {:id  "twbb"
+                            :src "../images/twbb.jpg"
+                            :alt "There Will Be Blood"}]}]})
+    ;(get-initial-state
+    ;  Timebox
+    ;  {:id     "second"
+    ;   :left   [{:id      "arrow"
+    ;             :ui      ui-image
+    ;             :factory Image
+    ;             :data    {:id  "pr"
+    ;                       :alt "point to the right from left"
+    ;                       :src "../images/left-side-arrow.PNG"}}
+    ;            {:ui      ui-gallery
+    ;             :factory Gallery
+    ;             :data    [{:id  "paycom"
+    ;                        :src "../images/paycom-icon.PNG"
+    ;                        :alt "I work here rn"}
+    ;                       {:id  "okcity"
+    ;                        :src "../images/okcity.PNG"
+    ;                        :alt "I live here rn"}]}
+    ;
+    ;            ]
+    ;   :middle [{:ui      ui-image
+    ;             :factory Image
+    ;             :data    (get node-options :middle)}]
+    ;   :right  [{:id      "arrow"
+    ;             :ui      ui-image
+    ;             :factory Image
+    ;             :data    {:id  "pl"
+    ;                       :alt "point to the left from the right"
+    ;                       :src "../images/right-side-arrow.PNG"}}
+    ;            {:id      "gallery"
+    ;             :ui      ui-gallery
+    ;             :factory Gallery
+    ;             :data    [{:id  "twbb"
+    ;                        :src "../images/twbb.jpg"
+    ;                        :alt "There Will Be Blood"}
+    ;                       {:id  "twbb"
+    ;                        :src "../images/twbb.jpg"
+    ;                        :alt "There Will Be Blood"}]}]})
+    ;(get-initial-state
+    ;  Timebox
+    ;  {:id     "third"
+    ;   :left   [{:id      "arrow"
+    ;             :ui      ui-image
+    ;             :factory Image
+    ;             :data    {:id  "pr"
+    ;                       :alt "point to the right from left"
+    ;                       :src "../images/left-side-arrow.PNG"}}
+    ;            {:ui      ui-gallery
+    ;             :factory Gallery
+    ;             :data    [{:id  "paycom"
+    ;                        :src "../images/paycom-icon.PNG"
+    ;                        :alt "I work here rn"}
+    ;                       {:id  "okcity"
+    ;                        :src "../images/okcity.PNG"
+    ;                        :alt "I live here rn"}]}]
+    ;   :middle [{:ui      ui-image
+    ;             :factory Image
+    ;             :data    (get node-options :end)}]
+    ;   :right  [{:id      "arrow"
+    ;             :ui      ui-image
+    ;             :factory Image
+    ;             :data    {:id  "pl"
+    ;                       :alt "point to the left from the right"
+    ;                       :src "../images/right-side-arrow.PNG"}}
+    ;            {:id      "gallery"
+    ;             :ui      ui-gallery
+    ;             :factory Gallery
+    ;             :data    [{:id  "twbb"
+    ;                        :src "../images/twbb.jpg"
+    ;                        :alt "There Will Be Blood"}
+    ;                       {:id  "twbb"
+    ;                        :src "../images/twbb.jpg"
+    ;                        :alt "There Will Be Blood"}]}]})
+    ]})
 (defsc About [this {:about/keys [timebox] :as props}]
   {:ident         (fn [] [:component/id :about])
    :route-segment ["about"]

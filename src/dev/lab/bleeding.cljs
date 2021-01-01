@@ -57,13 +57,13 @@
     state-map
     (keys (:page/by-number state-map))))
 
-(declare ListItem)
+(declare SampleListItem)
 
 (defn load-if-missing [{:keys [app state] :as env} page-number]
   (when-not (page-exists? @state page-number)
     (let [start (inc (* 10 (dec page-number)))
           end (+ start 9)]
-      (df/load! app :paginate/items ListItem
+      (df/load! app :paginate/items SampleListItem
         {:params {:start start :end end}
          :marker :page
          :target [:page/by-number page-number :page/items]}))))
@@ -77,21 +77,22 @@
                      (set-current-page page-number)
                      (gc-distant-pages page-number))))))
 
-(defsc ListItem [this {:keys [item/id]}]
+(defsc SampleListItem [this {:keys [item/id]}]
   {:query [:item/id :ui/fetch-state]
    :ident [:items/by-id :item/id]}
   (dom/li (str "Item " id)))
 
-(def ui-list-item (comp/factory ListItem {:keyfn :item/id}))
+(def ui-list-item (comp/factory SampleListItem {:keyfn :item/id}))
 
 (defsc ListPage [this {:keys [page/number page/items] :as props}]
-  {:initial-state {:page/number 1 :page/items []}
-   :query [:page/number {:page/items (comp/get-query ListItem)}
+  {:initial-state {:page/number 1
+                   :page/items []}
+   :query [:page/number {:page/items (comp/get-query SampleListItem)}
            [df/marker-table :page]]
    :ident [:page/by-number :page/number]}
   (let [status (get props [df/marker-table :page])]
     (dom/div
-      (log/info "items: " items)
+      ;(log/info "items: " items)
       (dom/p "page number " number)
       ;(if (df/loading? status)
       ;  (dom/div "loading...")

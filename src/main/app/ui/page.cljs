@@ -90,20 +90,24 @@
              :width "100%"
              :overflow "auto"}]]}
   (let [{:keys [container]} (get-classnames Root)
-        ;{:keys [page]} props
-        ]
+        number (:page/number
+                 (:list/current-page
+                   (:pagination/list
+                     (:com.fulcrologic.fulcro.routing.dynamic-routing/current-route
+                       (:outer/router
+                         (:page/outer
+                           page))))))]
     (div
       {:id      "root"
        :onScroll
                 #(comp/transact! this
                    [(b/goto-page
-                      {:page-number 3
-                       ;(get-in state
-                       ;  :pagination/list/current-page/page/number)
-                        })])
+                      {:page-number (if (> number 1)
+                                      (dec number)
+                                      (inc number))})])
        :classes [container]}
       (style-element {:component Root})
       (style-element {:component h/Home})
       (style-element {:component ContainerHeader})
-      ;(log/info "thing: " page)
+      (log/info "thing: " number)
       (ui-page page))))

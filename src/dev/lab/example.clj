@@ -1,5 +1,5 @@
 (ns lab.example)
-;;This is a code graveyard.
+;;This is a code graveyard. Careful not to wake any ghosts!
 
 ;(defn div-with-classes [classes contents]
 ;  (div {:className classes} contents))
@@ -1136,8 +1136,7 @@
 ;[com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]
 ;[com.fulcrologic.fulcro.data-fetch :as df]
 ;[com.fulcrologic.fulcro.routing.dynamic-routing :as dr :refer [defrouter]]
-;[taoensso.timbre :as log]
-
+;[taoensso.timbre :as log] ;e.g. (log/info "Props: " props)
 
 ;
 ;(defsc Image [this {:image/keys [src alt classes]} {:keys [image]}]

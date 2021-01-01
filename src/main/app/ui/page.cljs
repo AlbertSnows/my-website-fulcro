@@ -21,7 +21,8 @@
     [app.ui.pages.about :as a]
     [app.ui.pages.home :as h]
     [taoensso.timbre :as log]
-    [app.ui.css :as uicss]))
+    [app.ui.css :as uicss]
+    [lab.bleeding :as b]))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
@@ -84,11 +85,25 @@
    :css   [[:.container
             {:display         "flex"
              :align-items     "center"
-             :justify-content "center"}]]}
-  (let [{:keys [container]} (get-classnames Root)]
+             :justify-content "center"
+             :height "100%"
+             :width "100%"
+             :overflow "auto"}]]}
+  (let [{:keys [container]} (get-classnames Root)
+        ;{:keys [page]} props
+        ]
     (div
-      {:classes [container]}
+      {:id      "root"
+       :onScroll
+                #(comp/transact! this
+                   [(b/goto-page
+                      {:page-number 3
+                       ;(get-in state
+                       ;  :pagination/list/current-page/page/number)
+                        })])
+       :classes [container]}
       (style-element {:component Root})
       (style-element {:component h/Home})
       (style-element {:component ContainerHeader})
+      ;(log/info "thing: " page)
       (ui-page page))))

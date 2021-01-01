@@ -19,7 +19,18 @@
      (update ::pc/index-resolvers #(into {} (map (fn [[k v]] [k (dissoc v ::pc/resolve)])) %))
      (update ::pc/index-mutations #(into {} (map (fn [[k v]] [k (dissoc v ::pc/mutate)])) %)))})
 
-(def all-resolvers [acct/resolvers session/resolvers index-explorer])
+;; server
+
+(pc/defresolver infinite-pages
+  [env input]
+  {::pc/output [{:paginate/items [:item/id]}]}
+  (let [params (-> env :ast :params)
+        {:keys [start end]} params]
+    {:paginate/items (mapv (fn [id]
+                             {:item/id id})
+                       (range start end))}))
+
+(def all-resolvers [acct/resolvers session/resolvers index-explorer infinite-pages])
 
 (defn preprocess-parser-plugin
   "Helper to create a plugin that can view/modify the env/tx of a top-level request.

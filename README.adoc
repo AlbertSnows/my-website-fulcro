@@ -233,7 +233,7 @@ Hot code reload, preloads, and such are all coded into the javascript.
 ==== Preloads
 
 There is a preload file that is used on the development build of the
-application `app.development-preload`. You can add code here that
+application `app.setup.development-preload`. You can add code here that
 you want to execute before the application initializes in development
 mode.
 

@@ -1,6 +1,6 @@
-(ns app.model.session
+(ns app.backend.session
   (:require
-    [app.model.mock-database :as db]
+    [app.backend.mock-database :as db]
     [datascript.core :as d]
     [com.fulcrologic.guardrails.core :refer [>defn => | ?]]
     [com.wsscode.pathom.connect :as pc :refer [defresolver defmutation]]

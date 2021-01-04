@@ -1,6 +1,6 @@
-(ns app.model.session
+(ns app.backend.session
   (:require
-    [app.application :refer [SPA]]
+    [app.setup.application :refer [SPA]]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr]
     [com.fulcrologic.fulcro.ui-state-machines :as uism]
     [taoensso.timbre :as log]
@@ -16,13 +16,13 @@
   (-> env
     (clear)
     (uism/assoc-aliased :username "" :session-valid? false :current-user "")
-    (uism/trigger-remote-mutation :actor/login-form 'app.model.session/logout {})
+    (uism/trigger-remote-mutation :actor/login-form 'app.backend.session/logout {})
     (uism/activate :state/logged-out)))
 
 (defn login [{::uism/keys [event-data] :as env}]
   (-> env
     (clear)
-    (uism/trigger-remote-mutation :actor/login-form 'app.model.session/login
+    (uism/trigger-remote-mutation :actor/login-form 'app.backend.session/login
       {:username          (:username event-data)
        :password          (:password event-data)
        ::m/returning      (uism/actor-class env :actor/current-session)

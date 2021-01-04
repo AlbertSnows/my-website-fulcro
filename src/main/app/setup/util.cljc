@@ -1,4 +1,4 @@
-(ns app.util
+(ns app.setup.util
   #?(:cljs (:refer-clojure :exclude [uuid]))
   (:require [com.fulcrologic.guardrails.core :refer [>defn]]
             [clojure.spec.alpha :as s]))

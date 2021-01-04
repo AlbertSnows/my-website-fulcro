@@ -1,4 +1,4 @@
-(ns app.model.account
+(ns app.backend.account
   (:require
     [taoensso.timbre :as log]
     [com.fulcrologic.fulcro.mutations :as m :refer [defmutation]]

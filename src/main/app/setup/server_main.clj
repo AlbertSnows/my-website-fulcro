@@ -1,4 +1,4 @@
-(ns app.server-main
+(ns app.setup.server-main
   (:require
     [mount.core :as mount]
     app.server-components.http-server)

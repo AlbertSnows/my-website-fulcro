@@ -1,6 +1,17 @@
 (ns lab.example)
 ;;This is a code graveyard. Careful not to wake any ghosts!
 
+;(get-initial-state
+;	Timebox
+;	{:id     1
+;	 (get side 1)
+;
+;					 :middle [{:ui      ui-image
+;										 :factory Image
+;										 :data    (get node-options :end)}]
+;
+;	 })
+
 ;(defn div-with-classes [classes contents]
 ;  (div {:className classes} contents))
 ;(defn rand-str [len]

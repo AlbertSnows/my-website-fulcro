@@ -1,11 +1,11 @@
-(ns app.model.account-test
+(ns app.backend.account-test
   (:require
     [app.server-components.pathom :refer [build-parser]]
-    [app.model.account :as acct]
-    [app.util :refer [uuid]]
+    [app.backend.account :as acct]
+    [app.setup.util :refer [uuid]]
     [clojure.test :refer [deftest is]]
     [fulcro-spec.core :refer [specification provided behavior assertions component provided!]]
-    [app.model.mock-database :as db]
+    [app.backend.mock-database :as db]
     [datascript.core :as d]
     [taoensso.timbre :as log]))
 

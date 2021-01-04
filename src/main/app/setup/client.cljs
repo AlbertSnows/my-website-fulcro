@@ -1,6 +1,6 @@
-(ns app.client
+(ns app.setup.client
   (:require
-    [app.application :refer [SPA]]
+    [app.setup.application :refer [SPA]]
     [app.ui.page :as root]
     [com.fulcrologic.fulcro.application :as app]
     [app.ui.page :as root]
@@ -9,7 +9,7 @@
     [com.fulcrologic.fulcro.ui-state-machines :as uism]
     [com.fulcrologic.fulcro.components :as comp]
     [com.fulcrologic.fulcro-css.css-injection :as cssi]
-    [app.model.session :as session]
+    [app.backend.session :as session]
     [taoensso.timbre :as log]
     [com.fulcrologic.fulcro.algorithms.denormalize :as fdn]
     [com.fulcrologic.fulcro.algorithms.merge :as merge]

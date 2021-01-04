@@ -1,4 +1,4 @@
-(ns app.application
+(ns app.setup.application
   (:require
     [com.fulcrologic.fulcro.networking.http-remote :as net]
     [com.fulcrologic.fulcro.application :as app]

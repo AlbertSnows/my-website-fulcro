@@ -37,7 +37,7 @@
    :pre-merge
           (fn [{:keys [data-tree]}]
             (merge (get-initial-state OuterBox)
-                   data-tree))
+              data-tree))
    :ident :outer/id
    :initial-state
           (fn [{:outer/keys [id route] :as params}]

@@ -4,14 +4,14 @@
                        :output-dir "resources/public/js/main"
                        :asset-path "/js/main"
 
-                       :modules    {:main {:init-fn app.entrance/init
-                                           :entries [app.entrance]}}
+                       :modules    {:main {:init-fn app.setup.entrance/init
+                                           :entries [app.setup.entrance]}}
                        ;; guardrails checks only during dev
                        :dev        {:compiler-options
                                     {:external-config {:guardrails {}}}}
 
-                       :devtools   {:after-load app.entrance/refresh
-                                    :preloads   [com.fulcrologic.fulcro.inspect.preload app.development-preload]}}
+                       :devtools   {:after-load app.setup.entrance/refresh
+                                    :preloads   [com.fulcrologic.fulcro.inspect.preload app.setup.development-preload]}}
 
           :test       {:target           :browser-test
                        :test-dir         "resources/public/js/test"

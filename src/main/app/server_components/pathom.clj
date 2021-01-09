@@ -6,6 +6,7 @@
     [com.wsscode.pathom.core :as p]
     [com.wsscode.common.async-clj :refer [let-chan]]
     [clojure.core.async :as async]
+    [app.backend.data :as bd]
     [app.server-components.config :refer [config]]
     [app.backend.mock-database :as db]))
 

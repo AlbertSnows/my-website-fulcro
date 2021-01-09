@@ -937,130 +937,130 @@
 	;(bhc/build-timebox (bd/get-timebox 6))
   )
 
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/VBBB.webp"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/LLHST.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/brigador.jpg"
-                                  :alt "There Will Be Blood"}}
-
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/crouching-tiger-hidden-sun.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/windswept.jpg"
-                                  :alt "There Will Be Blood"}}
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/wolf-girl.jpg"
-                                  :alt "There Will Be Blood"}}
-                         ]}
-              ]
-     :middle [{:ui      ui-image
-               :factory Image
-               :data    (get node-options :first)}]
-     :right  [{:id      "arrow"
-               :ui      ui-image
-               :factory Image
-               :data    {:id  "pl"
-                         :alt "point to the left from the right"
-                         :src "../images/right-side-arrow.PNG"}}
-              {:id      "gallery"
-               :ui      ui-gallery
-               :factory Gallery
-               :data    [
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/DOS2.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/VAHALLA.png"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/SOTL.webp"
-                                  :alt "There Will Be Blood"}}
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/the-powers-that-b.jpg"
-                                  :alt "There Will Be Blood"}}
-
-
-
-
-
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/ultra-mono.jpg"
-                                  :alt "There Will Be Blood"}}
-
-
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/FN.png"
-                                  :alt "There Will Be Blood"}}
-
-
-
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/synecdoche.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/the-hunt.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/her.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/taxidriver.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/TBB.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/parasite.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/lighthouse.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/PF.png"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/oldboy.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/a-taxidriver.jpg"
-                                  :alt "There Will Be Blood"}}
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/burning.jpg"
-                                  :alt "There Will Be Blood"}}]}]}))
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/VBBB.webp"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/LLHST.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/brigador.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;
+     ;
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/crouching-tiger-hidden-sun.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/windswept.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/wolf-girl.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    ]}
+     ;         ]
+     ;:middle [{:ui      ui-image
+     ;          :factory Image
+     ;          :data    (get node-options :first)}]
+     ;:right  [{:id      "arrow"
+     ;          :ui      ui-image
+     ;          :factory Image
+     ;          :data    {:id  "pl"
+     ;                    :alt "point to the left from the right"
+     ;                    :src "../images/right-side-arrow.PNG"}}
+     ;         {:id      "gallery"
+     ;          :ui      ui-gallery
+     ;          :factory Gallery
+     ;          :data    [
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/DOS2.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/VAHALLA.png"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/SOTL.webp"
+     ;                             :alt "There Will Be Blood"}}
+     ;
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/the-powers-that-b.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;
+     ;
+     ;
+     ;
+     ;
+     ;
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/ultra-mono.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;
+     ;
+     ;
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/FN.png"
+     ;                             :alt "There Will Be Blood"}}
+     ;
+     ;
+     ;
+     ;
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/synecdoche.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/the-hunt.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/her.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/taxidriver.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/TBB.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/parasite.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/lighthouse.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/PF.png"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/oldboy.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/a-taxidriver.jpg"
+     ;                             :alt "There Will Be Blood"}}
+     ;                    {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+     ;                     :image {:id  "twbb"
+     ;                             :src "../images/burning.jpg"
+     ;                             :alt "There Will Be Blood"}}]}]}))
 
 ;(defsc About [this {:about/keys [timebox] :as props}]
 ;  {:ident         (fn [] [:component/id :about])

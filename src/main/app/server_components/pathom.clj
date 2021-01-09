@@ -6,10 +6,8 @@
     [com.wsscode.pathom.core :as p]
     [com.wsscode.common.async-clj :refer [let-chan]]
     [clojure.core.async :as async]
-    [app.model.account :as acct]
-    [app.model.session :as session]
     [app.server-components.config :refer [config]]
-    [app.model.mock-database :as db]))
+    [app.backend.mock-database :as db]))
 
 (pc/defresolver index-explorer [env _]
   {::pc/input  #{:com.wsscode.pathom.viz.index-explorer/id}
@@ -30,7 +28,7 @@
                              {:item/id id})
                        (range start end))}))
 
-(def all-resolvers [acct/resolvers session/resolvers index-explorer infinite-pages])
+(def all-resolvers [index-explorer infinite-pages])
 
 (defn preprocess-parser-plugin
   "Helper to create a plugin that can view/modify the env/tx of a top-level request.

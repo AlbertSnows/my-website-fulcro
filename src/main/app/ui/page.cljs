@@ -16,13 +16,15 @@
      :refer [get-classnames]]
     [app.ui.sidebar.core :as sidebar
      :refer [Sidebar ui-sidebar]]
+    [com.fulcrologic.fulcro.data-fetch :as df]
     [app.ui.pages.projects :as p]
     [app.ui.pages.contact :as c]
     [app.ui.pages.about :as a]
     [app.ui.pages.home :as h]
     [taoensso.timbre :as log]
-    [app.ui.css :as uicss]
-    [lab.bleeding :as b]))
+    [lab.bleeding :as b]
+    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
+    [app.ui.css :as uicss]))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]

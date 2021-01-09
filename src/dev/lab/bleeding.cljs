@@ -77,6 +77,16 @@
                      (set-current-page page-number)
                      (gc-distant-pages page-number))))))
 
+;(m/defmutation load-next [{:keys []}]
+;  (action [{:keys [] :as env}]
+;    ;(load-if-missing env page-number)
+;    ;(swap! state (fn [s]
+;    ;               (-> s
+;    ;                 (init-page page-number)
+;    ;                 (set-current-page page-number)
+;    ;                 (gc-distant-pages page-number))))
+;    ))
+
 (defsc SampleListItem [this {:keys [item/id]}]
   {:query [:item/id :ui/fetch-state]
    :ident [:items/by-id :item/id]}

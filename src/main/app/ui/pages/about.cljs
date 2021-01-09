@@ -933,35 +933,9 @@
                                    :src "../images/football.png"
                                    :alt "There Will Be Blood"}}]}]})])
 
-(def about-initial-state
-  (get-initial-state
-    Timebox
-    {:id     6
-     :left   [{:id      "arrow"
-               :ui      ui-image
-               :factory Image
-               :data    {:id  "pr"
-                         :alt "point to the right from left"
-                         :src "../images/left-side-arrow.PNG"}}
-              {:ui      ui-gallery
-               :factory Gallery
-               :data    [
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/clpping.webp"
-                                  :alt "There Will Be Blood"}}
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/collapse.webp"
-                                  :alt "There Will Be Blood"}}
-
-
-                         {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                          :image {:id  "twbb"
-                                  :src "../images/SAW.webp"
-                                  :alt "There Will Be Blood"}}
+(def about-initial-state {}
+	;(bhc/build-timebox (bd/get-timebox 6))
+  )
 
                          {:link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                           :image {:id  "twbb"

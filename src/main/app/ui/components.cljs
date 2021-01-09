@@ -44,8 +44,42 @@
       :target "__blank"
       :rel    "noopener noreferrer"
       :className "href"}
-     (ui-image image)))
+    (ui-image image)))
 (def ui-href (factory Href {:keyfn :href/id}))
+
+(defsc ContainerHeader [this {:container-header/keys [id route] :as props}]
+  {:query         [:container-header/id
+                   :container-header/route
+                   [::uism/asm-id ::RootRouter]]
+   :ident         :container-header/id
+   :initial-state (fn [{:container-header/keys [id route] :as params}]
+                    {:container-header/id    id
+                     :container-header/route route})
+   :css           [[:.outer-text
+                    {:font-size      "2em"
+                     :color          "white"
+                     :text-align     "center"
+                     :font-family    "MINIMAL"
+                     :margin         "0 auto"
+                     :padding        "0 auto"
+                     :vertical-align "top"}]]}
+  (let [{:keys [outer-text]} (get-classnames ContainerHeader)]
+    (p {:classes [outer-text]}
+      (case route
+        "home" "What Am I Up To?"
+        "about" "About Me"
+        "projects" "Stuff I've Made"
+        "contact" "Reach Out"
+        ""))))
+(def ui-container-header (factory ContainerHeader))
+
+(defsc Text [this {:text/keys [id text]}]
+  {:query         [:text/id :text/text]
+   :initial-state (fn [{:keys [id data]}]
+                    {:text/id   (str id "-text")
+                     :text/text data})}
+  (p {:id id} text))
+(def ui-text (factory Text {:keyfn :text/id}))
 
 (defsc Top
   [this {:top/keys [components id]}]
@@ -133,37 +167,3 @@
     "right-side"
     (mapv apply-contained-component components)))
 (def ui-right (factory Right {:keyfn :right/id}))
-
-(defsc Text [this {:text/keys [id text]}]
-  {:query         [:text/id :text/text]
-   :initial-state (fn [{:keys [id data]}]
-                    {:text/id   (str id "-text")
-                     :text/text data})}
-  (p {:id id} text))
-(def ui-text (factory Text {:keyfn :text/id}))
-
-(defsc ContainerHeader [this {:container-header/keys [id route] :as props}]
-  {:query         [:container-header/id
-                   :container-header/route
-                   [::uism/asm-id ::RootRouter]]
-   :ident         :container-header/id
-   :initial-state (fn [{:container-header/keys [id route] :as params}]
-                    {:container-header/id    id
-                     :container-header/route route})
-   :css           [[:.outer-text
-                    {:font-size      "2em"
-                     :color          "white"
-                     :text-align     "center"
-                     :font-family    "MINIMAL"
-                     :margin         "0 auto"
-                     :padding        "0 auto"
-                     :vertical-align "top"}]]}
-  (let [{:keys [outer-text]} (get-classnames ContainerHeader)]
-    (p {:classes [outer-text]}
-       (case route
-         "home" "What Am I Up To?"
-         "about" "About Me"
-         "projects" "Stuff I've Made"
-         "contact" "Reach Out"
-         ""))))
-(def ui-container-header (factory ContainerHeader))

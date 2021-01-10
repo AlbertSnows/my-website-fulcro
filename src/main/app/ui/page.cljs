@@ -1,7 +1,9 @@
 (ns app.ui.page
   (:require
     [com.fulcrologic.fulcro.components :as comp
-     :refer [defsc get-query get-initial-state factory]]
+     :refer [defsc get-query
+             get-initial-state factory
+             ]]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr
      :refer [defrouter]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
@@ -9,7 +11,7 @@
     [com.fulcrologic.fulcro-css.css-injection :as inj
      :refer [style-element]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div]]
+     :refer [div button]]
     [app.ui.components :as uic
      :refer [ContainerHeader ui-container-header]]
     [com.fulcrologic.fulcro-css.css :as css
@@ -24,7 +26,8 @@
     [taoensso.timbre :as log]
     [lab.bleeding :as b]
     [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
-    [app.ui.css :as uicss]))
+    [app.ui.css :as uicss]
+    [app.ui.components :as uc :refer [Href]]))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
@@ -98,22 +101,77 @@
         ;  )
         ]
     (div
+
       {:id      "root"
-       :onScroll
-                (fn [e]
-                  (let [target (.-target e)]
-                    (when (<= (- (.-scrollHeight target) (.-scrollTop target))
-                              (+ (.-clientHeight target) 150))
-                      (js/alert "test")
-                      ;(comp/transact! this
-                      ;  [(b/goto-page {:page-number 1})])
-                      )
-                    )
-                  )
+       ;:onScroll
+       ;         (fn [e]
+       ;           (let [target (.-target e)]
+       ;             (when (= (- (.-scrollHeight target) (.-scrollTop target))
+       ;                       (+ (.-clientHeight target) 0))
+
+                      ;(df/load! this
+                      ;  [:gallery/id 2]
+                      ;  a/Gallery
+                      ;  {:target
+                      ;   (t/append-to
+                      ;     [:list/by-id 1
+                      ;      :list/timeboxes])})
+
+                      ;(df/load! this
+                      ;  [:timebox/id 5]
+                      ;  a/Timebox
+                      ;  {:target                          ;?
+                      ;   (t/append-to
+                      ;     [:list/by-id 1
+                      ;      :list/timeboxes]
+                      ;     )})
+
+                      ;(df/load! this                        ;?
+                      ;  :user/posts                         ;?
+                      ;  PostComponent                       ;?
+                      ;  {:target                            ;?
+                      ;   (t/append-to
+                      ;     [:user/table                     ;?
+                      ;      id                              ;?
+                      ;      :user/posts]                    ;?
+                      ;     ;:params                          ;?
+                      ;     ;{:pathom/context                 ;?
+                      ;     ; {:user/username "bob"           ;?
+                      ;     ;  :page n}}
+                      ;     )})                   ;?
+
+
+
+
+                      ;(df/load! this
+                      ;  [:person/id 3]
+                      ;  Person
+                      ;  {:target
+                      ;   (targeting/append-to
+                      ;     [:list/id
+                      ;      :friends
+                      ;      :list/people])})
+                      ;)
+                    ;)
+                  ;)
 
        :classes [container]}
+      (button
+        {:id "thing"
+         :onClick
+             (fn [e]
+               (df/load! this [:href/id 2]
+                 Href
+                 {:target
+                  (t/append-to
+                    [
+                     :component/id
+                     :about
+                     :about/list
+                     ])})
+               )} "click")
       (style-element {:component Root})
       (style-element {:component h/Home})
-      (style-element {:component ContainerHeader})
+      ;(style-element {:component ContainerHeader})
       (ui-page page)
       )))

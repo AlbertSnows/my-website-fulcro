@@ -66,7 +66,8 @@
                                          :src "../images/meirl.png"
                                          :alt "g! 'How to print newline in cljs'"}}}]}]})})
 
-(defsc Home [this {:home/keys [left middle right]}]
+(defsc Home
+  [this {:home/keys [left middle right]}]
   {:query         [{:home/left (get-query Left)}
                    {:home/middle (get-query Middle)}
                    {:home/right (get-query Right)}]

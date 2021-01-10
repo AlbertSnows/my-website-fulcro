@@ -6,7 +6,7 @@
         com.taoensso/timbre                 {:mvn/version "4.10.0"}
         com.taoensso/tufte                  {:mvn/version "2.1.0"}
         com.wsscode/pathom                  {:mvn/version "2.2.31"}
-        com.fulcrologic/fulcro              {:mvn/version "3.4.1"}
+        com.fulcrologic/fulcro              {:mvn/version "3.4.10"}
         com.fulcrologic/fulcro-garden-css   {:mvn/version "3.0.7"}
         com.fulcrologic/semantic-ui-wrapper {:mvn/version "1.0.1"}
         com.fulcrologic/guardrails          {:mvn/version "0.0.12"}
@@ -33,7 +33,7 @@
                        {:extra-paths ["src/test" "src/dev" "src/workspaces"]
                        :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]
                        :extra-deps  {org.clojure/clojurescript   {:mvn/version "1.10.773"}
-                                     thheller/shadow-cljs        {:mvn/version "2.11.4"}
+                                     thheller/shadow-cljs        {:mvn/version "2.11.11"}
                                      expound                     {:mvn/version "0.8.4"}
                                      fulcrologic/fulcro-spec     {:mvn/version "3.1.4"}
                                      binaryage/devtools          {:mvn/version "1.0.0"}

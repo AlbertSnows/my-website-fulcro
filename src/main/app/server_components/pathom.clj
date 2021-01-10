@@ -8,28 +8,14 @@
     [clojure.core.async :as async]
     [app.backend.data :as bd]
     [app.server-components.config :refer [config]]
-    [app.backend.mock-database :as db]))
-
-(pc/defresolver index-explorer [env _]
-  {::pc/input  #{:com.wsscode.pathom.viz.index-explorer/id}
-   ::pc/output [:com.wsscode.pathom.viz.index-explorer/index]}
-  {:com.wsscode.pathom.viz.index-explorer/index
-   (-> (get env ::pc/indexes)
-     (update ::pc/index-resolvers #(into {} (map (fn [[k v]] [k (dissoc v ::pc/resolve)])) %))
-     (update ::pc/index-mutations #(into {} (map (fn [[k v]] [k (dissoc v ::pc/mutate)])) %)))})
+    [app.backend.mock-database :as db]
+    [com.fulcrologic.fulcro.components :as comp]
+    [app.backend.helpers.core :as hc]
+    [app.backend.resolvers.timebox :as rt]
+    ))
 
 ;; server
-
-(pc/defresolver infinite-pages
-  [env input]
-  {::pc/output [{:paginate/items [:item/id]}]}
-  (let [params (-> env :ast :params)
-        {:keys [start end]} params]
-    {:paginate/items (mapv (fn [id]
-                             {:item/id id})
-                       (range start end))}))
-
-(def all-resolvers [index-explorer infinite-pages])
+(def all-resolvers [rt/resolvers])
 
 (defn preprocess-parser-plugin
   "Helper to create a plugin that can view/modify the env/tx of a top-level request.

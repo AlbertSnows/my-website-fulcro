@@ -1,8 +1,8 @@
 (ns app.ui.components
   (:require
     [app.ui.helpers.core :as hc
-     :refer [add-id append-id-to-components get-first-id
-             div-with-classes-and-id apply-contained-component]]
+     :refer [  get-first-id
+             div-with-classes-and-id ]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
@@ -12,15 +12,11 @@
     [com.fulcrologic.fulcro-css.css :as css
      :refer [get-classnames]]
     [taoensso.timbre :as log]
-    [app.ui.css :as uicss]))
+    [app.ui.css :as uicss]
+    [app.backend.helpers.core :as bhc]))
 
 (defsc Image [this {:image/keys [id src alt]}]
-  {:query [:image/id :image/src :image/alt]
-   :initial-state
-          (fn [{:keys [src id alt]}]
-            {:image/src src
-             :image/id  (str id "-img")
-             :image/alt alt})}
+  {:query [:image/id :image/src :image/alt]}
   (img {:id id :src src :alt alt}))
 (def ui-image (factory Image {:keyfn :image/id}))
 
@@ -28,17 +24,7 @@
   {:query [:href/id
            :href/link
            {:href/image (get-query Image)}]
-   :ident :href/id
-   :initial-state
-          (fn [{:keys [id link image]}]
-            {:href/id   (str id "-href-" (:id image))
-             :href/link link
-             :href/image
-                        (get-initial-state
-                          Image
-                          (merge
-                            image
-                            {:id (str id "-href-" (:id image))}))})}
+   :ident :href/id}
   (a {:id     id
       :href   link
       :target "__blank"
@@ -88,14 +74,16 @@
    :initial-state
           (fn [components]
             {:top/components
-                     (append-id-to-components
+                     (bhc/append-id-to-components
                        "top"
                        components)
              :top/id (str (get-first-id components) "-top")})}
-  (div-with-classes-and-id
-    id
-    "top-div"
-    (mapv apply-contained-component components)))
+  ;(div-with-classes-and-id
+  ;  id
+  ;  "top-div"
+  ;  (mapv bhc/apply-contained-component components)
+   )
+
 (def ui-top (factory Top {:keyfn :top/id}))
 
 (defsc Bottom
@@ -105,14 +93,15 @@
    :initial-state
           (fn [components]
             {:bottom/components
-                        (append-id-to-components
+                        (bhc/append-id-to-components
                           "bottom"
                           components)
              :bottom/id (str (get-first-id components) "-bottom")})}
-  (div-with-classes-and-id
-    id
-    "bottom-div"
-    (mapv apply-contained-component components)))
+  ;(div-with-classes-and-id
+  ;  id
+  ;  "bottom-div"
+  ;  (mapv apply-contained-component components))
+  )
 (def ui-bottom (factory Bottom {:keyfn :bottom/id}))
 
 (defsc Left
@@ -122,11 +111,12 @@
           (fn [{:keys [id data]}]
             {:left/id (str id "-left")
              :left/components
-                      (append-id-to-components (str id "-left") data)})}
-  (div-with-classes-and-id
-    id
-    "left-side"
-    (mapv apply-contained-component components)))
+                      (bhc/append-id-to-components (str id "-left") data)})}
+  ;(div-with-classes-and-id
+  ;  id
+  ;  "left-side"
+  ;  (mapv apply-contained-component components))
+  )
 (def ui-left (factory Left {:keyfn :left/id}))
 
 (defsc Middle [this {:middle/keys [id components] :as props}]
@@ -136,14 +126,15 @@
           (fn [{:keys [id data]}]
             {:middle/id (str id "-middle")
              :middle/components
-                        (append-id-to-components
+                        (bhc/append-id-to-components
                           (str id "-middle") data)})
    :css   (:css uicss/Middle)}
   (let [{:keys [middle-main-page padding-bottom]} (get-classnames Middle)]
-    (div-with-classes-and-id
-      id
-      "middle"
-      (mapv apply-contained-component components))))
+    ;(div-with-classes-and-id
+    ;  id
+    ;  "middle"
+    ;  (mapv apply-contained-component components))
+    ))
 (def ui-middle (factory Middle {:keyfn :middle/id}))
 
 (defsc Right
@@ -153,7 +144,7 @@
           (fn [{:keys [id data]}]
             {:right/id (str id "-right")
              :right/components
-                       (append-id-to-components (str id "-right") data)})
+                       (bhc/append-id-to-components (str id "-right") data)})
    :css   [[:.right
             {:display        "flex"                         ;
              :flex-direction "column"
@@ -162,8 +153,10 @@
              :width          "100%"}]
            [:.right>a+a
             {:padding-top "6em"}]]}
-  (div-with-classes-and-id
-    id
-    "right-side"
-    (mapv apply-contained-component components)))
+  ;(div-with-classes-and-id
+  ;  id
+  ;  "right-side"
+  ;  (mapv apply-contained-component components)
+    ;)
+  )
 (def ui-right (factory Right {:keyfn :right/id}))

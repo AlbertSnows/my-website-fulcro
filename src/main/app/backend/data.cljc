@@ -45,27 +45,34 @@
 
 ; {:id :left :middle :right}
 (def timebox-entries
-	{6 {:left 18
-			:middle 17
-			:right 16}
-	 5 {:left 15
-			:middle 14
-			:right 13}
-	 4 {:left 12
-			:middle 11
-			:right 10}
-	 3 {:left 9
-			:middle 8
-			:right 7}
-	 2 {:left 4
-			:middle 6
-			:right 5}
-	 1 {:left 2
-			:middle 3
-			:right 1}
-	 -1 {:left -1
-			 :middle -3
-			 :right -2}})
+	{6 {:timebox/id 6
+			:timebox/left 18
+			:timebox/middle 17
+			:timebox/right 16}
+	 5 {:timebox/id 5
+			:timebox/left 15
+			:timebox/middle 14
+			:timebox/right 13}
+	 4 {:timebox/id 4
+			:timebox/left 12
+			:timebox/middle 11
+			:timebox/right 10}
+	 3 {:timebox/id 3
+			:timebox/left 9
+			:timebox/middle 8
+			:timebox/right 7}
+	 2 {:timebox/id 2
+			:timebox/left 4
+			:timebox/middle 6
+			:timebox/right 5}
+	 1 {:timebox/id 1
+			:timebox/left 2
+			:timebox/middle 3
+			:timebox/right 1}
+	 -1 {:timebox/id -1
+			 :timebox/left -1
+			 :timebox/middle -3
+			 :timebox/right -2}})
 
 ; {:id :side :gallery}
 (def side
@@ -859,14 +866,14 @@
 							 :src "../images/football.png"
 							 :alt "There Will Be Blood"}}]})
 
-(defn get-gallery [id]
-	(get galleries id))
+;(defn get-gallery [id]
+;	(get galleries id))
 
-(defn get-side [id]
-	(let [gallery (:gallery (get side id))]
-		(if (or (= :middle gallery) (= :end gallery) (= :first gallery))
-			gallery
-			(get-gallery gallery))))
+;(defn get-side [id]
+;	(let [gallery (:gallery (get side id))]
+;		(if (or (= :middle gallery) (= :end gallery) (= :first gallery))
+;			gallery
+;			(get-gallery gallery))))
 
 (defn setup-timebox-map [id left middle right]
 	{:timebox/id id})
@@ -874,6 +881,46 @@
 (defn get-timebox [id]
 	(let [timebox (get timebox-entries id)]
 		{:timebox/id id
-		 :timebox/left (get-side (:left timebox))
-		 :timebox/middle (get-side (:middle timebox))
-		 :timebox/right (get-side (:right timebox))}))
+		 ;:timebox/left (get-side (:left timebox))
+		 ;:timebox/middle (get-side (:middle timebox))
+		 ;:timebox/right (get-side (:right timebox))
+		 }))
+
+(defn build-img [data]
+	(let [{:image/keys [id src alt]} data]
+		{:image/src src
+		 :image/id  (str id "-img")
+		 :image/alt alt}))
+
+(defn build-href [data]
+	(let [{:href/keys [id link image]} data
+				new-id (str id "-href")
+				img-id (:image/id image)
+				new-img-id (str new-id "-" img-id)]
+		{:href/id   new-id
+		 :href/link link
+		 :href/image (build-img (assoc image :image/id new-img-id))}))
+
+(def ex
+	{2 {:href/link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+			:href/image {:image/id  "twbb"
+									 :image/src "../images/collapse.webp"
+									 :image/alt "There Will Be Blood"}}
+	 1 {:href/link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+			:href/image {:image/id  "twbb"
+									 :image/src "../images/clpping.webp"
+									 :image/alt "There Will Be Blood"}}})
+
+(defn get-href [id]
+	(assoc (get ex id) :href/id id))
+
+(def exp2
+	{1 [(get-href 1)
+			(get-href 2)]})
+(defn get-gallery [id]
+	)
+
+(defn request [id table id-key]
+	(let [data (get table id)]
+		(if (not (nil? data))
+			(assoc data id-key id))))

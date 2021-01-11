@@ -3,43 +3,43 @@
 		[com.wsscode.pathom.connect :as pc :refer [defresolver]]
 		[app.backend.data :as bd]))
 
-(defresolver index-explorer [env _]
-	{::pc/input  #{:com.wsscode.pathom.viz.index-explorer/id}
-	 ::pc/output [:com.wsscode.pathom.viz.index-explorer/index]}
-	{:com.wsscode.pathom.viz.index-explorer/index
-	 (-> (get env ::pc/indexes)
-		 (update ::pc/index-resolvers #(into {} (map (fn [[k v]] [k (dissoc v ::pc/resolve)])) %))
-		 (update ::pc/index-mutations #(into {} (map (fn [[k v]] [k (dissoc v ::pc/mutate)])) %)))})
-
-(defresolver infinite-pages
-	[env input]
-	{::pc/output [{:paginate/items [:item/id]}]}
-	(let [params (-> env :ast :params)
-				{:keys [start end]} params]
-		{:paginate/items (mapv (fn [id]
-														 {:item/id id})
-											 (range start end))}))
-
-(defresolver load-tbox-left
-	[env input]
-	{::pc/input #{:timebox/left}
-	 ::pc/output [{:timebox/left
-								 [:gallery/id
-									:gallery/photos]}]}
-	(let [id (get :timebox/left input)]
-		{:gallery/id id
-		 :gallery/photos (get bd/galleries id)}))
-
-(defresolver load-tbox-middle
-	[env input]
-	{::pc/input #{:timebox/middle}
-	 ::pc/output [{:timebox/middle
-								 [:gallery/id
-									:gallery/photos]}]}
-	(let [id (get :timebox/middle input)
-				side-data (get bd/side id)
-				{:keys [side gallery]} side-data]
-		(get bd/node-options id)))
+;(defresolver index-explorer [env _]
+;	{::pc/input  #{:com.wsscode.pathom.viz.index-explorer/id}
+;	 ::pc/output [:com.wsscode.pathom.viz.index-explorer/index]}
+;	{:com.wsscode.pathom.viz.index-explorer/index
+;	 (-> (get env ::pc/indexes)
+;		 (update ::pc/index-resolvers #(into {} (map (fn [[k v]] [k (dissoc v ::pc/resolve)])) %))
+;		 (update ::pc/index-mutations #(into {} (map (fn [[k v]] [k (dissoc v ::pc/mutate)])) %)))})
+;
+;(defresolver infinite-pages
+;	[env input]
+;	{::pc/output [{:paginate/items [:item/id]}]}
+;	(let [params (-> env :ast :params)
+;				{:keys [start end]} params]
+;		{:paginate/items (mapv (fn [id]
+;														 {:item/id id})
+;											 (range start end))}))
+;
+;(defresolver load-tbox-left
+;	[env input]
+;	{::pc/input #{:timebox/left}
+;	 ::pc/output [{:timebox/left
+;								 [:gallery/id
+;									:gallery/photos]}]}
+;	(let [id (get :timebox/left input)]
+;		{:gallery/id id
+;		 :gallery/photos (get bd/galleries id)}))
+;
+;(defresolver load-tbox-middle
+;	[env input]
+;	{::pc/input #{:timebox/middle}
+;	 ::pc/output [{:timebox/middle
+;								 [:gallery/id
+;									:gallery/photos]}]}
+;	(let [id (get :timebox/middle input)
+;				side-data (get bd/side id)
+;				{:keys [side gallery]} side-data]
+;		(get bd/node-options id)))
 
 (defresolver load-tbox-right
 	[env input]
@@ -90,10 +90,24 @@
 									:image/alt]}]}
 	(let [id (:href/id input)] (bd/build-href (bd/get-href id))))
 
+(defresolver load-gallery
+	[env input]
+	{::pc/input #{:gallery/id}
+	 ::pc/output [{:gallery/photos [:href/id]}]}
+	(let [id (:gallery/id input)] (bd/request id bd/get-gallery)))
+
+(defresolver load-timebox
+	[env input]
+	{::pc/input #{:timebox/id}
+	 ::pc/output [
+								{:timebox/left [:gallery/id]}
+								{:timebox/middle [:image/id :image/src :image/alt]}
+								{:timebox/right [:gallery/id]}
+								]}
+	(let [id (:timebox/id input)] (bd/request id bd/get-timebox)))
+
 (def resolvers
-	[
-	 ;infinite-pages load-tbox-left load-tbox-middle
-	 ;load-tbox-right load-timebox
-	 ; load-gallery
-	 load-href
+	[load-href
+	 load-gallery
+	 load-timebox
 	 ])

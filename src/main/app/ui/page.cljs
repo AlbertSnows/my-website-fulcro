@@ -160,15 +160,37 @@
         {:id "thing"
          :onClick
              (fn [e]
-               (df/load! this [:href/id 2]
-                 Href
+               ;(df/load! this [:href/id 2]
+               ;  Href
+               ;  {:target
+               ;   (t/append-to
+               ;     [
+               ;      :component/id
+               ;      :about
+               ;      :about/list
+               ;      ])})
+
+               ;(df/load! this [:gallery/id 1]
+               ;  a/Gallery
+               ;  {:target
+               ;   (t/append-to
+               ;     [
+               ;      :component/id
+               ;      :about
+               ;      :about/gallery
+               ;      ])})
+
+               (df/load! this [:timebox/id 1]
+                 a/Timebox
                  {:target
                   (t/append-to
                     [
                      :component/id
                      :about
-                     :about/list
+                     :about/timebox
                      ])})
+
+
                )} "click")
       (style-element {:component Root})
       (style-element {:component h/Home})

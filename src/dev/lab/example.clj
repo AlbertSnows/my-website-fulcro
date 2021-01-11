@@ -1,6 +1,86 @@
 (ns lab.example)
 ;;This is a code graveyard. Careful not to wake any ghosts!
 
+;(button
+;	{:id "thing"
+;	 :onClick
+;			 (fn [e]
+;				 ;(df/load! this [:href/id 2]
+;				 ;  Href
+;				 ;  {:target
+;				 ;   (t/append-to
+;				 ;     [
+;				 ;      :component/id
+;				 ;      :about
+;				 ;      :about/list
+;				 ;      ])})
+;
+;				 ;(df/load! this [:gallery/id 1]
+;				 ;  a/Gallery
+;				 ;  {:target
+;				 ;   (t/append-to
+;				 ;     [
+;				 ;      :component/id
+;				 ;      :about
+;				 ;      :about/gallery
+;				 ;      ])})
+;
+;				 ;(df/load! this [:timebox/id 2]
+;				 ;  a/Timebox
+;				 ;  {:target
+;				 ;   (t/append-to
+;				 ;     [
+;				 ;      :component/id
+;				 ;      :about
+;				 ;      :about/timebox
+;				 ;      ])})
+;
+;
+;				 )} "click")
+
+;(df/load! this
+;  [:gallery/id 2]
+;  a/Gallery
+;  {:target
+;   (t/append-to
+;     [:list/by-id 1
+;      :list/timeboxes])})
+
+;(df/load! this
+;  [:timebox/id 5]
+;  a/Timebox
+;  {:target                          ;?
+;   (t/append-to
+;     [:list/by-id 1
+;      :list/timeboxes]
+;     )})
+;
+;(df/load! this                        ;?
+;  :user/posts                         ;?
+;  PostComponent                       ;?
+;  {:target                            ;?
+;   (t/append-to
+;     [:user/table                     ;?
+;      id                              ;?
+;      :user/posts]                    ;?
+;     ;:params                          ;?
+;     ;{:pathom/context                 ;?
+;     ; {:user/username "bob"           ;?
+;     ;  :page n}}
+;     )})                   ;?
+;
+;
+;
+;
+;(df/load! this
+;  [:person/id 3]
+;  Person
+;  {:target
+;   (targeting/append-to
+;     [:list/id
+;      :friends
+;      :list/people])})
+
 ; {:image/id :side :gallery}
 ;(def side
 ;	{18 {:side left :gallery 11}

@@ -20,8 +20,6 @@
 		[app.backend.helpers.core :as bhc]
 		[app.ui.css :as uicss]))
 
-
-
 (defsc Gallery
 	[this {:gallery/keys [id photos]}]
 	{:ident :gallery/id
@@ -60,7 +58,6 @@
 	 :query [{:about/timebox (get-query Timebox)}]
 	 :route-segment ["about"]
 	 :initial-state (fn [_]
-										{:about/timebox [;initial timebox
-											]})}
+										{:about/timebox [(bd/get-timebox 6)]})}
 	(div {:id "about"} (mapv ui-timebox timebox)))
 

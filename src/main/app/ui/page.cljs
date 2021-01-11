@@ -2,8 +2,7 @@
   (:require
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc get-query
-             get-initial-state factory
-             ]]
+             get-initial-state factory]]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr
      :refer [defrouter]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
@@ -27,7 +26,8 @@
     [lab.bleeding :as b]
     [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
     [app.ui.css :as uicss]
-    [app.ui.components :as uc :refer [Href]]))
+    [app.ui.components :as uc
+     :refer [Href ContainerHeader ui-container-header]]))
 
 (defrouter RootRouter
   [this {:keys [current-state pending-path-segment]}]
@@ -101,99 +101,23 @@
         ;  )
         ]
     (div
-
       {:id      "root"
-       ;:onScroll
-       ;         (fn [e]
-       ;           (let [target (.-target e)]
-       ;             (when (= (- (.-scrollHeight target) (.-scrollTop target))
-       ;                       (+ (.-clientHeight target) 0))
-
-                      ;(df/load! this
-                      ;  [:gallery/id 2]
-                      ;  a/Gallery
-                      ;  {:target
-                      ;   (t/append-to
-                      ;     [:list/by-id 1
-                      ;      :list/timeboxes])})
-
-                      ;(df/load! this
-                      ;  [:timebox/id 5]
-                      ;  a/Timebox
-                      ;  {:target                          ;?
-                      ;   (t/append-to
-                      ;     [:list/by-id 1
-                      ;      :list/timeboxes]
-                      ;     )})
-
-                      ;(df/load! this                        ;?
-                      ;  :user/posts                         ;?
-                      ;  PostComponent                       ;?
-                      ;  {:target                            ;?
-                      ;   (t/append-to
-                      ;     [:user/table                     ;?
-                      ;      id                              ;?
-                      ;      :user/posts]                    ;?
-                      ;     ;:params                          ;?
-                      ;     ;{:pathom/context                 ;?
-                      ;     ; {:user/username "bob"           ;?
-                      ;     ;  :page n}}
-                      ;     )})                   ;?
-
-
-
-
-                      ;(df/load! this
-                      ;  [:person/id 3]
-                      ;  Person
-                      ;  {:target
-                      ;   (targeting/append-to
-                      ;     [:list/id
-                      ;      :friends
-                      ;      :list/people])})
-                      ;)
-                    ;)
-                  ;)
+       :onScroll
+                (fn [e]
+                  (let [target (.-target e)]
+                    (when (= (- (.-scrollHeight target) (.-scrollTop target))
+                              (+ (.-clientHeight target) 0))
+                      (df/load! this [:timebox/id 5]
+                        a/Timebox
+                        {:target
+                         (t/append-to
+                           [:component/id
+                            :about
+                            :about/timebox])}))))
 
        :classes [container]}
-      (button
-        {:id "thing"
-         :onClick
-             (fn [e]
-               ;(df/load! this [:href/id 2]
-               ;  Href
-               ;  {:target
-               ;   (t/append-to
-               ;     [
-               ;      :component/id
-               ;      :about
-               ;      :about/list
-               ;      ])})
-
-               ;(df/load! this [:gallery/id 1]
-               ;  a/Gallery
-               ;  {:target
-               ;   (t/append-to
-               ;     [
-               ;      :component/id
-               ;      :about
-               ;      :about/gallery
-               ;      ])})
-
-               (df/load! this [:timebox/id 1]
-                 a/Timebox
-                 {:target
-                  (t/append-to
-                    [
-                     :component/id
-                     :about
-                     :about/timebox
-                     ])})
-
-
-               )} "click")
       (style-element {:component Root})
       (style-element {:component h/Home})
-      ;(style-element {:component ContainerHeader})
+      (style-element {:component ContainerHeader})
       (ui-page page)
       )))

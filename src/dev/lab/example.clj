@@ -1,6 +1,222 @@
 (ns lab.example)
 ;;This is a code graveyard. Careful not to wake any ghosts!
 
+; {:image/id :side :gallery}
+;(def side
+;	{18 {:side left :gallery 11}
+;	 17 {:side middle :gallery first-k}
+;	 16 {:side right :gallery 10}
+;	 15 {:side left :gallery 9}
+;	 14 {:side middle :gallery middle}
+;	 13 {:side right :gallery 8}
+;	 12 {:side left :gallery 7}
+;	 11 {:side middle :gallery middle}
+;	 10 {:side right :gallery 6}
+;	 9 {:side left :gallery 5}
+;	 8 {:side middle :gallery middle}
+;	 7 {:side right :gallery 4}
+;	 6 {:side middle :gallery middle}
+;	 5 {:side right :gallery nil}
+;	 4 {:side left :gallery 3}
+;	 3 {:side middle :gallery end}
+;	 2 {:side left :gallery 2}
+;	 1 {:side right :gallery 1}
+;	 -1 {:side left :gallery nil}
+;	 -2 {:side right :gallery nil}
+;	 -3 {:side middle :gallery middle}})
+
+;(defresolver load-gallery
+;	[env input]
+;	{::pc/input #{:gallery/id}
+;	 ::pc/output [:gallery/id
+;								{:gallery/photos
+;								 [:link
+;									{:image
+;									 [:id :src :alt]}]}]}
+;	(let [id (get :gallery/id input)]
+;		{:gallery/id id
+;		 :gallery/photos (get bd/galleries id)}))
+
+;(defresolver index-explorer [env _]
+;	{::pc/input  #{:com.wsscode.pathom.viz.index-explorer/id}
+;	 ::pc/output [:com.wsscode.pathom.viz.index-explorer/index]}
+;	{:com.wsscode.pathom.viz.index-explorer/index
+;	 (-> (get env ::pc/indexes)
+;		 (update ::pc/index-resolvers #(into {} (map (fn [[k v]] [k (dissoc v ::pc/resolve)])) %))
+;		 (update ::pc/index-mutations #(into {} (map (fn [[k v]] [k (dissoc v ::pc/mutate)])) %)))})
+;
+;(defresolver infinite-pages
+;	[env input]
+;	{::pc/output [{:paginate/items [:item/id]}]}
+;	(let [params (-> env :ast :params)
+;				{:keys [start end]} params]
+;		{:paginate/items (mapv (fn [id]
+;														 {:item/id id})
+;											 (range start end))}))
+;
+;(defresolver load-tbox-left
+;	[env input]
+;	{::pc/input #{:timebox/left}
+;	 ::pc/output [{:timebox/left
+;								 [:gallery/id
+;									:gallery/photos]}]}
+;	(let [id (get :timebox/left input)]
+;		{:gallery/id id
+;		 :gallery/photos (get bd/galleries id)}))
+;
+;(defresolver load-tbox-middle
+;	[env input]
+;	{::pc/input #{:timebox/middle}
+;	 ::pc/output [{:timebox/middle
+;								 [:gallery/id
+;									:gallery/photos]}]}
+;	(let [id (get :timebox/middle input)
+;				side-data (get bd/side id)
+;				{:keys [side gallery]} side-data]
+;		(get bd/node-options id)))
+
+;(defresolver load-tbox-right
+;	[env input]
+;	{::pc/input #{:timebox/right}
+;	 ::pc/output [{:timebox/right
+;								 [:gallery/id
+;									:gallery/photos]}]}
+;	(let [id (get :timebox/right input)]
+;		{:gallery/id id
+;		 :gallery/photos (get bd/galleries id)}))
+;
+;(defresolver load-timebox
+;	[env input]
+;	{::pc/input #{:timebox/id}
+;	 ::pc/output [{:list/timeboxes
+;								 [:timebox/id
+;									:timebox/left
+;									:timebox/middle
+;									:timebox/right]}]}
+;	(let [id (get :timebox/id input)
+;				timebox (get bd/timebox-entries id)
+;				{:keys [left middle right]} timebox]
+;		{:list/timeboxes
+;		 [{:timebox/id id}
+;			{:timebox/right right}
+;			{:timebox/middle middle}
+;			{:timebox/left middle}]}))
+
+; original working Gallery
+;(defsc Gallery
+;	[this {:gallery/keys [photos id] :as props}]
+;	{:ident    :gallery/id
+;	 :query [:gallery/id
+;					 {:gallery/photos (get-query Href)}]}
+;	(div {:id        (str id "-gallery")
+;				:className "gallery"}
+;		(mapv
+;			(fn [photo]
+;				(ui-href
+;					(get-initial-state Href photo)))
+;			photos)))
+;(def ui-gallery (factory Gallery {:keyfn :gallery/id}))
+
+; original working Timebox
+;(defsc Timebox
+;	[this {:timebox/keys [id left middle right]}]
+;	{:query
+;					[:timebox/id
+;					 {:timebox/left (get-query Gallery)}
+;					 {:timebox/middle (get-query Image)}
+;					 {:timebox/right (get-query Gallery)}
+;					 ]
+;	 :ident [:timebox/by-id :timebox/id]
+;	 :css   (:css uicss/Timebox)}
+;	(let [{:keys [timebox]} (get-classnames Timebox)]
+;		(div {:classes [timebox]
+;					:id      id}
+;			(build-left-element id
+;				(fn [new-id]
+;					[(ui-image bd/left-arrow)
+;					 (ui-gallery
+;						 (update-id-in-data new-id left :gallery/id))]))
+;			(ui-image middle)
+;			(build-right-element id
+;				(fn [new-id]
+;					[(ui-image bd/right-arrow)
+;					 (ui-gallery
+;						 (update-id-in-data new-id right :gallery/id))])))))
+;(def ui-timebox (factory Timebox {:keyfn :timebox/id}))
+
+;(defsc About [this {:about/keys [timebox] :as props}]
+;  {:ident         (fn [] [:component/id :about])
+;   :route-segment ["about"]
+;   :query         [{:about/timebox (get-query Timebox)}]
+;   :initial-state (fn [_] {:about/timebox about-initial-state})}
+;  (div {:id "about-page-body"}
+;       (style-element {:component Timebox})
+;       (mapv ui-timebox timebox)))
+;
+;(defsc TimeboxList [this {:keys [list/timebox-item]}]
+;  {:initial-state (fn [params]
+;                    {:list/timebox-item (comp/get-initial-state b/ListPage ??)})
+;   :query [{:list/current-page (comp/get-query b/ListPage)}]
+;   :ident (fn [] [:list/by-id 1])}
+;  (let [{:keys [page/number]} current-page]
+;    (dom/div
+;      (dom/button
+;        {:disabled (= 1 number)
+;         :onClick #(comp/transact! this
+;                     [(b/goto-page {:page-number (dec number)})])}
+;        "Prior Page")
+;      (dom/button
+;        {:onClick #(comp/transact! this
+;                     [(b/goto-page {:page-number (inc number)})])}
+;        "next page")
+;      (b/ui-list-page current-page))))
+;
+;(def ui-list (comp/factory TimeboxList))
+
+;
+;(defsc TimeboxList
+;	[this {:list/keys [timeboxes] :as props}]
+;	{:query         [{:list/timeboxes (comp/get-query Timebox)}]
+;	 :ident         (fn [] [:list/by-id 1])
+;	 :initial-state (fn [_]
+;										{:list/timeboxes
+;										 [
+;											about-initial-state
+;											]})}
+;	(map ui-timebox timeboxes))
+;(def ui-timebox-list (factory TimeboxList))
+
+;In terms of implementation, you would just need to create an event listener, that listens for the scrolling of the window or body. Then, you just need to check if they are at the bottom of the window / body, and call a function that updates the state of the component, when that happens. The function would call the remote to fetch more items.
+
+;https://gist.github.com/nberger/b5e316a43ffc3b7d5e084b228bd83899
+;https://github.com/joakimmohn/crudurama/blob/master/src/cljs/crudurama/infinite-scroll.cljs
+;$(window).scroll(function () {
+;   if ($(window).scrollTop() >= $(document).height() - $(window).height() - 10) {
+;      //Add something at the end of the page
+;   }
+;});
+
+;(behavior "Triggering an event from state b"
+;      (uism/trigger! app ::id :event/bang!)
+;      (assertions
+;        "Moves to the correct state"
+;        (uism/get-active-state app ::id) => :state/a
+;        "Applies the expected actions"
+;        (fget-in [:WOW]) => 2)))
+
+;(defsc LeftT
+;	[this {:left-t/keys [components id]}]
+;	{:query [:left-t/components :left-t/id]}
+;	(div-with-classes-and-id
+;		(str id "-left")
+;		"left-side"
+;		(add-id-to-components (str id "-left") components)
+;		;(mapv apply-contained-component
+;		;  (append-id-to-components (str id "-left") components))
+;		))
+;(def ui-leftt (factory LeftT {:keyfn :left-t/id}))
+
+
 ;(get-initial-state
 ;	Timebox
 ;	{:id     1

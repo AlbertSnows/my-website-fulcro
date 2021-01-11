@@ -19,8 +19,6 @@
 		(fn [sub-comp comp-id]
 			(str comp-id "-" (:id sub-comp)))))
 
-
-
 (defn add-id-to-components-and-apply [new-id components]
 	(apply-to-components outer-join new-id components))
 
@@ -37,3 +35,18 @@
 		:timebox/left (make-gallery id left)
 		:timebox/middle (bd/node-options middle)
 		:timebox/right (make-gallery id right)))
+
+(defn build-img [data]
+	(let [{:image/keys [id src alt]} data]
+		{:image/src src
+		 :image/id  (str id "-img")
+		 :image/alt alt}))
+
+(defn build-href [data]
+	(let [{:href/keys [id link image]} data
+				new-id (str id "-href")
+				img-id (:image/id image)
+				new-img-id (str new-id "-" img-id)]
+		{:href/id   new-id
+		 :href/link link
+		 :href/image (build-img (assoc image :image/id new-img-id))}))

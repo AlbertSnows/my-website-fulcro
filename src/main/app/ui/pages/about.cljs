@@ -25,7 +25,9 @@
 	{:ident :gallery/id
 	 :query [:gallery/id
 					 {:gallery/photos (get-query Href)}]}
-	(div {:id (str id "-gallery")}
+	(div {:id (str id "-gallery")
+				:className "gallery"
+				}
 		(mapv ui-href photos)))
 (def ui-gallery (factory Gallery {:keyfn :gallery/id}))
 

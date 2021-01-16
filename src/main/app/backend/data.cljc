@@ -32,29 +32,29 @@
 ; {:id timebox{:id :left :middle :right}}
 (def timebox-entries
 	{7  {:timebox/id     7
-			 :timebox/left   13
+			 :timebox/left   14
 			 :timebox/middle first-k
-			 :timebox/right  12}
+			 :timebox/right  13}
 	 6  {:timebox/id     6
-			 :timebox/left   11
+			 :timebox/left   12
 			 :timebox/middle middle
-			 :timebox/right  10}
+			 :timebox/right  11}
 	 5  {:timebox/id     5
-			 :timebox/left   9
+			 :timebox/left   10
 			 :timebox/middle middle
-			 :timebox/right  8}
+			 :timebox/right  9}
 	 4  {:timebox/id     4
-			 :timebox/left   7
+			 :timebox/left   8
 			 :timebox/middle middle
-			 :timebox/right  6}
+			 :timebox/right  7}
 	 3  {:timebox/id     3
-			 :timebox/left   5
+			 :timebox/left   6
 			 :timebox/middle middle
-			 :timebox/right  4}
+			 :timebox/right  5}
 	 2  {:timebox/id     2
-			 :timebox/left   3
+			 :timebox/left   4
 			 :timebox/middle middle
-			 :timebox/right  nil}
+			 :timebox/right  3}
 	 1  {:timebox/id     1
 			 :timebox/left   2
 			 :timebox/middle end
@@ -66,7 +66,7 @@
 
 ; {:id gallery{:id {:photos [href{:link image{:id :src :alt}}]}}}
 (def galleries
-	{13 {:gallery/id 13
+	{14 {:gallery/id 14
 			 :gallery/photos
 									 [
 										{:href/id    "how-now-brown-cow"
@@ -74,21 +74,21 @@
 										 :href/image {:image/src "../images/what-do.png"
 																	:image/alt "What am I doing now?"}}
 										]}
-	 12 {:gallery/id 12
+	 13 {:gallery/id 13
 			 :gallery/photos
 									 [
 										{:href/id    "clpping"
 										 :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
 										 :href/image {:image/src "../images/clpping.webp"
 																	:image/alt "There Will Be Blood"}}
-										]}
-	 11 {:gallery/id 11
-			 :gallery/photos
-									 [
 										{:href/id    "collapse"
 										 :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
 										 :href/image {:image/src "../images/collapse.webp"
 																	:image/alt "There Will Be Blood"}}
+										]}
+	 12 {:gallery/id 12
+			 :gallery/photos
+									 [
 										{:href/id    "saw"
 										 :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
 										 :href/image {:image/src "../images/SAW.webp"
@@ -101,6 +101,10 @@
 										 :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
 										 :href/image {:image/src "../images/LLHST.jpg"
 																	:image/alt "There Will Be Blood"}}
+										]}
+	 11 {:gallery/id 11
+			 :gallery/photos
+									 [
 										{:href/id    "brigador" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
 										 :href/image {:image/src "../images/brigador.jpg"
 																	:image/alt "There Will Be Blood"}}

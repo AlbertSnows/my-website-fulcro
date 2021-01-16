@@ -24,29 +24,3 @@
 
 (defn append-id-to-components [new-id components]
 	(apply-to-components inner-join new-id components))
-
-(defn make-gallery [id gallery]
-	{:gallery/id     id
-	 :gallery/photos (append-id-to-components id gallery)})
-
-(defn build-timebox
-	[{:timebox/keys [id left middle right] :as timebox-data}]
-	(assoc timebox-data
-		:timebox/left (make-gallery id left)
-		:timebox/middle (bd/node-options middle)
-		:timebox/right (make-gallery id right)))
-
-(defn build-img [data]
-	(let [{:image/keys [id src alt]} data]
-		{:image/src src
-		 :image/id  (str id "-img")
-		 :image/alt alt}))
-
-(defn build-href [data]
-	(let [{:href/keys [id link image]} data
-				new-id (str id "-href")
-				img-id (:image/id image)
-				new-img-id (str new-id "-" img-id)]
-		{:href/id   new-id
-		 :href/link link
-		 :href/image (build-img (assoc image :image/id new-img-id))}))

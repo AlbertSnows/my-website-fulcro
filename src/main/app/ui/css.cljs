@@ -2,15 +2,20 @@
 
 (def OuterBox
   [[:.outer
-    {:background-color "black"
-     ;                  :width "50%"
-     :display          "flex"
-     :flex-direction   "column"
-     :justify-content  "center"
+    {
+     ;:display          "flex"
+     ;:flex-direction   "column"
+     ;:justify-content  "center"
+     ;:position "relative"
+     ;:top "40%"
+     :background-color "black"
      :align-items      "center"
      :padding          "0em 0.5em 1em 0.5em"
      :margin           "7% 10% 1% 10%"
      :border-radius    "2.5%"
+     :display "inline-flex";
+     :flex-direction "column";
+     :align-self "flex-start";
      }]
    [:.box
     {
@@ -61,7 +66,8 @@
       :height "8%"}]
     [:.timebox
      {
-      ;:display "flex"
+      :display "flex"
+      :justify-content "center"
       }]]})
 
 (def Href

@@ -15,22 +15,8 @@
 (defn create-div-id [component id]
   (str (:id component) "-" id))
 
-(defn append-id [component id]
-  (merge component {:id (create-div-id component id)}))
-
-
-
-
-
-
-
-
-;(defn apply-contained-component [{:keys [id ui factory data]}]
-;  (ui (get-initial-state
-;        factory
-;        (if (vector? data)
-;          (add-id-to-components-and-apply id data)
-;          (outer-join id data)))))
+;(defn append-id [component id]
+;  (merge component {:id (create-div-id component id)}))
 
 (defn get-first-id [components]
   (:id (first components)))
@@ -50,7 +36,12 @@
     (div-with-classes-and-id new-id classes (get-data new-id))))
 
 (defn build-left-element [id get-data]
-  (build-element id "left" "left-side" get-data))
+  (build-element id "left" "about-left-side" get-data))
 (defn build-right-element [id get-data]
-  (build-element id "left" "left-side" get-data))
+  (build-element id "right" "about-right-side" get-data))
 
+(defn add-id [id map key]
+  (assoc map key id))
+
+(defn append-id [id map key]
+  (assoc map key (str id "-" (key map))))

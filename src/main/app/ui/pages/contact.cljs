@@ -7,24 +7,14 @@
     [app.ui.components :as c
      :refer [Image ui-image]]))
 
-(def contact-initial-state
-  {:contact/image
-   (get-initial-state
-     Image
-     {:id  "mail-big"
-      :src "../images/mailV2.png"
-      :alt "email"})
-   :contact/span
-   (get-initial-state
-     Image
-     {:id  "mail-small"
-      :src "../images/mail_secure.PNG"
-      :alt "for security reasons"})})
-(defsc Contact [this {:contact/keys [image span] :as props}]
+(defsc Contact [this props]
   {:ident         (fn [] [:component/id :contact])
-   :query         [{:contact/image (get-query Image)}
-                   {:contact/span (get-query Image)}]
-   :initial-state (fn [_] contact-initial-state)
+   :query         []
    :route-segment ["contact"]}
-  (div {:id "contact-container"} (ui-image image)
-       (ui-image span)))
+  (div {:id "contact-container"}
+    (ui-image {:image/id  "mail-big"
+               :image/src "../images/mailV2.png"
+               :image/alt "email"})
+       (ui-image {:image/id  "mail-small"
+                  :image/src "../images/mail_secure.PNG"
+                  :image/alt "for security reasons"})))

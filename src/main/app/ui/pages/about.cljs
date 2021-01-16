@@ -27,7 +27,7 @@
 					 {:gallery/photos (get-query Href)}]}
 	(div {:id (str id "-gallery")}
 		(mapv ui-href photos)))
-(def ui-gallery (factory Gallery))
+(def ui-gallery (factory Gallery {:keyfn :gallery/id}))
 
 (defsc Timebox
 	[this {:timebox/keys [id left middle right]}]
@@ -38,7 +38,8 @@
 					 {:timebox/middle (get-query Image)}
 					 {:timebox/right (get-query Gallery)}]}
 	(let [{:keys [timebox]} (get-classnames Timebox)]
-		(div {:id (str id "-timebox")}
+		(div {:id (str id "-timebox")
+					:classes [timebox]}
 			(build-left-element id
 				(fn [new-id]
 					[(ui-image bd/left-arrow)
@@ -50,14 +51,15 @@
 					[(ui-image bd/right-arrow)
 					 (ui-gallery
 						 (update-id-in-data new-id right :gallery/id))])))))
-(def ui-timebox (factory Timebox))
+(def ui-timebox (factory Timebox {:keyfn :timebox/id}))
 
 (defsc About
 	[this {:about/keys [timebox]}]
 	{:ident (fn [] [:component/id :about])
 	 :query [{:about/timebox (get-query Timebox)}]
 	 :route-segment ["about"]
-	 :initial-state (fn [_]
-										{:about/timebox [(bd/get-timebox 6)]})}
-	(div {:id "about"} (mapv ui-timebox timebox)))
+	 :initial-state
+	 	(fn [_] {:about/timebox [(bd/get-timebox 7) (bd/get-timebox 6)]})}
+	(div {:id "about"}
+		(mapv ui-timebox timebox)))
 

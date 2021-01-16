@@ -2,7 +2,6 @@
 	(:require
 		[com.wsscode.pathom.connect :as pc
 		 :refer [defresolver]]
-		[app.backend.helpers.core :as bhc]
 		[app.backend.data :as bd]))
 
 (defresolver load-href
@@ -12,9 +11,7 @@
 								{:href/image
 								 [:image/id
 									:image/src
-									:image/alt]}]}
-	;(let [id (:href/id input)] (bhc/build-href (bd/request id )))
-	)
+									:image/alt]}]})
 
 (defresolver load-gallery
 	[env input]

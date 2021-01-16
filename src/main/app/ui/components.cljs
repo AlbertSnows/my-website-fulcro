@@ -1,8 +1,8 @@
 (ns app.ui.components
   (:require
     [app.ui.helpers.core :as hc
-     :refer [  get-first-id
-             div-with-classes-and-id ]]
+     :refer [get-first-id div-with-classes-and-id
+             add-id]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
@@ -19,6 +19,10 @@
   {:query [:image/id :image/src :image/alt]}
   (img {:id id :src src :alt alt}))
 (def ui-image (factory Image {:keyfn :image/id}))
+(defn build-image [{:image/keys [id alt src]}]
+  {:image/id (str id "-img")
+   :image/alt alt
+   :image/src src})
 
 (defsc Href [this {:href/keys [id link image]}]
   {:query [:href/id
@@ -32,6 +36,10 @@
       :className "href"}
     (ui-image image)))
 (def ui-href (factory Href {:keyfn :href/id}))
+(defn build-href [{:href/keys [id link image]}]
+  {:href/id (str id "-href")
+   :href/link  "https://github.com/AlbertSnows/my-website"
+   :href/image (build-image (add-id (str id "-href") image :image/id))})
 
 (defsc ContainerHeader [this {:container-header/keys [id route] :as props}]
   {:query         [:container-header/id

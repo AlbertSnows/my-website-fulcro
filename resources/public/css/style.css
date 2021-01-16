@@ -508,9 +508,16 @@ table-role-video>a>img {
     height: 50%;
 }
 
-.left-side {
+.home-left-side {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding-left: 0.5em;
+}
+
+.about-left-side {
+    display: flex;
+    flex-direction: row-reverse;
     align-items: center;
     padding-left: 0.5em;
 }
@@ -528,9 +535,16 @@ table-role-video>a>img {
 
 }
 
-.right-side {
+.home-right-side {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding-right: 0.5em;
+}
+
+.about-right-side {
+    display: flex;
+    flex-direction: row;
     align-items: center;
     padding-right: 0.5em;
 }
@@ -752,7 +766,7 @@ justify-content: center;
 }
 
 .project-box>a {
-    max-width: 10%;
+/*    max-width: 10%; */
     margin: 0.3em 0.3em;
     border: 4px;
 }
@@ -762,29 +776,35 @@ justify-content: center;
 }
 
 #contact-container {
+
     display: grid;
     align-items: center;
     justify-items: center;
     margin: 1em;
-}
 
-#mail-big-img {
-    width: 40%;
+}
+#mail-big {
+    max-width: 100%;
+    width: 36vw;
     grid-column: 1 / span 2;
     grid-row: 1 / span 2;
+    min-width: 15em;
 }
 
-#mail-big-img:hover + #mail-small-img{
+#mail-big:hover + #mail-small{
     display: inline;
 }
 
-#mail-small-img {
+#mail-small {
     grid-column: 1 / span 2;
     grid-row: 1 / span 2;
     display: none;
+    max-width: 100%;
+    width: 36vw;
+    min-width: 15em;
 }
 
-#mail-small-img:hover {
+#mail-small:hover {
     display: inline;
 }
 
@@ -890,7 +910,7 @@ div>img {
 }
 
 div>a {
-    width: 6em;
+    width: 10vw;
 }
 
 div>a>img:hover {
@@ -898,8 +918,8 @@ div>a>img:hover {
 }
 
 .href>img {
-    width: 6em;
-    height: 6em;
+    width: 12vw;
+    height: 12vw;
     transition: transform 0.3s;
 }
 
@@ -910,5 +930,46 @@ div>a>img:hover {
 
 .right-side>img {
     align-self: flex-end;
-
 }
+
+#about>div>img {
+    width: 10vw;
+}
+
+#about>div>div>img {
+    width: 6vw;
+}
+
+.description {
+    font-size: 1.7vw;
+}
+
+.description-holder {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1vw;
+}
+
+.title {
+    font-size: 2.2vw;
+}
+
+@media all and (max-width: 500px) {
+    .description {
+        display: none;
+    }
+
+    .title {
+        font-size: 1.5em;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        margin-right: 1em;
+        margin-left: 2em;
+    }
+
+    .description-holder {
+        justify-content: center;
+    }
+}
+

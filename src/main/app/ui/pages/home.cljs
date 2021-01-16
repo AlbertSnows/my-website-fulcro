@@ -1,80 +1,61 @@
 (ns app.ui.pages.home
   (:require
+    [app.ui.helpers.core :as hc
+     :refer [get-first-id div-with-classes-and-id
+             add-id-to-components  build-left-element
+             build-right-element update-id-in-data
+             append-id]]
     [app.ui.components :as c
      :refer [Left ui-top Top ui-href Href ui-bottom Bottom
-             Middle ui-text Text Right ui-left ui-middle ui-right]]
+             Middle ui-text Text Right ui-left ui-middle ui-right
+             build-href]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
      :refer [div]]
     [lab.bleeding :as b]))
 
-(def home-initial-state
-  {:home/left
-   (get-initial-state
-     Left
-     {:id "home"
-      :data
-          [{:ui      ui-top
-            :factory Top
-            :data    [{:ui      ui-href
-                       :factory Href
-                       :data    {:link  "https://www.youtube.com/watch?v=DSJvCffJCzE"
-                                 :image {:id  "gamin"
-                                         :src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
-                                         :alt "I play games I KNOW I'M SORRY"}}}]}
-           {:ui      ui-bottom
-            :factory Bottom
-            :data    [{:ui      ui-href
-                       :factory Href
-                       :data    {:link  "https://www.youtube.com/watch?v=Et6itTuJSYY"
-                                 :image {:id  "pho"
-                                         :src "../images/the-thinker.png"
-                                         :alt "But really, what even IS a rock anyways???"}}}]}]})
-   :home/middle
-   (get-initial-state
-     Middle
-     {:id "home"
-      :data
-          [{:ui      ui-text
-            :factory Text
-            :data    {:id   "main"
-                      :data "Mostly this stuff"}}
-           {:ui      ui-text
-            :factory Text
-            :data    {:id   "minor"
-                      :data "(check out my projects for novel things)"}}]})
-   :home/right
-   (get-initial-state
-     Right
-     {:id "home"
-      :data
-          [{:ui      ui-top
-            :factory Top
-            :data    [{:ui      ui-href
-                       :factory Href
-                       :data    {:link  "https://www.youtube.com/"
-                                 :image {:id  "Tube"
-                                         :src "../images/tubes.png"
-                                         :alt "Youtube is my Netflix, sadly"}}}]}
-           {:ui      ui-bottom
-            :factory Bottom
-            :data    [{:ui      ui-href
-                       :factory Href
-                       :data    {:link  "https://www.youtube.com/watch?v=HluANRwPyNo"
-                                 :image {:id  "debug"
-                                         :src "../images/meirl.png"
-                                         :alt "g! 'How to print newline in cljs'"}}}]}]})})
-
-(defsc Home
-  [this {:home/keys [left middle right]}]
-  {:query         [{:home/left (get-query Left)}
-                   {:home/middle (get-query Middle)}
-                   {:home/right (get-query Right)}]
+(defsc Home [this props]
+  {:query         []
    :route-segment ["home"]
-   :ident         (fn [] [:component/id :home])
-   :initial-state (fn [_] home-initial-state)}
+   :ident         (fn [] [:component/id :home])}
   (div {:id "home"}
-       (ui-left left)
-       (ui-middle middle)
-       (ui-right right)))
+    (div-with-classes-and-id "home-left" "home-left-side"
+      [(ui-href
+         (build-href
+           (append-id "home-left"
+             {:href/id "pho"
+              :href/link  "https://www.youtube.com/watch?v=Et6itTuJSYY"
+              :href/image {:image/src "../images/the-thinker.png"
+                           :image/alt "But really, what even IS a rock anyways???"}}
+             :href/id)))
+       (ui-href
+         (build-href
+           (append-id "home-left"
+             {:href/id "gamin"
+              :href/link  "https://www.youtube.com/watch?v=DSJvCffJCzE"
+              :href/image {:image/src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+                           :image/alt "I play games I KNOW I'M SORRY"}}
+             :href/id)))])
+    (div-with-classes-and-id "home-middle" "middle"
+      [(ui-text {:text/id   "main"
+                 :text/text "Mostly this stuff"})
+       (ui-text {:text/id   "minor"
+                 :text/text "(check out my projects for novel things)"})])
+    (div-with-classes-and-id "home-right" "home-right-side"
+      [(ui-href
+         (build-href
+           (append-id "home-right"
+             {:href/id "Tube"
+              :href/link  "https://www.youtube.com/"
+              :href/image {:image/src "../images/tubes.png"
+                           :image/alt "Youtube is my Netflix, sadly"}}
+             :href/id)))
+       (ui-href
+         (build-href
+           (append-id "home-right"
+             {:href/id "debug"
+              :href/link  "https://www.youtube.com/watch?v=HluANRwPyNo"
+              :href/image {:image/src "../images/meirl.png"
+                           :image/alt "g! 'How to print newline in cljs'"}}
+             :href/id)))])))

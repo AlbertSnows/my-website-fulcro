@@ -216,7 +216,6 @@ p {
 #sidebar-toggle-button {
     padding-top: 5em;
     width: 0em;
-    display: flex;
 }
 
 #sidebar-toggle-button>p {
@@ -226,12 +225,7 @@ p {
     text-align: center;
     margin: 0;
     cursor: pointer;
-    padding-right: 0.8em;
-}
-
-#sidebar-toggle-button>p {
-
-
+    padding-right: 1em;
 }
 
 .open>#toggle-wrapper {
@@ -1008,8 +1002,16 @@ div>a>img:hover {
     }
 
     #sidebar-toggle-button {
-        align-items: flex-end;
         padding-bottom: 5em;
+    }
+
+    #home-middle {
+        display: none;
+    }
+
+    #sidebar-toggle-button>p {
+        position: relative;
+        top: 84%;
     }
 }
 

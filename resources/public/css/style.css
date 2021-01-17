@@ -216,6 +216,7 @@ p {
 #sidebar-toggle-button {
     padding-top: 5em;
     width: 0em;
+    display: flex;
 }
 
 #sidebar-toggle-button>p {
@@ -225,7 +226,7 @@ p {
     text-align: center;
     margin: 0;
     cursor: pointer;
-    padding-right: 1em;
+    padding-right: 0.8em;
 }
 
 #sidebar-toggle-button>p {
@@ -521,7 +522,7 @@ table-role-video>a>img {
     align-items: flex-start;
     padding-left: 0.5em;
     margin-top: 1em;
-    min-width: 10em;
+    width: 40vw;
 }
 
 .left-side>div {
@@ -550,7 +551,7 @@ table-role-video>a>img {
     flex-direction: row;
     align-items: flex-end;
     padding-right: 0.5em;
-    min-width: 10em;
+    width: 40vw;
 }
 
 .right-side>div {
@@ -903,14 +904,24 @@ gallery>a>img {
 }
 
 .gallery {
+/*
     display: inline-flex;
     flex-wrap: wrap-reverse;
     flex-direction: row;
     max-width: 20em;
+*/
 }
 
-gallery>img:hover {
-    
+.about-left-side>.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row-reverse;
+}
+
+.about-right-side>.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
 }
 
 div>a {
@@ -983,21 +994,12 @@ div>a>img:hover {
         justify-content: center;
     }
 
-    #home {
-
-    }
-
-    #home>.middle {
-        display: none;
-    }
-
     #home>div>a>img {
         width: 10em !important;
     }
 
     #about>div>img {
         width: 6em;
-        display: none;
     }
 
     #about {
@@ -1005,6 +1007,10 @@ div>a>img:hover {
         width: 78vw
     }
 
+    #sidebar-toggle-button {
+        align-items: flex-end;
+        padding-bottom: 5em;
+    }
 }
 
 #home>div>a>img {
@@ -1027,9 +1033,7 @@ div>a>img:hover {
 
 #about>div>div>div>a>img {
     width: 6em;
-/*
     height: 6em;
-*/
     border-radius: 50%;
 }
 

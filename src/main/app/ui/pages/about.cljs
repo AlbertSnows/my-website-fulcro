@@ -9,7 +9,7 @@
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom
-     :refer [div]]
+     :refer [div button p]]
     [com.fulcrologic.fulcro-css.css-injection :as inj
      :refer [style-element]]
     [com.fulcrologic.fulcro-css.css :as css
@@ -17,7 +17,9 @@
     [lab.bleeding :as b]
     [app.backend.data :as bd]
     [app.backend.helpers.core :as bhc]
-    [app.ui.css :as uicss]))
+    [app.ui.css :as uicss]
+    [com.fulcrologic.fulcro.data-fetch :as df]
+    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]))
 
 (defsc Gallery
   [this {:gallery/keys [id photos]}]
@@ -64,6 +66,23 @@
                            [(bd/get-timebox 7)
                             (bd/get-timebox 6)
                             (bd/get-timebox 5)]})}
-  (div {:id "about"}
-       (mapv ui-timebox timebox)))
+  (let [last-loaded-timebox-id (:timebox/id (last timebox))]
+    (div {:id "about"}
+         (print "a: " timebox)
+         (mapv ui-timebox timebox)
+         (when (> last-loaded-timebox-id 1)
+           (div {:id "load-more"
+                    :onClick
+                        (fn [e]
+                          (df/load!
+                            this
+                            [:timebox/id (dec last-loaded-timebox-id)]
+                            Timebox
+                            {:target
+                             (t/append-to
+                               [:component/id
+                                :about
+                                :about/timebox])}))}
+                   (p "V")
+                   (p "V"))))))
 

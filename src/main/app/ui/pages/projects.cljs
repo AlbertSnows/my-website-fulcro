@@ -40,6 +40,18 @@
 
 (def projects-initial-state
 	[(build-project-box
+		 {:box/id "my-website-v2"
+			:box/description
+							(build-description
+								{:description/header "This Website...Again"
+								 :description/body   "I redid the website! Sort of."})
+
+			:box/href
+							{:href/link  "https://github.com/AlbertSnows/my-website-fulcro"
+							 :href/image {:image/alt "This Website...In Fulcro"
+														:image/src "../images/this-website-v2.PNG"}}})
+
+	 (build-project-box
 		 {:box/id "my-website"
 			:box/description
 							(build-description

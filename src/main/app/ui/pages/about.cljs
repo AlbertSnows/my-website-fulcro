@@ -63,26 +63,26 @@
    :query         [{:about/timebox (get-query Timebox)}]
    :route-segment ["about"]
    :initial-state (fn [_] {:about/timebox
-                           [(bd/get-timebox 7)
-                            (bd/get-timebox 6)
-                            (bd/get-timebox 5)]})}
+                           [(bd/get-timebox 8)
+                            (bd/get-timebox 7)
+                            ;(bd/get-timebox 6)
+                            ]})}
   (let [last-loaded-timebox-id (:timebox/id (last timebox))]
     (div {:id "about"}
-         (print "a: " timebox)
          (mapv ui-timebox timebox)
          (when (> last-loaded-timebox-id 1)
            (div {:id "load-more"
-                    :onClick
-                        (fn [e]
-                          (df/load!
-                            this
-                            [:timebox/id (dec last-loaded-timebox-id)]
-                            Timebox
-                            {:target
-                             (t/append-to
-                               [:component/id
-                                :about
-                                :about/timebox])}))}
-                   (p "V")
-                   (p "V"))))))
+                 :onClick
+                     (fn [e]
+                       (df/load!
+                         this
+                         [:timebox/id (dec last-loaded-timebox-id)]
+                         Timebox
+                         {:target
+                          (t/append-to
+                            [:component/id
+                             :about
+                             :about/timebox])}))}
+                (p "V")
+                (p "V"))))))
 

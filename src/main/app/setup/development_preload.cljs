@@ -5,5 +5,6 @@
 
 (js/console.log "Turning logging to :debug (in app.setup.development-preload)")
 (log/set-level! :debug)
-(log/merge-config! {:output-fn ts/prefix-output-fn
-                    :appenders {:console (ts/console-appender)}})
+(log/merge-config!
+  {:output-fn ts/prefix-output-fn
+   :appenders {:console (ts/console-appender)}})

@@ -534,6 +534,7 @@ table-role-video>a>img {
     padding-left: 0.5em;
     margin-top: 1em;
     width: 40vw;
+    padding-top: 3vw;
 }
 
 .left-side>div {
@@ -563,6 +564,7 @@ table-role-video>a>img {
     align-items: flex-end;
     padding-right: 0.5em;
     width: 40vw;
+    padding-bottom: 3vw;
 }
 
 .right-side>div {
@@ -931,7 +933,7 @@ gallery>a>img {
 
 .about-right-side>.gallery {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: wrap-reverse;
     flex-direction: row;
 }
 
@@ -1063,4 +1065,8 @@ div>a>img:hover {
 
 #about>div>img {
     width: 6em;
+}
+
+#\37 -left {
+    padding-top: 1vw;
 }

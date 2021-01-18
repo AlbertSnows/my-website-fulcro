@@ -2,24 +2,16 @@
 
 (def OuterBox
   [[:.outer
-    {
-     ;:display          "flex"
-     ;:flex-direction   "column"
-     ;:justify-content  "center"
-     ;:position "relative"
-     ;:top "40%"
-     :background-color "black"
+    {:background-color "black"
      :align-items      "center"
      :padding          "0em 0.5em 1em 0.5em"
      :margin           "7% 10% 1% 10%"
      :border-radius    "2.5%"
-     :display "inline-flex";
-     :flex-direction "column";
-     :align-self "flex-start";
-     }]
+     :display          "inline-flex"
+     :flex-direction   "column"
+     :align-self       "flex-start"}]
    [:.box
-    {
-     :border-color  "white"
+    {:border-color  "white"
      :border-style  "solid"
      :border-radius "1%"
      :position      "relative"
@@ -65,10 +57,8 @@
      {:width  "10%"
       :height "8%"}]
     [:.timebox
-     {
-      :display "flex"
-      :justify-content "center"
-      }]]})
+     {:display         "flex"
+      :justify-content "center"}]]})
 
 (def Href
   {:css [[:.href-container
@@ -77,8 +67,7 @@
            :margin          "1em 0em"}]
          [:.href-container>img
           {:height    "auto"
-           :max-width "100%"
-           }]]})
+           :max-width "100%"}]]})
 
 (def Contact
   [[:.general-container
@@ -96,27 +85,24 @@
                :transform      "scale(0.7)"
                :display        "flex"
                :flex-direction "column"
-               :align-items    "center"
-               }]
+               :align-items    "center"}]
    [:.contact>img {:width    "100%"
                    :height   "auto"
                    :position "relative"
                    :top      "0"
                    :left     "0"}]
-   [:.contact>.big-email-boi {:position      "relative"
-                              :top           "0"
-                              :left          "0"
-                              :border-radius "1.5em"}]
-   [:.contact>.small-email-boi {:position   "absolute"
-                                :top        "38%"
-                                :left       "0"
-                                :visibility "hidden"
-                                :transform  "scale(0.8)"
-                                }]
-   [:.contact>.big-email-boi:hover+.small-email-boi {
-                                                     :visibility "visible"
-                                                     }]
-   [:.very-small-text {
-
-                       }]
+   [:.contact>.big-email-boi
+    {:position      "relative"
+     :top           "0"
+     :left          "0"
+     :border-radius "1.5em"}]
+   [:.contact>.small-email-boi
+    {:position   "absolute"
+     :top        "38%"
+     :left       "0"
+     :visibility "hidden"
+     :transform  "scale(0.8)"}]
+   [:.contact>.big-email-boi:hover+.small-email-boi
+    {:visibility "visible"}]
+   [:.very-small-text {}]
    [:.contact>.small-email-boi:hover {:visibility "visible"}]])

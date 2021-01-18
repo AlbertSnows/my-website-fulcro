@@ -31,9 +31,13 @@
 
 ; {:id timebox{:id :left :middle :right}}
 (def timebox-entries
-  {7  {:timebox/id     7
-       :timebox/left   14
+  {8  {:timebox/id     8
+       :timebox/left   16
        :timebox/middle first-k
+       :timebox/right  15}
+   7  {:timebox/id     7
+       :timebox/left   14
+       :timebox/middle middle
        :timebox/right  13}
    6  {:timebox/id     6
        :timebox/left   12
@@ -66,15 +70,15 @@
 
 ; {:id gallery{:id {:photos [href{:link image{:id :src :alt}}]}}}
 (def galleries
-  {14 {:gallery/id 14
+  {16 {:gallery/id 16
        :gallery/photos
                    [
                     {:href/id    "how-now-brown-cow"
-                     :href/link  "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+                     :href/link  "https://static.thenounproject.com/png/196644-200.png"
                      :href/image {:image/src "../images/what-do.png"
-                                  :image/alt "What am I doing now?"}}
+                                  :image/alt "I'm probably napping."}}
                     ]}
-   13 {:gallery/id 13
+   15 {:gallery/id 15
        :gallery/photos
                    [
                     {:href/id    "llhst"
@@ -82,7 +86,7 @@
                      :href/image {:image/src "../images/LLHST.jpg"
                                   :image/alt "There Will Be Blood"}}
                     ]}
-   12 {:gallery/id 12
+   14 {:gallery/id 14
        :gallery/photos
                    [
                     {:href/id    "cths" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
@@ -92,7 +96,7 @@
                      :href/image {:image/src "../images/wolf-girl.jpg"
                                   :image/alt "There Will Be Blood"}}
                     ]}
-   11 {:gallery/id 11
+   13 {:gallery/id 13
        :gallery/photos
                    [
                     {:href/id    "DOS2"
@@ -108,7 +112,7 @@
                      :href/image {:image/src "../images/SOTL.webp"
                                   :image/alt "There Will Be Blood"}}
                     ]}
-   10 {:gallery/id 10
+   12 {:gallery/id 12
        :gallery/photos
                    [
 
@@ -137,7 +141,7 @@
                      :href/image {:image/src "../images/a-taxidriver.jpg"
                                   :image/alt "There Will Be Blood"}}
                     ]}
-   9  {:gallery/id 9
+   11  {:gallery/id 11
        :gallery/photos
                    [{:href/id    "paycom" :href/link "www.google.com"
                      :href/image {:image/src "../images/paycom-icon.PNG"
@@ -185,7 +189,7 @@
                      :href/image {
                                   :image/src "../images/GITSSACOST2.webp"
                                   :image/alt "There Will Be Blood"}}]}
-   8  {:gallery/id 8
+   10  {:gallery/id 10
        :gallery/photos
                    [{:href/id    "charlie" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {:image/id  "CXCXC"
@@ -199,7 +203,7 @@
                      :href/image {
                                   :image/src "../images/FLC.jpg"
                                   :image/alt "There Will Be Blood"}}]}
-   7  {:gallery/id 7
+   9  {:gallery/id 9
        :gallery/photos
                    [
                     {:href/id    "xcom-2" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
@@ -222,7 +226,7 @@
                      :href/image {
                                   :image/src "../images/TR.jpg"
                                   :image/alt "There Will Be Blood"}}]}
-   6  {:gallery/id 6
+   8  {:gallery/id 8
        :gallery/photos
                    [{:href/id    "cowboy-bebop" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
@@ -244,7 +248,7 @@
                      :href/image {
                                   :image/src "../images/ATCQWGIFH.jpg"
                                   :image/alt "There Will Be Blood"}}]}
-   5  {:gallery/id 5
+   7  {:gallery/id 7
        :gallery/photos
                    [{:href/id    "shaun" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
@@ -310,7 +314,7 @@
                      :href/image {
                                   :image/src "../images/4EIAMLT.jpg"
                                   :image/alt "There Will Be Blood"}}]}
-   4  {:gallery/id 4
+   6  {:gallery/id 6
        :gallery/photos
                    [
                     {:href/id    "nujabes" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
@@ -365,10 +369,6 @@
                      :href/image {
                                   :image/src "../images/adam-conover.jpg"
                                   :image/alt "There Will Be Blood"}}
-                    {:href/id    "dofus" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/Dofus.jpg"
-                                  :image/alt "There Will Be Blood"}}
                     {:href/id    "metro" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/M2033.jpg"
@@ -380,8 +380,42 @@
                     {:href/id    "soma" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/soma.png"
-                                  :image/alt "There Will Be Blood"}}]}
-   3  {:gallery/id 3
+                                  :image/alt "There Will Be Blood"}}
+                    ]}
+   5  {:gallery/id 5
+       :gallery/photos
+        [
+         {:href/id    "dofus" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/Dofus.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "pixel-dungeon" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/PDRK.webp"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "wolf-children" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/wolf-children.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "s&w" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/SAW.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "redline" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/RL.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "wakfu" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/nox.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "phil-for-dummies" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/pho-for-dummies.gif"
+                       :image/alt "There Will Be Blood"}}
+
+         ]}
+   4  {:gallery/id 4
        :gallery/photos
                    [
                     {:href/id    "re-4" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
@@ -403,18 +437,6 @@
                     {:href/id    "adventure-time" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/adventuretime.webp"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "pixel-dungeon" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/PDRK.webp"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "wolf-children" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/wolf-children.jpg"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "s&w" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/SAW.jpg"
                                   :image/alt "There Will Be Blood"}}
                     {:href/id    "rsv2" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
@@ -460,14 +482,6 @@
                      :href/image {
                                   :image/src "../images/SED.jpg"
                                   :image/alt "There Will Be Blood"}}
-                    {:href/id    "redline" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/RL.jpg"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "wakfu" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/nox.jpg"
-                                  :image/alt "There Will Be Blood"}}
                     {:href/id    "black-parade" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/MCRTBP.jpg"
@@ -480,11 +494,8 @@
                      :href/image {
                                   :image/src "../images/cgp-grey.jpg"
                                   :image/alt "There Will Be Blood"}}
-                    {:href/id    "phil-for-dummies" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/pho-for-dummies.gif"
-                                  :image/alt "There Will Be Blood"}}]}
-   2  {:gallery/id 2
+                    ]}
+   3  {:gallery/id 3
        :gallery/photos
                    [
                     {:href/id    "avatar" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
@@ -508,16 +519,32 @@
                                   :image/src "../images/nebraska.png"
                                   :image/alt "There Will Be Blood"}}
                     ]}
+   2 {:gallery/id 2
+      :gallery/photos
+        [
+         {:href/id    "billy-and-mandy" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/BAM.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "fhfif" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/BLU.png"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "wind-waker" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/LZWW.jpg"
+                       :image/alt "There Will Be Blood"}}
+         {:href/id    "teen-titans" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
+          :href/image {
+                       :image/src "../images/TT.jpg"
+                       :image/alt "There Will Be Blood"}}
+         ]}
    1  {:gallery/id 1
        :gallery/photos
                    [
                     {:href/id    "aristocat" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/aristocat.jpg"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "billy-and-mandy" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/BAM.jpg"
                                   :image/alt "There Will Be Blood"}}
                     {:href/id    "eiffel-65" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
@@ -530,10 +557,6 @@
                     {:href/id    "gauntlet" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/GDL.jpg"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "wind-waker" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/LZWW.jpg"
                                   :image/alt "There Will Be Blood"}}
                     {:href/id    "monkey-ball" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
@@ -555,17 +578,9 @@
                      :href/image {
                                   :image/src "../images/SM64.jpg"
                                   :image/alt "There Will Be Blood"}}
-                    {:href/id    "teen-titans" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/TT.jpg"
-                                  :image/alt "There Will Be Blood"}}
                     {:href/id    "arkansas" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/AR.png"
-                                  :image/alt "There Will Be Blood"}}
-                    {:href/id    "fhfif" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
-                     :href/image {
-                                  :image/src "../images/BLU.png"
                                   :image/alt "There Will Be Blood"}}
                     {:href/id    "ctcd" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
@@ -602,7 +617,9 @@
                     {:href/id    "football" :href/link "https://www.youtube.com/watch?v=dOEYT0wZFNg"
                      :href/image {
                                   :image/src "../images/football.png"
-                                  :image/alt "There Will Be Blood"}}]}})
+                                  :image/alt "There Will Be Blood"}}
+
+                    ]}})
 
 (defn build-image [{:image/keys [id alt src]}]
   {:image/id  (str id "-img")

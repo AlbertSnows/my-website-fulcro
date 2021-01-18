@@ -1060,7 +1060,9 @@ div>a>img:hover {
 
 #about {
     min-width: 24em;
-    width: 78vw
+    width: 78vw;
+    display: flex;
+    flex-direction: column;
 }
 
 #about>div>img {
@@ -1070,3 +1072,12 @@ div>a>img:hover {
 #\37 -left {
     padding-top: 1vw;
 }
+
+#load-more {
+    margin-right: 3vw;
+    position: absolute;
+    bottom: 0%;
+    right: -2%;
+    cursor: pointer;
+}
+

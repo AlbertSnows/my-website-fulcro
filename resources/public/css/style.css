@@ -218,6 +218,23 @@ p {
     width: 0em;
 }
 
+.home>ul>#list-item-home>a {
+    color: white;
+    transition: 1s;
+}
+.about>ul>#list-item-about>a {
+    color: white;
+    transition: 1s;
+}
+.contact>ul>#list-item-contact>a {
+    color: white;
+    transition: 1s;
+}
+.projects>ul>#list-item-projects>a {
+    color: white;
+    transition: 1s;
+}
+
 #sidebar-toggle-button>p {
     font-size: 5em;
     color: #111;

@@ -9,7 +9,6 @@
     [com.fulcrologic.fulcro.ui-state-machines :as uism]
     [com.fulcrologic.fulcro.components :as comp]
     [com.fulcrologic.fulcro-css.css-injection :as cssi]
-    [app.backend.session :as session]
     [taoensso.timbre :as log]
     [com.fulcrologic.fulcro.algorithms.denormalize :as fdn]
     [com.fulcrologic.fulcro.algorithms.merge :as merge]
@@ -28,9 +27,6 @@
   (app/set-root! SPA root/Root {:initialize-state? true})
   (dr/initialize! SPA)
   (log/info "Starting session machine.")
-  (uism/begin! SPA session/session-machine ::session/session
-    {:actor/login-form      root/Login
-     :actor/current-session root/Session})
   (app/mount! SPA root/Root "app" {:initialize-state? false}))
 
 (comment

@@ -13,14 +13,14 @@
    :initial-state (fn [{:list-item/keys [name classes] :as props}]
                     {:list-item/name    name
                      :list-item/classes classes})}
-  (li {:id (str "list-item-" name)
+  (li {:id        (str "list-item-" name)
        :className classes
        :onClick
-           (fn [_]
-             (transact!
-               this
-               `[(uim/swap ~{:name name})])
-               (change-route! this [name]))}
+                  (fn [_]
+                    (transact!
+                      this
+                      `[(uim/swap ~{:name name})])
+                    (change-route! this [name]))}
       (a name)))
 (def ui-list-item (factory ListItem {:keyfn :list-item/name}))
 
@@ -75,11 +75,8 @@
        (p "[")))
 (def ui-button (factory SidebarButton))
 
-(defsc Sidebar [this {:sidebar/keys [id
-                                     state
-                                     toggled
-                                     button
-                                     contents] :as props}]
+(defsc Sidebar
+  [this {:sidebar/keys [id state toggled button contents] :as props}]
   {:query [:sidebar/id
            :sidebar/state
            :sidebar/toggled
@@ -88,16 +85,14 @@
    :ident :sidebar/id
    :initial-state
           (fn [{:sidebar/keys [id] :as props}]
-            {:sidebar/id    id
-             :sidebar/state "home"
-             :sidebar/toggled "closed"
-             :sidebar/button
-                            (get-initial-state
-                              SidebarButton
-                              {:button/id 1})
-             :sidebar/contents
-                            (get-initial-state
-                              SidebarContents)})}
+            {:sidebar/id       id
+             :sidebar/state    "home"
+             :sidebar/toggled  "closed"
+             :sidebar/button   (get-initial-state
+                                 SidebarButton
+                                 {:button/id 1})
+             :sidebar/contents (get-initial-state
+                                 SidebarContents)})}
   (div {:className (str toggled " " state " sidebar-wrapper")}
        (ui-button button)
        (ui-sidebar-contents contents)))

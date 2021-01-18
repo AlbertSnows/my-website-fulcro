@@ -3,7 +3,8 @@
   (:require [com.fulcrologic.guardrails.core :refer [>defn]]
             [clojure.spec.alpha :as s]))
 
-(>defn uuid
+(>defn
+  uuid
   "Generate a UUID the same way via clj/cljs.  Without args gives random UUID. With args, builds UUID based on input (which
   is useful in tests)."
   #?(:clj ([] [=> uuid?] (java.util.UUID/randomUUID)))

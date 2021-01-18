@@ -3,9 +3,10 @@
     [app.server-components.config :refer [config]]
     [app.server-components.pathom :refer [parser]]
     [mount.core :refer [defstate]]
-    [com.fulcrologic.fulcro.server.api-middleware :refer [handle-api-request
-                                                          wrap-transit-params
-                                                          wrap-transit-response]]
+    [com.fulcrologic.fulcro.server.api-middleware
+     :refer [handle-api-request
+             wrap-transit-params
+             wrap-transit-response]]
     [ring.middleware.defaults :refer [wrap-defaults]]
     [ring.middleware.gzip :refer [wrap-gzip]]
     [ring.util.response :refer [response file-response resource-response]]
@@ -75,28 +76,29 @@
     (cond
       (#{"/" "/index.html"} uri)
       (-> (resp/response (index anti-forgery-token))
-        (resp/content-type "text/html"))
+          (resp/content-type "text/html"))
 
       ;; See note above on the `wslive` function.
       (#{"/wslive.html"} uri)
       (-> (resp/response (wslive anti-forgery-token))
-        (resp/content-type "text/html"))
+          (resp/content-type "text/html"))
 
       :else
       (ring-handler req))))
 
-(defstate middleware
+(defstate
+  middleware
   :start
   (let [defaults-config (:ring.middleware/defaults-config config)
-        legal-origins   (get config :legal-origins #{"localhost"})]
+        legal-origins (get config :legal-origins #{"localhost"})]
     (-> not-found-handler
-      (wrap-api "/api")
-      wrap-transit-params
-      wrap-transit-response
-      (wrap-html-routes)
-      ;; If you want to set something like session store, you'd do it against
-      ;; the defaults-config here (which comes from an EDN file, so it can't have
-      ;; code initialized).
-      ;; E.g. (wrap-defaults (assoc-in defaults-config [:session :store] (my-store)))
-      (wrap-defaults defaults-config)
-      wrap-gzip)))
+        (wrap-api "/api")
+        wrap-transit-params
+        wrap-transit-response
+        (wrap-html-routes)
+        ;; If you want to set something like session store, you'd do it against
+        ;; the defaults-config here (which comes from an EDN file, so it can't have
+        ;; code initialized).
+        ;; E.g. (wrap-defaults (assoc-in defaults-config [:session :store] (my-store)))
+        (wrap-defaults defaults-config)
+        wrap-gzip)))

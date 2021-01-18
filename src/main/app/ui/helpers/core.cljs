@@ -6,26 +6,8 @@
      :refer [get-initial-state]]
     [app.backend.data :as bd]))
 
-(defn div-with-classes-and-id-old [id classes contents]
-  (div {:id id :className classes} contents))
-
 (defn div-with-classes-and-id [id classes contents]
   (div {:id id :className classes} (do contents)))
-
-(defn create-div-id [component id]
-  (str (:id component) "-" id))
-
-;(defn append-id [component id]
-;  (merge component {:id (create-div-id component id)}))
-
-(defn get-first-id [components]
-  (:id (first components)))
-
-(defn add-id-to-components [id components]
-  (mapv (fn [component]
-          (assoc component :id id))
-        components))
-
 
 (defn update-id-in-data [new-id data id-key]
   (let [old-id (id-key data)]

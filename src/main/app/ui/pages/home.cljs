@@ -1,14 +1,12 @@
 (ns app.ui.pages.home
   (:require
     [app.ui.helpers.core :as hc
-     :refer [get-first-id div-with-classes-and-id
-             add-id-to-components  build-left-element
+     :refer [div-with-classes-and-id
+             build-left-element
              build-right-element update-id-in-data
              append-id]]
     [app.ui.components :as c
-     :refer [Left ui-top Top ui-href Href ui-bottom Bottom
-             Middle ui-text Text Right ui-left ui-middle ui-right
-             build-href]]
+     :refer [ui-href Href ui-text Text build-href]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro-css.localized-dom :as dom

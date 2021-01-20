@@ -1059,7 +1059,7 @@ div>a>img:hover {
 }
 
 #about {
-    min-width: 24em;
+    min-width: 26em;
     width: 78vw;
     display: flex;
     flex-direction: column;

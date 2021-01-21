@@ -1,4 +1,5 @@
 {:paths   ["src/main" "resources"]
+ :clojure-executables ["/usr/local/bin/clojure"]
  :deps
        {org.clojure/clojure                 {:mvn/version "1.10.2-rc3"}
         bidi                                {:mvn/version "2.1.6"}
@@ -24,8 +25,10 @@
 
  :aliases
           {:depstar {:extra-deps
-                     {seancornfield/depstar
-                      {:mvn/version "2.0.165"}}}
+                     {:replace-deps
+                      {seancorfield/depstar {:mvn/version "2.0.165"}}
+                      :ns-default hf.depstar
+                      :exec-args {}}}
            :clj-tests
                        {:extra-paths ["src/test"]
                        :main-opts   ["-m" "kaocha.runner"]

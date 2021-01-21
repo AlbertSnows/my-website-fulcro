@@ -3,6 +3,8 @@
  :builds {:main       {:target     :browser
                        :output-dir "resources/public/js/main"
                        :asset-path "/js/main"
+											 :release {:compiler-options
+																 {:optimizations :advanced}}
 
                        :modules    {:main {:init-fn app.setup.entrance/init
                                            :entries [app.setup.entrance]}}

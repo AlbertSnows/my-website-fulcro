@@ -4,7 +4,7 @@
  :org.httpkit.server/config      {:port :env.edn/PORT}
  :database-spec {:jdbc-url :env/DATABASE_URL}
 
- :taoensso.timbre/logging-config {:level :info}
+ :taoensso.timbre/logging-config {:min-level :info}
  ;; You probably want these set to true in real production:
  :ring.middleware/defaults-config
                                  {:proxy    false

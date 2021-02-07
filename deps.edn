@@ -24,12 +24,11 @@
         ring/ring-defaults                  {:mvn/version "0.3.2"}}
 
  :aliases
-          {:depstar
-           {:replace-deps ; tool usage is new in 2.x
-                        {seancorfield/depstar
-                         {:mvn/version "2.0.165"}}
-            :ns-default hf.depstar
-            :exec-args {}}
+          {:depstar {:extra-deps
+                     {:replace-deps
+                      {seancorfield/depstar {:mvn/version "2.0.165"}}
+                      :ns-default hf.depstar
+                      :exec-args {}}}
            :clj-tests
                        {:extra-paths ["src/test"]
                        :main-opts   ["-m" "kaocha.runner"]

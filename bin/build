@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 npm install
 npx shadow-cljs release main
-clojure -A:depstar -m hf.depstar.uberjar fulcro.jar
+clojure -X:depstar uberjar :aot true :jar fulcro.jar :main-class app.setup.server-main

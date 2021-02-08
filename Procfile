@@ -1,1 +1,1 @@
-web: java -jar "%~dp0\fulcro.jar"
+web: java -jar fulcro.jar

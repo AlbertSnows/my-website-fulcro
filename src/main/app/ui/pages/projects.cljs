@@ -49,7 +49,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/my-website-fulcro"
 							 :href/image {:image/alt "This Website...In Fulcro"
-														:image/src "../images/this_website.PNG"}}})
+														:image/src "../images/this_website_f.PNG"}}})
 
 	 (build-project-box
 		 {:box/id "my-website"

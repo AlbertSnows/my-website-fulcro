@@ -14,20 +14,20 @@
    :middle
    {:image/id  "middle-node"
     :image/alt "arbitrary point in timeline"
-    :image/src "../images/middle-node.PNG"}
+    :image/src "../images/middle-node.png"}
    :end
    {:image/id  "end-of-the-road"
     :image/alt "end of the node, cowboy"
-    :image/src "../images/end-of-the-road.PNG"}})
+    :image/src "../images/end-of-the-road.png"}})
 
 (def left-arrow
   {:image/id  "LPR"
    :image/alt "left, point right"
-   :image/src "../images/left-side-arrow.PNG"})
+   :image/src "../images/left-side-arrow.png"})
 (def right-arrow
   {:image/id  "RPL"
    :image/alt "right, point left"
-   :image/src "../images/right-side-arrow.PNG"})
+   :image/src "../images/right-side-arrow.png"})
 
 ; {:id timebox{:id :left :middle :right}}
 (def timebox-entries

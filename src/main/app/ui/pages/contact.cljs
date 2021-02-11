@@ -16,5 +16,5 @@
                :image/src "../images/mailV2.PNG"
                :image/alt "email"})
        (ui-image {:image/id  "mail-small"
-                  :image/src "../images/mail_secure.png"
+                  :image/src "../images/mail_secure.PNG"
                   :image/alt "for security reasons"})))

@@ -13,8 +13,8 @@
    :route-segment ["contact"]}
   (div {:id "contact-container"}
     (ui-image {:image/id  "mail-big"
-               :image/src "../images/mailV2.png"
+               :image/src "../images/mailV2.PNG"
                :image/alt "email"})
        (ui-image {:image/id  "mail-small"
-                  :image/src "../images/mail_secure.PNG"
+                  :image/src "../images/mail_secure.png"
                   :image/alt "for security reasons"})))

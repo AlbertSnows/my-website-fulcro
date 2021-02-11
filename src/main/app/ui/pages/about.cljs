@@ -65,7 +65,7 @@
    :initial-state (fn [_] {:about/timebox
                            [(bd/get-timebox 8)
                             (bd/get-timebox 7)
-                            ;(bd/get-timebox 6)
+                            (bd/get-timebox 6)
                             ]})}
   (let [last-loaded-timebox-id (:timebox/id (last timebox))]
     (div {:id "about"}

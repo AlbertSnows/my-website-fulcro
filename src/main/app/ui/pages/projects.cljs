@@ -49,19 +49,19 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/my-website-fulcro"
 							 :href/image {:image/alt "This Website...In Fulcro"
-														:image/src "../images/this_website.PNG"}}})
+														:image/src "../images/this_website_f.PNG"}}})
 
 	 (build-project-box
 		 {:box/id "my-website"
 			:box/description
 							(build-description
 								{:description/header "This Website"
-								 :description/body   "The website you're perusing."})
+								 :description/body   "The first version of this website."})
 
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/my-website"
 							 :href/image {:image/alt "This Website"
-														:image/src "../images/this_website_g.PNG"}}})
+														:image/src "../images/this_website_v.PNG"}}})
 
 	 (build-project-box
 		 {:box/id "first-website"

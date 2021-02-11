@@ -144,7 +144,7 @@
        :gallery/photos
                    [{:href/id    "paycom"
                      :href/link "https://www.paycom.com/"
-                     :href/image {:image/src "../images/paycom-icon.PNG"
+                     :href/image {:image/src "../images/paycom-icon.png"
                                   :image/alt "I work here rn"}}
                     {:href/id    "okcity"
                      :href/link "https://www.okc.gov/"

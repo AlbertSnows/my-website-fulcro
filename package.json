@@ -1,6 +1,6 @@
 {
     "name": "app",
-    "version": "1.0.0",
+    "version": "2021.12.14",
     "description": "",
     "private": true,
     "dependencies": {},
@@ -21,7 +21,7 @@
         "react-icons": "^2.2.7",
         "reakit": "^0.11.2",
         "intl-messageformat": "^2.2.0",
-        "karma": "^5.2.3",
+        "karma": "^6.3.9",
         "karma-chrome-launcher": "^3.1.0",
         "karma-cljs-test": "^0.1.0",
         "npm-run-all": "^4.1.5",
@@ -30,6 +30,6 @@
         "shadow-cljs": "^2.11.8",
         "showdown": "^1.9.1"
     },
-    "author": "",
-    "license": "MIT"
+    "author": "AJ",
+    "license": "MPL2"
 }

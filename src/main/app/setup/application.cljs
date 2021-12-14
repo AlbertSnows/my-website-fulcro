@@ -9,6 +9,17 @@
   (-> (net/wrap-csrf-token (or js/fulcro_network_csrf_token "TOKEN-NOT-IN-HTML!"))
       (net/wrap-fulcro-request)))
 
+
+(defn global-eql-transform
+  "As the default transform but also asking that any Pathom errors during load! are returned,
+  so that they can be inspected e.g. in `:remote-error?`"
+  [ast]
+  (cond-> (app/default-global-eql-transform ast)
+          (-> ast :type #{:root})
+          (update :children conj (eql/expr->ast :com.wsscode.pathom.core/errors))))
+
+
+
 (defonce
   SPA
   (app/fulcro-app
@@ -16,7 +27,8 @@
      ;; See middleware.clj to see how the token is embedded into the HTML
      :remotes {:remote (net/fulcro-http-remote
                          {:url                "/api"
-                          :request-middleware secured-request-middleware})}}))
+                          :request-middleware secured-request-middleware})}
+     :global-eql-transform global-eql-transform}))
 
 (comment
   (-> SPA (::app/runtime-atom) deref ::app/indexes))

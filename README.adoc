@@ -31,11 +31,12 @@ You will want to enable the `:dev` dependency while developing this project.  In
 == Quick Start
 
 This is a manual to get started with this example project.
-It comes with helper `npm run` scripts pre-loaded, you can find them in the package.json file.
+It comes with helper `npm run` scripts preloaded, you can find them in the package.json file.
 
-Typically you want to start the server and the _main_ and/or _workspaces_ (if you decided to use Nubank Workspaces) client builds. See below. You can simply start everything from the command line
+Typically, you want to start the server and the _main_ and/or _workspaces_ (if you decided to use Nubank Workspaces) client builds. See below. You can simply start everything from the command line
 
-```Shell
+[source,Shell]
+----
 git clone --depth 1 -o fulcro-template https://github.com/fulcrologic/fulcro-template.git fulcro-app
 cd fulcro-app
 
@@ -58,7 +59,7 @@ development=> (start)
 
 # (Optional): Visit the Workspaces UI at http://localhost:3000/wslive.html
 # (Optional): Run tests via `npm run client/test` and visit http://localhost:8022
-```
+----
 
 === The shadow-cljs compile server
 
@@ -80,7 +81,7 @@ how to start the server from a nREPL REPL that you can connect your editor to.
 === Workspaces
 
 If you choose to use https://github.com/nubank/workspaces[Workspaces], you have two options,
-you can run them with the actual backend as described in the Quick Start above
+you can run them with the actual backend as described in the Quick Start above,
 or you can run only the frontend part (communication with the backend will fail due to CSFR):
 `npm run client/workspaces` and visit http://localhost:8023
 
@@ -97,15 +98,17 @@ it to your `package.json`.
 You also cannot compile this project until you install the ones it
 depends on already:
 
-```
+[source]
+----
 $ npm install
-```
+----
 
 or if you prefer `yarn`:
 
-```
+[source]
+----
 $ yarn install
-```
+----
 
 Adding NPM Javascript libraries is as simple as adding them to your
 `package.json` file and requiring them! See the
@@ -118,9 +121,10 @@ Shadow-cljs handles the client-side development build. The file
 `src/main/app/client.cljs` contains the code to start and refresh
 the client for hot code reload.
 
-In general it is easiest just to run the compiler in server mode:
+In general, it is easiest just to run the compiler in server mode:
 
-```
+[source]
+----
 $ npx shadow-cljs server
 INFO: XNIO version 3.3.8.Final
 Nov 10, 2018 8:08:23 PM org.xnio.nio.NioXnio <clinit>
@@ -132,7 +136,7 @@ shadow-cljs - server running at http://localhost:9630
 shadow-cljs - socket REPL running on port 51936
 shadow-cljs - nREPL server started on port 9000
 ...
-```
+----
 
 then *navigate to the server URL* (shown in this example as http://localhost:9630) and
 use the *Builds* menu to enable/disable whichever builds you want watched/running.
@@ -157,9 +161,10 @@ host `localhost` and port `9000`.
 
 then:
 
-```
+[source]
+----
 (shadow/repl :main)
-```
+----
 
 will connect you to the REPL for a specific build (NOTE: Make sure you have
 a browser running the result, or your REPL won't have anything to talk to!)
@@ -176,7 +181,8 @@ start your own server that can also serve your application's API.
 Start a https://cursive-ide.com/userguide/repl.html#local-repls[LOCAL clj nREPL in IntelliJ] (using IntelliJ's classpath with
 the `dev` https://cursive-ide.com/userguide/deps.html#working-with-aliases[alias selected in the Clojure Deps tab]), or from the command line:
 
-```bash
+[source,bash]
+----
 $ clj -A:dev -J-Dtrace -J-Dguardrails.enabled=true
 user=> (require 'development)
 development=> (in-ns 'development)
@@ -185,12 +191,12 @@ development=> (stop)
 ...
 development=> (restart) ; stop, reload server code, and go again
 development=> (tools-ns/refresh) ; retry code reload if hot server reload fails
-```
+----
 
-The `-J-Dtrace` adds a JVM argument that will enable performance tracing for Fulcro Inspect's network tab so you can
+The `-J-Dtrace` adds a JVM argument that will enable performance tracing for Fulcro Inspect's network tab, so you can
 see how your resolvers and mutations are performing.
 
-The `-J-Dguardrails.enabled=true` turns on guardrails instrumentation of guardrails spec'd functions, which is a wrapper
+The `-J-Dguardrails.enabled=true` turns on guardrail's instrumentation of guardrails spec'd functions, which is a wrapper
 of Clojure spec that makes instrumentation and production-time elision (for performance and size) much easier.
 
 NOTE: For real development, please use an editor that has REPL integration, like Cursive (recommended) or
@@ -219,11 +225,12 @@ developer tools pane.
 
 Tests are in `src/test`. Any test namespace ending in `-test` will be auto-detected.
 
-```
+[source]
+----
 src/test
 └── app
     └── sample_test.cljc          spec runnable by client and server.
-```
+----
 
 You can write plain `deftest` in here, and it is preconfigured to support the helper macros in `fulcro-spec` as well.
 
@@ -232,13 +239,14 @@ You can write plain `deftest` in here, and it is preconfigured to support the he
 
 ==== Clojure Tests
 
-Typically you'll just run your tests using the editor of choice (e.g. Run tests in namspace in IntelliJ).
+Typically, you'll just run your tests using the editor of choice (e.g. Run tests in namspace in IntelliJ).
 
 The tests are also set up to run with Kaocha at the command line for your convenience and CI tools:
 
-```
+[source]
+----
 $ clj -A:dev:clj-tests --watch
-```
+----
 
 See the https://github.com/lambdaisland/kaocha[Kaocha project] for more details.
 
@@ -251,24 +259,27 @@ CI support is done through the `ci-test` build in shadow, and via Karma.
 If you start the `ci-tests` build in Shadow-cljs, then you can also run cljs tests in a terminal "watch mode"
 with:
 
-```
+[source]
+----
 npx karma start
-```
+----
 
 Of course, this make CLJS CI easy:
 
-```
+[source]
+----
 npx shadow-cljs compile ci-tests
 npx karma start --single-run
-```
+----
 
 ==== Running all Tests Once
 
-There is a UNIX Makefile that includes all of the CI commands as the default target. Just run:
+There is a UNIX Makefile that includes all the CI commands as the default target. Just run:
 
-```
+[source]
+----
 make
-```
+----
 
 == Workspaces
 

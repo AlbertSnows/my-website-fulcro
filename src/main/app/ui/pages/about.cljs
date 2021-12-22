@@ -8,7 +8,7 @@
      :refer [ui-image Image ui-href Href]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div button p]]
     [com.fulcrologic.fulcro-css.css-injection :as inj
      :refer [style-element]]

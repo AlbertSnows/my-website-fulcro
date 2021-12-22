@@ -2,7 +2,7 @@
 	(:require
 		[com.fulcrologic.fulcro.components :as comp
 		 :refer [defsc factory get-query get-initial-state]]
-		[com.fulcrologic.fulcro-css.localized-dom :as dom
+		[com.fulcrologic.fulcro.dom :as dom
 		 :refer [div h3 p]]
 		[app.ui.components :as c
 		 :refer [Href ui-href build-href]]

@@ -9,7 +9,7 @@
      :refer [ui-href Href ui-text Text build-href]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div]]
     [lab.bleeding :as b]))
 

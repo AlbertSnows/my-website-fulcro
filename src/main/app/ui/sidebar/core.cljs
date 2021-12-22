@@ -4,7 +4,7 @@
      :refer [defsc factory get-query get-initial-state transact!]]
     [com.fulcrologic.fulcro.routing.dynamic-routing :as dr
      :refer [defrouter change-route!]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div li a ul p]]
     [app.ui.mutations :as uim]))
 

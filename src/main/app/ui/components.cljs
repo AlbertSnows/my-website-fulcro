@@ -5,7 +5,7 @@
              add-id]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div img a p]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
      :refer [defstatemachine]]

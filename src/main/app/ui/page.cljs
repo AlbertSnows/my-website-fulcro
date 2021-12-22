@@ -10,7 +10,7 @@
      :refer [defstatemachine]]
     [com.fulcrologic.fulcro-css.css-injection :as inj
      :refer [style-element]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div button]]
     [app.ui.components :as uic
      :refer [ContainerHeader ui-container-header]]

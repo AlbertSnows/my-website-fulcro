@@ -2,7 +2,7 @@
   (:require
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc get-query get-initial-state]]
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div]]
     [app.ui.components :as c
      :refer [Image ui-image]]))

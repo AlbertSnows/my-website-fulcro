@@ -1,6 +1,6 @@
 (ns app.ui.helpers.core
   (:require
-    [com.fulcrologic.fulcro-css.localized-dom :as dom
+    [com.fulcrologic.fulcro.dom :as dom
      :refer [div]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [get-initial-state]]

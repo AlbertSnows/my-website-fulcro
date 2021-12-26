@@ -242,6 +242,7 @@ p {
     margin: 0;
     cursor: pointer;
     padding-right: 1em;
+    color: black;
 }
 
 .open>#toggle-wrapper {

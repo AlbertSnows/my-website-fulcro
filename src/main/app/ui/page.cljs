@@ -31,8 +31,11 @@
      :refer [Href ContainerHeader ui-container-header]]))
 
 (defrouter RootRouter
-  [this {:keys [current-state pending-path-segment]}]
-  {:router-targets [h/Home a/About c/Contact p/Projects]})
+  [this {:keys [current-state route-factory route-props pending-path-segment]}]
+  {:always-render-body? true
+   :router-targets [h/Home a/About c/Contact p/Projects]}
+  (dom/div :.ui.loader {:classes [(when-not (= :routed current-state) "active")]})
+  (when route-factory (route-factory route-props)))
 (def ui-root-router (factory RootRouter))
 
 (defsc OuterBox [this {:outer/keys [id router] :as props}]

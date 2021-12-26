@@ -20,3 +20,15 @@
       state
       (update-in [:sidebar/id id :sidebar/toggled]
                  #(if (= %1 "closed") "open" "closed")))))
+
+(def load-next-timebox
+  (fn [e]
+    (df/load!
+      this
+      [:timebox/id (dec last-loaded-timebox-id)]
+      Timebox
+      {:target
+       (t/append-to
+         [:component/id
+          :about
+          :about/timebox])})))

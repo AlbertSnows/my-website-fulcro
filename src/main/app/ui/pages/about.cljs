@@ -18,8 +18,6 @@
     [app.backend.data :as bd]
     [app.backend.helpers.core :as bhc]
     [app.ui.css :as uicss]
-    [com.fulcrologic.fulcro.data-fetch :as df]
-    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
     [app.ui.mutations :as m]))
 
 (defsc Gallery
@@ -72,7 +70,7 @@
          (mapv ui-timebox timebox)
          (when (> last-loaded-timebox-id 1)
            (div {:id "load-more"
-                 :onClick m/load-next-timebox}
+                 :onClick (m/load-next-timebox this last-loaded-timebox-id Timebox)}
                 (p "V")
                 (p "V"))))))
 

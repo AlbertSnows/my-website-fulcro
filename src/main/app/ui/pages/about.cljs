@@ -19,7 +19,8 @@
     [app.backend.helpers.core :as bhc]
     [app.ui.css :as uicss]
     [com.fulcrologic.fulcro.data-fetch :as df]
-    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]))
+    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
+    [app.ui.mutations :as m]))
 
 (defsc Gallery
   [this {:gallery/keys [id photos]}]
@@ -65,24 +66,13 @@
    :initial-state (fn [_] {:about/timebox
                            [(bd/get-timebox 8)
                             (bd/get-timebox 7)
-                            (bd/get-timebox 6)
-                            ]})}
+                            (bd/get-timebox 6)]})}
   (let [last-loaded-timebox-id (:timebox/id (last timebox))]
     (div {:id "about"}
          (mapv ui-timebox timebox)
          (when (> last-loaded-timebox-id 1)
            (div {:id "load-more"
-                 :onClick
-                     (fn [e]
-                       (df/load!
-                         this
-                         [:timebox/id (dec last-loaded-timebox-id)]
-                         Timebox
-                         {:target
-                          (t/append-to
-                            [:component/id
-                             :about
-                             :about/timebox])}))}
+                 :onClick m/load-next-timebox}
                 (p "V")
                 (p "V"))))))
 

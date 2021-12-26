@@ -14,7 +14,8 @@
     [lab.bleeding :as b]))
 
 (defsc Home [this props]
-  {:query         []
+  {:query         ['*]
+   :initial-state {}
    :route-segment ["home"]
    :ident         (fn [] [:component/id :home])}
   (div {:id "home"}

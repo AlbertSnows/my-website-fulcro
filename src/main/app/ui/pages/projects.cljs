@@ -2,16 +2,13 @@
 	(:require
 		[com.fulcrologic.fulcro.components :as comp
 		 :refer [defsc factory get-query get-initial-state]]
-		[com.fulcrologic.fulcro.dom :as dom
-		 :refer [div h3 p]]
-		[app.ui.components :as c
-		 :refer [Href ui-href build-href]]
-		[app.ui.helpers.core :as hc
-		 :refer [add-id]]))
+		[com.fulcrologic.fulcro.dom :as dom :refer [div h3 p]]
+		[app.ui.components :as c :refer [Href ui-href build-href]]
+		[app.ui.helpers.core :as hc :refer [add-id]]))
 
 (defsc ProjectDescription [this {:description/keys [id header body]}]
 	{:ident :description/id
-	 :query [:description/id :description/header :description/body]		 }
+	 :query [:description/id :description/header :description/body]}
 	(div {:id id :className "description-holder"}
 		(h3 {:className "title"} header)
 		(p {:className "description"} body)))
@@ -50,19 +47,16 @@
 							{:href/link  "https://github.com/AlbertSnows/my-website-fulcro"
 							 :href/image {:image/alt "This Website...In Fulcro"
 														:image/src "../images/this_website_f.png"}}})
-
 	 (build-project-box
 		 {:box/id "my-website"
 			:box/description
 							(build-description
 								{:description/header "This Website"
 								 :description/body   "The first version of this website."})
-
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/my-website"
 							 :href/image {:image/alt "This Website"
 														:image/src "../images/this_website_v.PNG"}}})
-
 	 (build-project-box
 		 {:box/id "first-website"
 			:box/description
@@ -136,7 +130,8 @@
 							 :href/image {:image/alt "Simple App"
 														:image/src "../images/first_app.PNG"}}})])
 (defsc Projects [this props]
-	{:query         []
+	{:query         ['*]
+	 :initial-state {}
 	 :route-segment ["projects"]
 	 :ident         (fn [] [:component/id :projects])}
 	(div {:id "project-page-body"}

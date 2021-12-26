@@ -9,7 +9,8 @@
 
 (defsc Contact [this props]
   {:ident         (fn [] [:component/id :contact])
-   :query         []
+   :query         ['*]
+   :initial-state {}
    :route-segment ["contact"]}
   (div {:id "contact-container"}
     (ui-image {:image/id  "mail-big"

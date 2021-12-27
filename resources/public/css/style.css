@@ -103,7 +103,9 @@ div>a>img:hover {
 .title {
     font-size: 2.2vw;
 }
-
+.text {
+    font-family: MINIMAL;
+}
 /* boxes */
 @font-face {
   font-family: MINIMAL;
@@ -570,6 +572,35 @@ div>a>img:hover {
 .about-right>div>img {
     width: 10%;
     height: 8%;
+}
+#explination-header {
+    width: 0vw;
+    height: 0vw;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: 5em;
+    margin-top: -1.8em;
+    font-size: 1.5em;
+    cursor: pointer;
+}
+#explination-body {
+    width: 0vw;
+    height: 0vw;
+    display: flex;
+    flex-direction: row;
+    white-space: nowrap;
+    margin-left: auto;
+    margin-right: 5em;
+    margin-top: -1.8em;
+    font-size: 1.5em;
+}
+.explination-body-closed {
+    display: none;
+}
+.explination-body-open {
+    display: initial;
 }
 
 /* contact */

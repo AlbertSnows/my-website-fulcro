@@ -61,7 +61,7 @@
     (p {:classes [outer-text]}
        (case route
          "home" "What Am I Up To?"
-         "about" "My Vague Timeline"
+         "about" "About Me"
          "projects" "Stuff I've Made"
          "contact" "Reach Out"
          ""))))

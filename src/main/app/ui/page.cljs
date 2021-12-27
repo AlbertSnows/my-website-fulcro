@@ -28,7 +28,8 @@
     [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
     [app.ui.css :as uicss]
     [app.ui.components :as uc
-     :refer [Href ContainerHeader ui-container-header]]))
+     :refer [Href ContainerHeader ui-container-header]]
+    [app.ui.mutations :as m]))
 
 (defrouter RootRouter
   [this {:keys [current-state route-factory route-props pending-path-segment]}]
@@ -109,20 +110,7 @@
         on-about-page (not (nil? about-timebox))]
     (div
       {:id       "root"
-       :onScroll (fn [e]
-                   (let [target (.-target e)]
-                     (when (and
-                             (= (- (.-scrollHeight target) (.-scrollTop target))
-                                (+ (.-clientHeight target) 0))
-                             (> last-loaded-timebox-id 1)
-                             (true? on-about-page))
-                       (df/load! this [:timebox/id (dec last-loaded-timebox-id)]
-                                 a/Timebox
-                                 {:target
-                                  (t/append-to
-                                    [:component/id
-                                     :about
-                                     :about/timebox])}))))
+       :onScroll (m/load-next-timebox-on-scroll last-loaded-timebox-id on-about-page this a/Timebox)
        :classes  [container]}
       (style-element {:component Root})
       (style-element {:component h/Home})

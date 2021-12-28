@@ -74,10 +74,154 @@
 
 ; {:id gallery{:id {:photos [href{:link image{:id :src :alt}}]}}}
 (def hrefs
-  {123 ["how-now-brown-cow"
+  {159 ["how-now-brown-cow"
         "https://static.thenounproject.com/png/196644-200.png"
         "../images/what-do.png"
         "I'm probably napping."]
+   158 ["clppng"
+        "https://youtu.be/XbU9UUwxBxA"
+        "../images/clppng.jpg"
+        "clipping. - CLPPNG"]
+   157 ["mogtari"
+        "https://youtu.be/wXGiGVWM7Lc"
+        "../images/monogatari.webp"
+        "monogatari"]
+   156 ["kipo"
+        "https://youtu.be/7c0iPZefu-M"
+        "../images/kipo.jpg"
+        "kipo"]
+   155 ["shera"
+        "https://youtu.be/Ve6z2w0ax-0"
+        "../images/shera.webp"
+        "she-ra"]
+   154 ["yn"
+        "https://youtu.be/HlN0a8wTAds"
+        "../images/yn.jpg"
+        "your name"]
+   153 ["itet"
+        "https://youtu.be/Fv9Zv-rpWzs"
+        "../images/itet.jpeg"
+        "i'm thinking of ending things"]
+   152 ["12am"
+        "https://youtu.be/NXjH3duyLKc"
+        "../images/12am.webp"
+        "12 angry men"]
+   151 ["shlist"
+        "https://youtu.be/fhA5GIx51Kg"
+        "../images/sh_list.webp"
+        "shindler's list"]
+   150 ["prisoners"
+        "https://youtu.be/fekd6LcnSyw"
+        "../images/prisoners.webp"
+        "prisoners"]
+   149 ["gf"
+        "https://youtu.be/9qK2Nzsvik0"
+        "../images/g_fireflies.jpg"
+        "grave of fireflies"]
+   148 ["ug"
+        "https://youtu.be/7GYmbBH6YT4"
+        "../images/uncutgems.png"
+        "uncut gems"]
+   147 ["tuat"
+        "https://youtu.be/finxyQqDrP0"
+        "../images/evangelion_final.jpeg"
+        "3.0+1.0 Thrice Upon a Time"]
+   146 ["tos"
+        "https://youtu.be/2N0Mb9h5e4I"
+        "../images/tos.png"
+        "Tales of Symphonia"]
+   145 ["yk0"
+        "https://youtu.be/otybQPVYHcU"
+        "../images/yk0.webp"
+        "yakuza 0"]
+   144 ["spfrer"
+        "https://youtu.be/FKzAIF6gYvg"
+        "../images/spfrer.jpg"
+        "spiritfarer"]
+   143 ["de"
+        "https://youtu.be/Md5PTWBuGpg"
+        "../images/de.png"
+        "disco elysium"]
+   142 ["mgs2/3"
+        "https://youtu.be/N_-jyF987MQ"
+        "../images/mgs3.jpg"
+        "mgs2/3"]
+   141 ["hzd"
+        "https://youtu.be/sAUFEM88ti8"
+        "../images/hzd.png"
+        "horizon zero dawn"]
+   140 ["bmp"
+        "https://youtu.be/j2bMbZfxev4"
+        "../images/bmx.jpg"
+        "black mesa"]
+   139 ["re2"
+        "https://youtu.be/QE1WLK_5lZE"
+        "../images/re2.webp"
+        "resident evil 2"]
+   138 ["rw"
+        "https://youtu.be/x-Un2L5tF1w"
+        "../images/rw.webp"
+        "rain world"]
+   137 ["ruiner"
+        "https://youtu.be/qZJMQb-L708"
+        "../images/ruiner.png"
+        "ruiner"]
+   136 ["cmiygl"
+        "https://youtu.be/qz-k3DoMxkw"
+        "../images/ttccmiygl.webp"
+        "call me if you get lost"]
+   135 ["haooot"
+        "https://youtu.be/DCkJ5lGPqFs"
+        "../images/haooot.jpg"
+        "hall and oates"]
+   134 ["mbs"
+        "https://youtu.be/TlhIk7iPU9o"
+        "../images/mbs.jpg"
+        "Magdalena Bay"]
+   133 ["usd"
+        "https://youtu.be/sLu7eawM3ZI?list=PL240F663CC9D2FA94"
+        "../images/usd.jpg"
+        "nails"]
+   132 ["rrt4"
+        "https://www.youtube.com/watch"
+        "../images/rrt4.jpg"
+        "ridge racer"]
+   131 ["go"
+        "https://youtu.be/ig6F67VIn-k"
+        "../images/smnt.jpg"
+        "genesis owusu" ]
+   130 ["iaoba"
+        "https://youtu.be/DHM22yb9f4c"
+        "../images/iaoba.jpg"
+        "aoba" ]
+   129 ["vbbb"
+        "https://youtu.be/SA7TOkO8d7k"
+        "../images/vbbb.jpg"
+        "Visions of Bodies Being Burned" ]
+   128 ["bp"
+        "https://youtu.be/IT634tVg1OA"
+        "../images/bottomless_pit.jpg"
+        "bottomless pit"]
+   127 ["bost"
+        "https://youtu.be/Due9qiZ2t5w"
+        "../images/brigador.jpg"
+        "brigador ost" ]
+   126 ["ibr"
+        "https://youtu.be/LZgLipTxWL8"
+        "../images/recharge.jpg"
+        "ibrahim" ]
+   125 ["mc"
+        "https://youtu.be/B_ymY0xG0LI"
+        "../images/moonchild.jpg"
+        "moonchild" ]
+   124 ["pup"
+        "https://youtu.be/8L0XuwPzmgU"
+        "../images/Pup_MorbidStuff.webp"
+        "pup"]
+   123 ["op"
+        "https://youtu.be/E4nJoiAynjI"
+        "../images/u_wot_m8.png"
+        "Oyasumi_Punpun"]
    122 ["llhst"
         "https://www.youtube.com/watch?v=XY8IVZ3_F9Q"
         "../images/LLHST.jpg"
@@ -568,14 +712,14 @@
         "It's 1AM I don't have anything else for you why are you here?"]})
 (defn grab-from-hrefs [ids] (mapv #(get hrefs %) ids))
 (def galleries
-  {16 (create-gallery-map 16 (grab-from-hrefs [123]))
-   15 (create-gallery-map 15 (grab-from-hrefs [122 121 120 119 118 117]))
-   14 (create-gallery-map 14 (grab-from-hrefs [116 115 114 113 112]))
-   13 (create-gallery-map 13 (grab-from-hrefs [111 110 109 108 107]))
-   12 (create-gallery-map 12 (grab-from-hrefs [106 105 104 103 102 101]))
-   11 (create-gallery-map 11 (grab-from-hrefs [100 99 98 97 96 95]))
-   10 (create-gallery-map 10 (grab-from-hrefs [94 93 92 91 90 89]))
-   9  (create-gallery-map 9 (grab-from-hrefs [88 87 86 85 84]))
+  {16 (create-gallery-map 16 (grab-from-hrefs [159]))
+   15 (create-gallery-map 15 (grab-from-hrefs [158 157 156 155 154 153 152 151 150 149 148 ]))
+   14 (create-gallery-map 14 (grab-from-hrefs [147 146 145 144 143 142 141 140 139 138 137 136 135]))
+   13 (create-gallery-map 13 (grab-from-hrefs [134 133 132 131 130 129 128 127 126 125 124 123]))
+   12 (create-gallery-map 12 (grab-from-hrefs [122 121 120 119 118 117 116 115 114]))
+   11 (create-gallery-map 11 (grab-from-hrefs [113 112 111 110 109 108 107 106]))
+   10 (create-gallery-map 10 (grab-from-hrefs [105 104 103 102 101 100 99 98 97 96 95]))
+   9  (create-gallery-map 9 (grab-from-hrefs [94 93 92 91 90 89 88 87 86 85 84]))
    8  (create-gallery-map 8 (grab-from-hrefs [83 82 81 80 79 78 77]))
    7  (create-gallery-map 7 (grab-from-hrefs [76 75 74 73 72 71 70]))
    6  (create-gallery-map 6 (grab-from-hrefs [69 68 67 66 65 64 63 62 61 60 59 58]))

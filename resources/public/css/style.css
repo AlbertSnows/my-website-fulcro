@@ -573,34 +573,44 @@ div>a>img:hover {
     width: 10%;
     height: 8%;
 }
-#explination-header {
-    width: 0vw;
-    height: 0vw;
+#explanation-header {
     display: flex;
     flex-direction: row;
     white-space: nowrap;
-    margin-left: auto;
-    margin-right: 5em;
-    margin-top: -1.8em;
-    font-size: 1.5em;
     cursor: pointer;
+    position: absolute;
+    margin-left: 0vw;
+    margin-right: auto;
+    margin-top: -3vw;
+    font-size: 2vw;
 }
-#explination-body {
-    width: 0vw;
-    height: 0vw;
-    display: flex;
-    flex-direction: row;
-    white-space: nowrap;
-    margin-left: auto;
-    margin-right: 5em;
-    margin-top: -1.8em;
-    font-size: 1.5em;
+#explanation-body {
+    margin-left: 9vw;
+    margin-right: 16vw;
+    margin-top: -1vw;
+    font-size: 2vw;
+    background-color: black;
+    position: absolute;
+    border-radius: 1em;
+    padding: 1em;
+    border-style: solid;
+    border-width: thin;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 0s, opacity 750ms ease;
+    font-family: MINIMAL;
 }
-.explination-body-closed {
-    display: none;
+#about-me-sub-header {
+    font-size: 2.5vw;
+    font-weight: bold;
+    margin-bottom: 0vw;
+    margin-top: -1vw;
 }
-.explination-body-open {
-    display: initial;
+}
+#explanation-header:hover {} /*hover doesn't work unless this is here, why?*/
+#explanation-header:hover + #explanation-body {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* contact */

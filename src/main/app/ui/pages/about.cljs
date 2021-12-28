@@ -9,7 +9,7 @@
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro.dom :as dom
-     :refer [div button p br]]
+     :refer [div button p br h1]]
     [com.fulcrologic.fulcro-css.css-injection :as inj
      :refer [style-element]]
     [com.fulcrologic.fulcro-css.css :as css
@@ -68,15 +68,16 @@
   (let [last-loaded-timebox-id (:timebox/id (last timebox))]
     (div {:id "about"}
          (div {:id "explination-box"}
-              (div {:id "explination-header" :className "text"
-                    :onClick (fn [e] (js/console.log "clicky"))} (p "What's this?"))
-              (div {:id "explination-body" :className "text explination-body-closed"}
-                   (p "About Me pages are tough." (br)
-                      "It's hard to meaningfully encapsulate the kind of person someone is in a few short paragraphs." (br)
-                      "Instead I decided to make a timeline of various people, places, events, and things I've experienced in my life." (br)
-                      "Each bubble represents something that I spent time with." (br)
-                      "More importanly, each bubble represents something that I valued my time with; enough to put on this website, anyways." (br)
-                      "I figure that'll tell a lot more about me than any amount of words could accomplish." (br)
+              (div {:id "explanation-header" :className "text"
+                    :onClick (fn [e] (js/console.log "clicky"))}
+                   (p "What's this?"))
+              (div {:id "explanation-body"}
+                   (p {:id "about-me-sub-header"} "\"About Me\" pages are tough.")
+                   (p "It's hard to meaningfully encapsulate the kind of person someone is in a few short paragraphs. "
+                      "Instead, I decided to make a timeline of events, media, and other works of art that I've experience in my life." (br)
+                      "Each bubble represents something that I spent time with. "
+                      "More importanly, each bubble represents something that I valued my time with; enough to put on this website, anyways. " (br)
+                      "I figure that'll tell a lot more about me than any amount of words could accomplish. "
                       "If you see something that sticks out to you, tell me about it!")))
          (mapv ui-timebox timebox)
          (when (> last-loaded-timebox-id 1)

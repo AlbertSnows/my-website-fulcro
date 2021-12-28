@@ -120,7 +120,7 @@
         "grave of fireflies"]
    148 ["ug"
         "https://youtu.be/7GYmbBH6YT4"
-        "../images/uncutgems.png"
+        "../images/uncutgems.PNG"
         "uncut gems"]
    147 ["tuat"
         "https://youtu.be/finxyQqDrP0"
@@ -128,7 +128,7 @@
         "3.0+1.0 Thrice Upon a Time"]
    146 ["tos"
         "https://youtu.be/2N0Mb9h5e4I"
-        "../images/tos.png"
+        "../images/tos.PNG"
         "Tales of Symphonia"]
    145 ["yk0"
         "https://youtu.be/otybQPVYHcU"
@@ -140,7 +140,7 @@
         "spiritfarer"]
    143 ["de"
         "https://youtu.be/Md5PTWBuGpg"
-        "../images/de.png"
+        "../images/de.PNG"
         "disco elysium"]
    142 ["mgs2/3"
         "https://youtu.be/N_-jyF987MQ"
@@ -148,7 +148,7 @@
         "mgs2/3"]
    141 ["hzd"
         "https://youtu.be/sAUFEM88ti8"
-        "../images/hzd.png"
+        "../images/hzd.PNG"
         "horizon zero dawn"]
    140 ["bmp"
         "https://youtu.be/j2bMbZfxev4"

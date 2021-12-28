@@ -205,10 +205,13 @@ div>a>img:hover {
 }
 #main {
     font-size: 3vw;
+    font-family: MINIMAL;
+    margin: 0;
 }
 #minor {
     text-align: center;
     font-size: 1.5vw;
+    font-family: MINIMAL;
 }
 
 /* sidebar */

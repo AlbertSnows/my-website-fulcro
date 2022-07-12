@@ -4,4 +4,4 @@ WORKDIR /app
 
 COPY . .
 
-CMD clojure -A:dev-server -J-Dtrace -J-Dguardrails.enabled=true -J-Dguardrails.enabled=true
+CMD clojure -M:dev -J-Dtrace -J-Dguardrails.enabled=true -J-Dguardrails.enabled=true

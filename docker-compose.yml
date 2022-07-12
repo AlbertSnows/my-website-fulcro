@@ -12,9 +12,6 @@ services:
     ports:
       - 3000:3000
       - 9001:9001
-    networks:
-      - frontend
-      - api
   fulcro-frontend:
     container_name: fulcro-frontend
     image: fulcro-frontend:dev
@@ -34,8 +31,4 @@ services:
       - frontend
 volumes:
   node_modules:
-  api_database:
   m2:
-networks:
-  frontend:
-  api:

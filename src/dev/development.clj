@@ -5,10 +5,7 @@
   ;; this is the top-level dependent component...mount will find the rest via ns requires
   [app.server-components.http-server :refer [http-server]]))
 
-;(do
-;  (require 'development)
-;  (in-ns 'development)
-;  (start))
+
 (defn start
   "Start the web server"
   [] (mount/start))
@@ -30,5 +27,9 @@
   (tools-ns/refresh :after 'development/start))
 
 (comment
-  (start)
-  (restart))
+  (do
+    (require 'development)
+    (in-ns 'development)
+    (start))
+  ;  (restart)
+  )

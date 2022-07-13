@@ -21,21 +21,27 @@
          ring/ring-defaults                  {:mvn/version "0.3.3"}}
 
  :aliases
-        {:depstar {:replace-deps
-                               {seancorfield/depstar {:mvn/version "2.0.171"}}
-                   :ns-default hf.depstar
-                   :exec-args  {}}
-         :clj-tests
-                  {:extra-paths ["src/test"]
-                   :main-opts   ["-m" "kaocha.runner"]
-                   :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.972"}}}
+ {:depstar {:replace-deps
+            {seancorfield/depstar {:mvn/version "2.0.171"}}
+            :ns-default hf.depstar
+            :exec-args  {}}
+  :clj-tests
+  {:extra-paths ["src/test"]
+   :main-opts   ["-m" "kaocha.runner"]
+   :extra-deps  {lambdaisland/kaocha {:mvn/version "1.60.972"}}}
 
          ;; See https://github.com/clojure-emacs/cider-nrepl/blob/master/deps.edn for Emacs support
-         :dev     {:extra-paths ["src/test" "src/dev" "src/workspaces"]
-                   :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"]
-                   :extra-deps  {org.clojure/clojurescript   {:mvn/version "1.10.896"}
-                                 thheller/shadow-cljs        {:mvn/version "2.16.7"}
-                                 fulcrologic/fulcro-spec     {:mvn/version "3.1.12"}
-                                 binaryage/devtools          {:mvn/version "1.0.4"}
-                                 com.github.awkay/workspaces {:mvn/version "1.0.2"},
-                                 org.clojure/tools.namespace {:mvn/version "1.2.0"}}}}}
+  :dev     {:extra-paths ["src/test" "src/dev" "src/workspaces"]
+            :jvm-opts    ["-XX:-OmitStackTraceInFastThrow"] 
+            :extra-deps  {org.clojure/clojurescript   {:mvn/version "1.10.896"}
+                          thheller/shadow-cljs        {:mvn/version "2.16.7"}
+                          fulcrologic/fulcro-spec     {:mvn/version "3.1.12"}
+                          binaryage/devtools          {:mvn/version "1.0.4"}
+                          com.github.awkay/workspaces {:mvn/version "1.0.2"}
+                          org.clojure/tools.namespace {:mvn/version "1.2.0"}}}
+  :nrepl {:main-opts ["-m" "nrepl.cmdline"
+                      "-b" "0.0.0.0"
+                      "-p" "9001"
+                      "--middleware" "[cider.nrepl/cider-middleware]"]
+          :extra-deps {nrepl/nrepl                 {:mvn/version,"0.9.0"}
+                       cider/cider-nrepl           {:mvn/version,"0.28.5"}}}}}

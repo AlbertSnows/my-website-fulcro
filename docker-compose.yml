@@ -1,6 +1,8 @@
 version: '3.7'
 services:
   fulcro-backend:
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
     container_name: fulcro-backend
     image: fulcro-backend:dev
     build:

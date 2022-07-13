@@ -27,8 +27,6 @@ services:
       - 8023:8023
       - 9000:9000
       - 9630:9630
-    networks:
-      - frontend
 volumes:
   node_modules:
   m2:

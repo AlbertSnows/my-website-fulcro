@@ -9,7 +9,7 @@
 (def app-name "fulcro")
 
 ; path for result uber file
-(def uber-file-name (format "%s/%s-%s-standalone.jar" build-folder app-name version))
+(def uber-file-name "prod_build.jar")                       ;(format "%s/%s-%s-standalone.jar" build-folder app-name version))
 
 
 (defn clean [_]

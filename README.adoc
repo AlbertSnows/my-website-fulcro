@@ -24,4 +24,6 @@ For more info about how this repo is built on fulcro, *including how to build th
 
 == More info about building
 
+The `Makefile` has all the build commands. You can run `make all_<os>` to run all the commands. Make sure you have all the appropriate programs installed.
+
 The last link in the previous section has more info at the bottom of the readme on how to build this project. In short, the make file has all the commands. If you're on windows, you can install make via https://chocolatey.org/[chocolaty].

@@ -17,14 +17,6 @@ run:
 	java -jar target/prod_build.jar
 
 # runs all the commands at once
-all_win:
-	yarn install
-	npx shadow-cljs release main
-	powershell -command clj -T:build uber
-	java -jar target/prod_build.jar
+all_win: install release build_win run
 
-all_lin:
-	yarn install
-	npx shadow-cljs release main
-	powershell -command clj -T:build uber
-	java -jar target/prod_build.jar
+all_lin: install release build_lin run

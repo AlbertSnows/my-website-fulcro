@@ -13,7 +13,7 @@ build_win:
 	powershell -command clj -T:build uber
 
 run:
-	java -jar prod_build.jar
+	java -jar target/prod_build.jar
 
 # runs all the commands at once
 all:

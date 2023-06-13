@@ -1,6 +1,6 @@
 {:paths ["src/main" "resources"]
  :mvn/local-repo ".m2/repository"
- :deps  {org.clojure/clojure                 {:mvn/version "1.10.3"}
+ :deps  {org.clojure/clojure                 {:mvn/version "1.11.1"}
          bidi/bidi                           {:mvn/version "2.1.6"}
          com.taoensso/timbre                 {:mvn/version "5.1.2"}
          com.wsscode/pathom                  {:mvn/version "2.4.0"}

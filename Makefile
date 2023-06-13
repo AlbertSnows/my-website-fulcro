@@ -1,7 +1,11 @@
-test:
-	npm install
-	npx shadow-cljs compile ci-tests
-	npx karma start --single-run
-	clj -M:dev:clj-tests
+install:
+	yarn install
 
-.PHONY: test
+release:
+	npx shadow-cljs release main
+
+build:
+	clojure -T:build uber
+
+run:
+	java -jar prod_build.jar

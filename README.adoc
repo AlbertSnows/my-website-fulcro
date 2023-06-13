@@ -20,4 +20,8 @@ example:
 
 == Fulcro Info
 
-For more info about how this repo is built on fulcro, *including how to build this project*, check out the https://book.fulcrologic.com/[fulcro docs], https://github.com/fulcrologic/fulcro-template[here], and/or https://github.com/AlbertSnows/example-fulcro-project-v2[here]. The last link has more info at the bottom of the readme on how to build this project. In short, run the bin file. We use tools.build here.
+For more info about how this repo is built on fulcro, *including how to build this project*, check out the https://book.fulcrologic.com/[fulcro docs], https://github.com/fulcrologic/fulcro-template[here], and/or https://github.com/AlbertSnows/example-fulcro-project-v2[here].
+
+== More info about building
+
+The last link in the previous section has more info at the bottom of the readme on how to build this project. In short, the make file has all the commands. If you're on windows, you can install make via https://chocolatey.org/[chocolaty].

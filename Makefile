@@ -7,6 +7,7 @@ release:
 build_lin:
 	clj -T:build uber
 
+# https://stackoverflow.com/questions/70613828/clojure-installed-but-clj-fails <- if you get errors related to this
 # https://github.com/clojure/tools.deps.alpha/wiki/clj-on-Windows
 # need to run as powershell command for it to be recognized
 build_win:

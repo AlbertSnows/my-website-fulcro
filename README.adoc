@@ -1,29 +1,13 @@
 == Docker Setup
 
-todo...
-
-=== Random Notes
-docker file runs a micro vm to platform your build
-deps -> dependency management
-shadow-cljs -> frontend build
-
-
-nrepl setup
-
-example:
-:nrepl {:main-opts ["-m" "nrepl.cmdline"
-                      "-b" "0.0.0.0"
-                      "-p" "9001"
-                      "--middleware" "[cider.nrepl/cider-middleware]"]
-          :extra-deps {nrepl/nrepl                 {:mvn/version,"0.9.0"}
-                       cider/cider-nrepl           {:mvn/version,"0.28.5"}}}
-
-== Fulcro Info
-
-For more info about how this repo is built on fulcro, *including how to build this project*, check out the https://book.fulcrologic.com/[fulcro docs], https://github.com/fulcrologic/fulcro-template[here], and/or https://github.com/AlbertSnows/example-fulcro-project-v2[here].
+The `Dockerfile` and `docker-compose.yml` file contain all the stuff to boot up a container for the website. A `docker compose up` should be enough to access the website. *You can also spin up the website outside of the container, more details below.*
 
 == More info about building
 
 The `Makefile` has all the build commands. You can run `make all_<os>` to run all the commands. Make sure you have all the appropriate programs installed. You can access the main page at `localhost:8080/index.html`.
 
-The last link in the previous section has more info at the bottom of the readme on how to build this project. In short, the make file has all the commands. If you're on windows, you can install make via https://chocolatey.org/[chocolaty].
+The last link in the section below has more info at the bottom of the readme on how to build this project. In short, it uses tools.build to make an uberjar. Also, if you're on windows, you can install make via https://chocolatey.org[chocolatey].
+
+== Fulcro Info
+
+For more info about how this repo is built on fulcro check out the https://book.fulcrologic.com/[fulcro docs], https://github.com/fulcrologic/fulcro-template[here], and/or https://github.com/AlbertSnows/example-fulcro-project-v2[here].

@@ -87,7 +87,7 @@
 (defstate middleware
   :start
   (let [defaults-config (:ring.middleware/defaults-config config)
-        legal-origins   (get config :legal-origins #{"localhost"})]
+        legal-origins   (get config :legal-origins #{"host.docker.internal"})] ; or localhost?
     (-> not-found-handler
       (wrap-api "/api")
       wrap-transit-params

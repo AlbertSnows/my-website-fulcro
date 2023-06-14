@@ -1,7 +1,14 @@
-FROM clojure:tools-deps
+# IF you already have compiled the frontend you can access the website by building and running this
+# docker build -t backend-development-image -f Dockerfile.backend.development .
+# docker run -p 8080:8080 -it backend-development-image
+# Navigate to host.docker.internal:8080/index.html OR localhost:8080/index.html
+FROM clojure:latest
 
 WORKDIR /app
 
 COPY . .
 
-CMD clojure -J-Dtrace -J-Dguardrails.enabled=true -M:nrepl:dev
+EXPOSE 8080
+
+CMD clj -T:build uber
+CMD java -jar target/prod_build.jar

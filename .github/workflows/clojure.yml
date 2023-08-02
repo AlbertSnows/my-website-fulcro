@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: get clojure
+      run: apt install clojure
     - name: Run lin make
       run: make all_lin      
   win_build:

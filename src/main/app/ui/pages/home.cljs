@@ -40,7 +40,7 @@
       [(ui-text {:text/id   "main"
                  :text/text "Mostly this stuff"})
        (ui-text {:text/id   "minor"
-                 :text/text "(check out my projects for novel things)"})])
+                 :text/text "(refresh if images don't load, fly.io is SLOW!)"})])
     (div-with-classes-and-id "home-right" "home-right-side"
       [(ui-href
          (build-href

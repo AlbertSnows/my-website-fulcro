@@ -3,19 +3,17 @@ FROM clojure:latest
 WORKDIR /app
 
 # Using Debian, as root
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get update && apt-get install -y nodejs
 
-# Install yarn
-RUN apt-get update && apt-get install -y curl gnupg2
-RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
-RUN echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
-RUN apt-get update && apt-get install -y yarn
+# Install pnpm (matches packageManager pin in package.json)
+RUN corepack enable && corepack prepare pnpm@11.17.0 --activate
 
-COPY package.json ./package.json
+COPY package.json pnpm-lock.yaml ./
 
-RUN yarn install
+RUN pnpm install --frozen-lockfile
 
-CMD npx shadow-cljs release main
+CMD pnpm exec shadow-cljs release main
 
 COPY . .
 

@@ -13,13 +13,14 @@ COPY package.json pnpm-lock.yaml ./
 
 RUN pnpm install --frozen-lockfile
 
-CMD pnpm exec shadow-cljs release main
-
 COPY . .
+
+RUN pnpm exec shadow-cljs release main
+
+RUN clj -T:build uber
 
 EXPOSE 8080
 
-CMD clj -T:build uber
 CMD java -jar target/prod_build.jar
 
 # docker build -t backend-development-image -f Dockerfile.backend.development .

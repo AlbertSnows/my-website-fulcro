@@ -10,8 +10,7 @@
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro.dom :as dom
-     :refer [div]]
-    [lab.bleeding :as b]))
+     :refer [div]]))
 
 (defsc Home [this props]
   {:query         ['*]

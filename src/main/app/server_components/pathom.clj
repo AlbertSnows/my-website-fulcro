@@ -10,7 +10,6 @@
     [app.server-components.config :refer [config]]
     [app.backend.mock-database :as db]
     [com.fulcrologic.fulcro.components :as comp]
-    [app.backend.helpers.core :as hc]
     [app.backend.resolvers.timebox :as rt]))
 
 ;; server

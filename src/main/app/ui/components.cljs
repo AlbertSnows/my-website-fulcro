@@ -12,8 +12,7 @@
     [com.fulcrologic.fulcro-css.css :as css
      :refer [get-classnames]]
     [taoensso.timbre :as log]
-    [app.ui.css :as uicss]
-    [app.backend.helpers.core :as bhc]))
+    [app.ui.css :as uicss]))
 
 (defsc Image [this {:image/keys [id src alt]}]
   {:query [:image/id :image/src :image/alt]}

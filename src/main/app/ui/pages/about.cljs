@@ -14,9 +14,7 @@
      :refer [style-element]]
     [com.fulcrologic.fulcro-css.css :as css
      :refer [get-classnames]]
-    [lab.bleeding :as b]
     [app.backend.data :as bd]
-    [app.backend.helpers.core :as bhc]
     [app.ui.css :as uicss]
     [app.ui.mutations :as m]))
 

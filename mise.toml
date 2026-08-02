@@ -1,0 +1,5 @@
+[tools]
+java = "25"
+clojure = "latest"
+node = "22"
+pnpm = "11.17.0"

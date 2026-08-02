@@ -1,8 +1,8 @@
 install:
-	yarn install
+	pnpm install
 
 release:
-	npx shadow-cljs release main
+	pnpm exec shadow-cljs release main
 
 build_lin:
 	clj -T:build uber

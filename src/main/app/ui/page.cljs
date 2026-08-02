@@ -24,7 +24,6 @@
     [app.ui.pages.about :as a]
     [app.ui.pages.home :as h]
     [taoensso.timbre :as log]
-    [lab.bleeding :as b]
     [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
     [app.ui.css :as uicss]
     [app.ui.components :as uc

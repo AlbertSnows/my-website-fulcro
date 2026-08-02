@@ -59,3 +59,4 @@ resources/public/workspaces/*
 !resources/public/workspaces/index.html
 .m2
 /fly.toml
+.claude

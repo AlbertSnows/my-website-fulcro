@@ -6,12 +6,12 @@
              build-right-element update-id-in-data
              append-id]]
     [app.ui.components :as c
-     :refer [ui-href Href ui-text Text build-href]]
+     :refer [ui-href Href ui-text Text]]
+    [app.backend.helpers.core :refer [build-href]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro.dom :as dom
-     :refer [div]]
-    [lab.bleeding :as b]))
+     :refer [div]]))
 
 (defsc Home [this props]
   {:query         ['*]

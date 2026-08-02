@@ -37,10 +37,7 @@ body > * {
     align-self: center;
 }
 .small-text {
-    font-size: 0.3em;
     font-family: MINIMAL;
-    margin: 0 0 0.2em;
-    text-align: center;
 }
 .very-small-text {
     font-size: 0.8em;
@@ -49,17 +46,12 @@ body > * {
     font-style: italic;
 }
 .enlarge-text {
-    font-size: 0.7em;
     font-family: MINIMAL;
-    overflow: hidden;
     text-align: center;
     margin: 0 0 0.2em;
 }
 .brief-border {
     padding: 0.5em;
-}
-.description {
-    font-size: 0.7em;
 }
 .outer-bottom-padding {
     padding-bottom: 1em;
@@ -162,12 +154,10 @@ div>a>img:hover {
   flex-direction: row;
 }
 .box {
-  border: 1px;
   border-color: white;
   border-style: solid;
   border-radius: 1%;
   position: relative;
-  width: inherit;
   overflow-wrap: anywhere;
   word-wrap: anywhere;
   hyphens: auto;
@@ -403,9 +393,7 @@ div>a>img:hover {
       flex-direction: column;
       font-size: 4vw;
       margin: 0 auto;
-      display: flex;
       justify-content: center;
-      min-width: 7.3em;
 }
 .home {
     display: flex;
@@ -608,7 +596,6 @@ div>a>img:hover {
     font-weight: bold;
     margin-bottom: 0vw;
     margin-top: -1vw;
-}
 }
 #explanation-header:hover {} /*hover doesn't work unless this is here, why?*/
 #explanation-header:hover + #explanation-body {

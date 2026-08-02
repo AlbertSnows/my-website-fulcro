@@ -3,7 +3,8 @@
 		[com.fulcrologic.fulcro.components :as comp
 		 :refer [defsc factory get-query get-initial-state]]
 		[com.fulcrologic.fulcro.dom :as dom :refer [div h3 p]]
-		[app.ui.components :as c :refer [Href ui-href build-href]]
+		[app.ui.components :as c :refer [Href ui-href]]
+		[app.backend.helpers.core :refer [build-href]]
 		[app.ui.helpers.core :as hc :refer [add-id]]))
 
 (defsc ProjectDescription [this {:description/keys [id header body]}]

@@ -72,6 +72,29 @@ still needs to be started manually via `(require 'development) (in-ns
 'development) (start)` in that REPL, since `pnpm start` does not auto-start
 it. `pnpm run dev` is the same idea but actually auto-starts the server.
 
+### Stopping it
+
+Ctrl-C in whichever terminal is running things (either the two-terminal
+workflow or `pnpm run dev`) is normally enough.
+
+One gotcha: shadow-cljs runs its own **persistent background server**
+(separate from the watch command itself, on port 9630) so repeated
+`shadow-cljs watch` calls don't pay JVM startup cost each time. That's
+intentional, but it means Ctrl-C can stop the watch output while that server
+keeps running underneath — and the next time you try to start a watch for
+the same build, you'll hit:
+
+```
+ExceptionInfo: already started
+```
+
+If that happens, shadow-cljs has its own
+command for tearing the persistent server down cleanly:
+
+```
+pnpm exec shadow-cljs stop
+```
+
 ### Ports
 
 - `3000` — backend in dev (`src/main/config/dev.edn` + `defaults.edn`)

@@ -8,6 +8,7 @@
     [app.ui.components :as c
      :refer [ui-href Href ui-text Text]]
     [app.backend.helpers.core :refer [build-href]]
+    [app.config :refer [image-url]]
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc factory get-query get-initial-state]]
     [com.fulcrologic.fulcro.dom :as dom
@@ -25,7 +26,7 @@
            (append-id "home-left"
              {:href/id "pho"
               :href/link  "https://www.youtube.com/watch?v=Et6itTuJSYY"
-              :href/image {:image/src "../images/the-thinker.png"
+              :href/image {:image/src (image-url "the-thinker.png")
                            :image/alt "But really, what even IS a rock anyways???"}}
              :href/id)))
        (ui-href
@@ -33,7 +34,7 @@
            (append-id "home-left"
              {:href/id "gamin"
               :href/link  "https://www.youtube.com/watch?v=DSJvCffJCzE"
-              :href/image {:image/src "../images/WITH_OUR_THREE_POWERS_COMBINED.png"
+              :href/image {:image/src (image-url "WITH_OUR_THREE_POWERS_COMBINED.png")
                            :image/alt "I play games I KNOW I'M SORRY"}}
              :href/id)))])
     (div-with-classes-and-id "home-middle" "middle"
@@ -47,7 +48,7 @@
            (append-id "home-right"
              {:href/id "Tube"
               :href/link  "https://www.youtube.com/"
-              :href/image {:image/src "../images/tubes.png"
+              :href/image {:image/src (image-url "tubes.png")
                            :image/alt "Youtube is my Netflix, sadly"}}
              :href/id)))
        (ui-href
@@ -55,6 +56,6 @@
            (append-id "home-right"
              {:href/id "debug"
               :href/link  "https://www.youtube.com/watch?v=HluANRwPyNo"
-              :href/image {:image/src "../images/meirl.png"
+              :href/image {:image/src (image-url "meirl.png")
                            :image/alt "g! 'How to print newline in cljs'"}}
              :href/id)))])))

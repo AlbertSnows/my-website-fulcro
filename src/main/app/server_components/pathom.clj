@@ -8,7 +8,6 @@
     [clojure.core.async :as async]
     [app.backend.data :as bd]
     [app.server-components.config :refer [config]]
-    [app.backend.mock-database :as db]
     [com.fulcrologic.fulcro.components :as comp]
     [app.backend.resolvers.timebox :as rt]))
 
@@ -34,7 +33,7 @@
   (log/debug "Pathom transaction:" (pr-str tx))
   req)
 
-(defn build-parser [db-connection]
+(defn build-parser []
   (let [real-parser
         (p/parallel-parser
           {::p/mutate  pc/mutate-async
@@ -45,10 +44,8 @@
            ::p/plugins [(pc/connect-plugin {::pc/register all-resolvers})
                         (p/env-wrap-plugin (fn [env]
                                              ;; Here is where you can dynamically add things to the resolver/mutation
-                                             ;; environment, like the server config, database connections, etc.
+                                             ;; environment, like the server config, etc.
                                              (assoc env
-                                               :db @db-connection ; real datomic would use (d/db db-connection)
-                                               :connection db-connection
                                                :config config)))
                         (preprocess-parser-plugin log-requests)
                         p/error-handler-plugin
@@ -65,5 +62,5 @@
                          tx))))))
 
 (defstate parser
-          :start (build-parser db/conn))
+          :start (build-parser))
 

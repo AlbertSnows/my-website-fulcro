@@ -53,12 +53,24 @@ is not required for most CLJS edits.
 
 Stopping/restarting the backend from the REPL: `(stop)` / `(restart)`.
 
-Note: the `pnpm start` script (`run-p client/server server`) launches the
-client watcher plus a bare `clojure -A:dev` REPL in parallel — the server
+### One-terminal alternative
+
+If you don't need REPL access to the backend (no `(stop)`/`(restart)`, just
+"run the site"), `pnpm run dev` starts both processes with one command,
+interleaved in one terminal:
+
+```
+pnpm run dev
+```
+
+This still runs two OS processes under the hood — the client watcher and the
+backend are different tools with different jobs.
+
+Note: the older `pnpm start` script (`run-p client/server server`) launches
+the client watcher plus a bare `clojure -A:dev` REPL in parallel — the server
 still needs to be started manually via `(require 'development) (in-ns
 'development) (start)` in that REPL, since `pnpm start` does not auto-start
-it. It's mainly useful for getting both processes' output interleaved in one
-terminal.
+it. `pnpm run dev` is the same idea but actually auto-starts the server.
 
 ### Ports
 

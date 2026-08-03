@@ -14,9 +14,6 @@
          mount/mount                         {:mvn/version "0.1.24"}
          org.clojure/core.async              {:mvn/version "1.9.865"}
 
-         ;; To simulate Datomic on the back-end
-         datascript/datascript               {:mvn/version "1.7.8"}
-
          ring/ring-core                      {:mvn/version "1.15.5"}
          ring/ring-defaults                  {:mvn/version "0.7.1"}}
 

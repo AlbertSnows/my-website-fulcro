@@ -15,8 +15,39 @@
     [com.fulcrologic.fulcro-css.css :as css
      :refer [get-classnames]]
     [app.backend.data :as bd]
-    [app.ui.css :as uicss]
-    [app.ui.mutations :as m]))
+    [com.fulcrologic.fulcro.data-fetch :as df]
+    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]))
+
+(defn load-next-timebox [this last-loaded-timebox-id sc]
+  (fn [e]
+    (df/load!
+      this
+      [:timebox/id (dec last-loaded-timebox-id)]
+      sc
+      {:target
+       (t/append-to
+         [:component/id
+          :about
+          :about/timebox])})))
+
+(defn load-next-timebox-on-scroll [last-loaded-timebox-id on-about-page this sc]
+  (fn [e]
+    (let [target (.-target e)
+          position-on-page (- (.-scrollHeight target) (.-scrollTop target))
+          bottom-of-page-threshold (+ (.-clientHeight target) 6)
+          scrolled-to-bottom-on-about-page-with-more-timeboxes-to-load
+          (and
+            (<= position-on-page bottom-of-page-threshold)
+            (> last-loaded-timebox-id 1)
+            (true? on-about-page))]
+      (when scrolled-to-bottom-on-about-page-with-more-timeboxes-to-load
+        (df/load! this [:timebox/id (dec last-loaded-timebox-id)]
+                  sc
+                  {:target
+                   (t/append-to
+                     [:component/id
+                      :about
+                      :about/timebox])})))))
 
 (defsc Gallery
   [this {:gallery/keys [id photos]}]
@@ -31,7 +62,22 @@
 (defsc Timebox
   [this {:timebox/keys [id left middle right]}]
   {:ident :timebox/id
-   :css   (:css uicss/Timebox)
+   :css   [[:.about-left
+            {:display         "flex"
+             :justify-content "flex-end"
+             :margin-top      "12em"}]
+           [:.about-right
+            {:display         "flex"
+             :justify-content "flex-start"
+             :align-content   "space-evenly"
+             :align-self      "flex-end"
+             :margin-bottom   "12em"}]
+           [:.div>img
+            {:width  "10%"
+             :height "8%"}]
+           [:.timebox
+            {:display         "flex"
+             :justify-content "center"}]]
    :query [:timebox/id
            {:timebox/left (get-query Gallery)}
            {:timebox/middle (get-query Image)}
@@ -80,7 +126,7 @@
          (mapv ui-timebox timebox)
          (when (> last-loaded-timebox-id 1)
            (div {:id "load-more"
-                 :onClick (m/load-next-timebox this last-loaded-timebox-id Timebox)}
+                 :onClick (load-next-timebox this last-loaded-timebox-id Timebox)}
                 (p "V")
                 (p "V"))))))
 

@@ -24,11 +24,8 @@
     [app.ui.pages.about :as a]
     [app.ui.pages.home :as h]
     [taoensso.timbre :as log]
-    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
-    [app.ui.css :as uicss]
     [app.ui.components :as uc
-     :refer [Href ContainerHeader ui-container-header]]
-    [app.ui.mutations :as m]))
+     :refer [Href ContainerHeader ui-container-header]]))
 
 (defrouter RootRouter
   [this {:keys [current-state route-factory route-props pending-path-segment]}]
@@ -52,7 +49,25 @@
           (fn [{:outer/keys [id route] :as params}]
             {:outer/id     id
              :outer/router (get-initial-state RootRouter {})})
-   :css   uicss/OuterBox}
+   :css   [[:.outer
+            {:background-color "black"
+             :align-items      "center"
+             :padding          "0em 0.5em 1em 0.5em"
+             :margin           "7% 10% 1% 10%"
+             :border-radius    "2.5%"
+             :display          "inline-flex"
+             :flex-direction   "column"
+             :align-self       "flex-start"}]
+           [:.box
+            {:border-color  "white"
+             :border-style  "solid"
+             :border-radius "1%"
+             :position      "relative"
+             :width         "98%"
+             :overflow-wrap "anywhere"
+             :word-wrap     "anywhere"
+             :border-width  "0.2em"
+             :color         "white"}]]}
   (let [{:keys [outer box]} (get-classnames OuterBox)]
     (div {:nonsense "TURN BACK, YE WHO ENTER THE DOMAIN OF HTML"
           :classes  [outer]}
@@ -109,7 +124,7 @@
         on-about-page (not (nil? about-timebox))]
     (div
       {:id       "root"
-       :onScroll (m/load-next-timebox-on-scroll last-loaded-timebox-id on-about-page this a/Timebox)
+       :onScroll (a/load-next-timebox-on-scroll last-loaded-timebox-id on-about-page this a/Timebox)
        :classes  [container]}
       (style-element {:component Root})
       (style-element {:component h/Home})

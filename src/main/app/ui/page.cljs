@@ -4,7 +4,7 @@
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc get-query
              get-initial-state factory]]
-    [com.fulcrologic.fulcro.routing.dynamic-routing :as dr
+    [com.fulcrologic.fulcro.routing.dynamic-routing
      :refer [defrouter]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
      :refer [defstatemachine]]
@@ -68,14 +68,15 @@
              :word-wrap     "anywhere"
              :border-width  "0.2em"
              :color         "white"}]]}
-  (let [{:keys [outer box]} (get-classnames OuterBox)]
+  (let [{:keys [outer box]} (get-classnames OuterBox)
+        {:keys [route]} (comp/get-computed props)]
     (div {:nonsense "TURN BACK, YE WHO ENTER THE DOMAIN OF HTML"
           :classes  [outer]}
          (ui-container-header
            (get-initial-state
              ContainerHeader
              {:container-header/id    id
-              :container-header/route (first (dr/current-route this))}))
+              :container-header/route route}))
          (div {:classes [box]}
               (ui-root-router router)))))
 (def ui-outer (factory OuterBox))
@@ -96,9 +97,10 @@
              :height          "95%"
              :display         "flex"
              :justify-content "center"}]]}
-  (let [{:keys [page]} (get-classnames Page)]
+  (let [{:keys [page]} (get-classnames Page)
+        route (:sidebar/state sidebar)]
     (div {:classes [page]}
-         (ui-outer outer)
+         (ui-outer (comp/computed outer {:route route}))
          (ui-sidebar sidebar))))
 (def ui-page (factory Page))
 

@@ -4,7 +4,8 @@
 		 :refer [defsc factory get-query get-initial-state]]
 		[com.fulcrologic.fulcro.dom :as dom :refer [div h3 p]]
 		[app.ui.components :as c :refer [Href ui-href]]
-		[app.backend.helpers.core :refer [build-href add-id-to-map]]))
+		[app.backend.helpers.core :refer [build-href add-id-to-map]]
+		[app.config :refer [image-url]]))
 
 (defsc ProjectDescription [this {:description/keys [id header body]}]
 	{:ident :description/id
@@ -46,7 +47,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/my-website-fulcro"
 							 :href/image {:image/alt "This Website...In Fulcro"
-														:image/src "../images/this_website_f.png"}}})
+														:image/src (image-url "this_website_f.png")}}})
 	 (build-project-box
 		 {:box/id "my-website"
 			:box/description
@@ -56,7 +57,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/my-website"
 							 :href/image {:image/alt "This Website"
-														:image/src "../images/this_website_v.PNG"}}})
+														:image/src (image-url "this_website_v.PNG")}}})
 	 (build-project-box
 		 {:box/id "first-website"
 			:box/description
@@ -65,7 +66,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/FWRcljs"
 							 :href/image {:image/alt "My First Website"
-														:image/src "../images/kistners_flowers.PNG"}}})
+														:image/src (image-url "kistners_flowers.PNG")}}})
 	 (build-project-box
 		 {:box/id "snake-game"
 			:box/description
@@ -74,7 +75,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/snake_game"
 							 :href/image {:image/alt "Snake Game"
-														:image/src "../images/snake_rust.PNG"}}})
+														:image/src (image-url "snake_rust.PNG")}}})
 	 (build-project-box
 		 {:box/id "game-jam-2018"
 			:box/description
@@ -83,7 +84,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/To-Change-A-Lightbulb"
 							 :href/image {:image/alt "To Change A Light Bulb"
-														:image/src "../images/lightbulb.PNG"}}})
+														:image/src (image-url "lightbulb.PNG")}}})
 	 (build-project-box
 		 {:box/id "thermal-modeling"
 			:box/description
@@ -92,7 +93,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/HumanThermalModeling"
 							 :href/image {:image/alt "Human Thermal Modeling"
-														:image/src "../images/thermal_modeling.PNG"}}})
+														:image/src (image-url "thermal_modeling.PNG")}}})
 	 (build-project-box
 		 {:box/id "roguelike"
 			:box/description
@@ -101,7 +102,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/2DRogueLike"
 							 :href/image {:image/alt "2D Rogue Like"
-														:image/src "../images/2Drouge.PNG"}}})
+														:image/src (image-url "2Drouge.PNG")}}})
 	 (build-project-box
 		 {:box/id "edgesweeper"
 			:box/description
@@ -110,7 +111,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/python-tkinter-minesweeper"
 							 :href/image {:image/alt "Edgesweeper"
-														:image/src "../images/minesweeper.PNG"}}})
+														:image/src (image-url "minesweeper.PNG")}}})
 	 (build-project-box
 		 {:box/id "first-unity"
 			:box/description
@@ -119,7 +120,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/RollABall"
 							 :href/image {:image/alt "Roll A Ball"
-														:image/src "../images/rollaball.PNG"}}})
+														:image/src (image-url "rollaball.PNG")}}})
 	 (build-project-box
 		 {:box/id "mobile-app-game"
 			:box/description
@@ -128,7 +129,7 @@
 			:box/href
 							{:href/link  "https://github.com/AlbertSnows/SimpleMobileGame"
 							 :href/image {:image/alt "Simple App"
-														:image/src "../images/first_app.PNG"}}})])
+														:image/src (image-url "first_app.PNG")}}})])
 (defsc Projects [this props]
 	{:query         ['*]
 	 :initial-state {}

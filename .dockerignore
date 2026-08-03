@@ -59,6 +59,7 @@ ReferenceGuide.html
 **\resources\public\workspaces\*
 !**\resources\public\workspaces\index.html
 **\.m2
+**\resources\public\images
 
 # flyctl launch added from .idea\.gitignore
 # Default ignored files

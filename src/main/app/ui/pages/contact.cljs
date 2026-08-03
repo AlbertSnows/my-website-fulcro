@@ -5,7 +5,8 @@
     [com.fulcrologic.fulcro.dom :as dom
      :refer [div]]
     [app.ui.components :as c
-     :refer [Image ui-image]]))
+     :refer [Image ui-image]]
+    [app.config :refer [image-url]]))
 
 (defsc Contact [this props]
   {:ident         (fn [] [:component/id :contact])
@@ -14,8 +15,8 @@
    :route-segment ["contact"]}
   (div {:id "contact-container"}
     (ui-image {:image/id  "mail-big"
-               :image/src "../images/mailV2.PNG"
+               :image/src (image-url "mailV2.PNG")
                :image/alt "email"})
        (ui-image {:image/id  "mail-small"
-                  :image/src "../images/mail_secure.PNG"
+                  :image/src (image-url "mail_secure.PNG")
                   :image/alt "for security reasons"})))

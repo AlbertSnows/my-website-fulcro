@@ -60,3 +60,6 @@ resources/public/workspaces/*
 .m2
 /fly.toml
 .claude
+
+# Images now served from Tigris object storage, not bundled in the repo/image
+resources/public/images/

@@ -53,12 +53,47 @@ is not required for most CLJS edits.
 
 Stopping/restarting the backend from the REPL: `(stop)` / `(restart)`.
 
-Note: the `pnpm start` script (`run-p client/server server`) launches the
-client watcher plus a bare `clojure -A:dev` REPL in parallel — the server
+### One-terminal alternative
+
+If you don't need REPL access to the backend (no `(stop)`/`(restart)`, just
+"run the site"), `pnpm run dev` starts both processes with one command,
+interleaved in one terminal:
+
+```
+pnpm run dev
+```
+
+This still runs two OS processes under the hood — the client watcher and the
+backend are different tools with different jobs.
+
+Note: the older `pnpm start` script (`run-p client/server server`) launches
+the client watcher plus a bare `clojure -A:dev` REPL in parallel — the server
 still needs to be started manually via `(require 'development) (in-ns
 'development) (start)` in that REPL, since `pnpm start` does not auto-start
-it. It's mainly useful for getting both processes' output interleaved in one
-terminal.
+it. `pnpm run dev` is the same idea but actually auto-starts the server.
+
+### Stopping it
+
+Ctrl-C in whichever terminal is running things (either the two-terminal
+workflow or `pnpm run dev`) is normally enough.
+
+One gotcha: shadow-cljs runs its own **persistent background server**
+(separate from the watch command itself, on port 9630) so repeated
+`shadow-cljs watch` calls don't pay JVM startup cost each time. That's
+intentional, but it means Ctrl-C can stop the watch output while that server
+keeps running underneath — and the next time you try to start a watch for
+the same build, you'll hit:
+
+```
+ExceptionInfo: already started
+```
+
+If that happens, shadow-cljs has its own
+command for tearing the persistent server down cleanly:
+
+```
+pnpm exec shadow-cljs stop
+```
 
 ### Ports
 

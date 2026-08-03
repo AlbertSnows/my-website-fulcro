@@ -4,8 +4,7 @@
 		 :refer [defsc factory get-query get-initial-state]]
 		[com.fulcrologic.fulcro.dom :as dom :refer [div h3 p]]
 		[app.ui.components :as c :refer [Href ui-href]]
-		[app.backend.helpers.core :refer [build-href]]
-		[app.ui.helpers.core :as hc :refer [add-id]]))
+		[app.backend.helpers.core :refer [build-href add-id-to-map]]))
 
 (defsc ProjectDescription [this {:description/keys [id header body]}]
 	{:ident :description/id
@@ -33,8 +32,8 @@
 (defn build-project-box [{:box/keys [id description href]}]
 	{:box/id (str id "-box")
 	 :box/description
-					 (build-description (add-id (str id "-box") description :description/id))
-	 :box/href (build-href (add-id (str id "-box") href :href/id))})
+					 (build-description (add-id-to-map (str id "-box") description :description/id))
+	 :box/href (build-href (add-id-to-map (str id "-box") href :href/id))})
 
 (def projects-initial-state
 	[(build-project-box

@@ -4,7 +4,7 @@
     [com.fulcrologic.fulcro.components :as comp
      :refer [defsc get-query
              get-initial-state factory]]
-    [com.fulcrologic.fulcro.routing.dynamic-routing :as dr
+    [com.fulcrologic.fulcro.routing.dynamic-routing
      :refer [defrouter]]
     [com.fulcrologic.fulcro.ui-state-machines :as uism
      :refer [defstatemachine]]
@@ -24,11 +24,8 @@
     [app.ui.pages.about :as a]
     [app.ui.pages.home :as h]
     [taoensso.timbre :as log]
-    [com.fulcrologic.fulcro.algorithms.data-targeting :as t]
-    [app.ui.css :as uicss]
     [app.ui.components :as uc
-     :refer [Href ContainerHeader ui-container-header]]
-    [app.ui.mutations :as m]))
+     :refer [Href ContainerHeader ui-container-header]]))
 
 (defrouter RootRouter
   [this {:keys [current-state route-factory route-props pending-path-segment]}]
@@ -52,15 +49,34 @@
           (fn [{:outer/keys [id route] :as params}]
             {:outer/id     id
              :outer/router (get-initial-state RootRouter {})})
-   :css   uicss/OuterBox}
-  (let [{:keys [outer box]} (get-classnames OuterBox)]
+   :css   [[:.outer
+            {:background-color "black"
+             :align-items      "center"
+             :padding          "0em 0.5em 1em 0.5em"
+             :margin           "7% 10% 1% 10%"
+             :border-radius    "2.5%"
+             :display          "inline-flex"
+             :flex-direction   "column"
+             :align-self       "flex-start"}]
+           [:.box
+            {:border-color  "white"
+             :border-style  "solid"
+             :border-radius "1%"
+             :position      "relative"
+             :width         "98%"
+             :overflow-wrap "anywhere"
+             :word-wrap     "anywhere"
+             :border-width  "0.2em"
+             :color         "white"}]]}
+  (let [{:keys [outer box]} (get-classnames OuterBox)
+        {:keys [route]} (comp/get-computed props)]
     (div {:nonsense "TURN BACK, YE WHO ENTER THE DOMAIN OF HTML"
           :classes  [outer]}
          (ui-container-header
            (get-initial-state
              ContainerHeader
              {:container-header/id    id
-              :container-header/route (first (dr/current-route this))}))
+              :container-header/route route}))
          (div {:classes [box]}
               (ui-root-router router)))))
 (def ui-outer (factory OuterBox))
@@ -81,9 +97,10 @@
              :height          "95%"
              :display         "flex"
              :justify-content "center"}]]}
-  (let [{:keys [page]} (get-classnames Page)]
+  (let [{:keys [page]} (get-classnames Page)
+        route (:sidebar/state sidebar)]
     (div {:classes [page]}
-         (ui-outer outer)
+         (ui-outer (comp/computed outer {:route route}))
          (ui-sidebar sidebar))))
 (def ui-page (factory Page))
 
@@ -109,7 +126,7 @@
         on-about-page (not (nil? about-timebox))]
     (div
       {:id       "root"
-       :onScroll (m/load-next-timebox-on-scroll last-loaded-timebox-id on-about-page this a/Timebox)
+       :onScroll (a/load-next-timebox-on-scroll last-loaded-timebox-id on-about-page this a/Timebox)
        :classes  [container]}
       (style-element {:component Root})
       (style-element {:component h/Home})

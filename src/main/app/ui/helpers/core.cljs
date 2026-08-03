@@ -22,8 +22,5 @@
 (defn build-right-element [id get-data]
   (build-element id "right" "about-right-side" get-data))
 
-(defn add-id [id map key]
-  (assoc map key id))
-
 (defn append-id [id map key]
   (assoc map key (str id "-" (key map))))

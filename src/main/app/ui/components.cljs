@@ -10,8 +10,7 @@
      :refer [defstatemachine]]
     [com.fulcrologic.fulcro-css.css :as css
      :refer [get-classnames]]
-    [taoensso.timbre :as log]
-    [app.ui.css :as uicss]))
+    [taoensso.timbre :as log]))
 
 (defsc Image [this {:image/keys [id src alt]}]
   {:query [:image/id :image/src :image/alt]}

@@ -2,7 +2,7 @@
   (:require
     [app.backend.helpers.core :as h
      :refer [create-gallery-map build-href
-             build-image add-id-to-map add-id]]))
+             build-image add-id-to-map]]))
 
 (def right :right)
 (def middle :middle)
@@ -739,7 +739,7 @@
            {:href/id   id
             :href/link link
             :href/image
-            (build-image (add-id (str id "-href") image :image/id))}))
+            (build-image (add-id-to-map (str id "-href") image :image/id))}))
        photos)}))
 (defn get-timebox [id]
   (let [timebox (get timebox-entries id)
